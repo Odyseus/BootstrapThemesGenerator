@@ -1,0 +1,111 @@
+body {
+    padding: 120px 0;
+}
+
+.bs-docs-section {
+    margin-top: 4em;
+}
+
+.dropdown-menu.show[aria-labelledby="custom-theme-selector-label"],
+.dropdown-menu.show[aria-labelledby="bootswatch-theme-selector-label"] {
+    display: flex;
+    width: 420px;
+    flex-wrap: wrap;
+}
+
+.dropdown-menu.show[aria-labelledby="custom-theme-selector-label"] .dropdown-item,
+.dropdown-menu.show[aria-labelledby="bootswatch-theme-selector-label"] .dropdown-item {
+    width: 33.333%;
+}
+
+.dropdown-menu.show[aria-labelledby="custom-theme-selector-label"] .dropdown-item:first-child,
+.dropdown-menu.show[aria-labelledby="bootswatch-theme-selector-label"] .dropdown-item:first-child {
+    width: 100%;
+}
+
+.bs-component {
+    position: relative;
+}
+
+.bs-component + .bs-component {
+    margin-top: 1rem;
+}
+
+.bs-component .card {
+    margin-bottom: 1rem;
+}
+
+.bs-component .modal {
+    position: relative;
+    top: auto;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    z-index: 1;
+    display: block;
+}
+
+.bs-component .modal-dialog {
+    width: 90%;
+}
+
+.bs-component .popover {
+    position: relative;
+    display: inline-block;
+    width: 220px;
+    margin: 20px;
+}
+
+.source-button {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    font-weight: bold;
+}
+
+.source-button:hover {
+    cursor: pointer;
+}
+
+.bs-component:hover .source-button {
+    display: block;
+}
+
+.nav-tabs {
+    margin-bottom: 15px;
+}
+
+.progress {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 767px) {
+    #banner {
+        margin-bottom: 2em;
+        text-align: center;
+    }
+}
+
+/* Homogenize pre tags so they look right when highlighted no matter the theme used. */
+#source-modal pre {
+    white-space: pre-wrap !important;
+    background-color: #f8f8f8 !important;
+    border-radius: 4px !important;
+    border: 1px solid #ccc !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+}
+
+/* For Back To Top Button */
+#to-top-of-page {
+    bottom: 1rem;
+    display: none;
+    font-size: 1rem;
+    outline: none;
+    position: fixed;
+    right: 1rem;
+    text-decoration: none;
+    z-index: 999999;
+}

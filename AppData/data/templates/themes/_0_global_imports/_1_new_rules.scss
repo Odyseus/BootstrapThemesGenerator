@@ -1,0 +1,113 @@
+// ###############
+// Custom styles #
+// ###############
+
+// Custom styling classes.
+
+.text-bold {
+    font-weight: bold !important;
+}
+
+.text-bolder {
+    font-weight: bolder !important;
+}
+
+.text-italic {
+    font-style: italic !important;
+}
+
+.text-oblique {
+    font-style: oblique !important;
+}
+
+.text-overline {
+    text-decoration: overline !important;
+}
+
+.text-line-through {
+    text-decoration: line-through !important;
+}
+
+.text-underline {
+    text-decoration: underline !important;
+}
+
+.text-font-size-small {
+    font-size: 80% !important;
+}
+
+.text-font-size-medium {
+    font-size: 90% !important;
+}
+
+.text-font-size-large {
+    font-size: 110% !important;
+}
+
+.text-font-size-x-large {
+    font-size: 120% !important;
+}
+
+.text-font-size-xx-large {
+    font-size: 130% !important;
+}
+
+// Class to center images.
+
+.img-centered-container {
+    text-align: center;
+}
+
+.img-centered-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// Stop images from being dumbasses.
+div.boxed img {
+    max-width: 100%;
+    height: auto;
+}
+
+// Generate classes for all elements for each existent color.
+@each $color, $value in $colors {
+    // bootstrap/scss/_buttons.scss
+    .btn-#{$color} {
+        @include button-variant($value, $value);
+    }
+
+    .btn-outline-#{$color} {
+        @include button-outline-variant($value);
+    }
+
+    // bootstrap/scss/_list-group.scss
+    // Ignored because it requires the colors to be contextual.
+    // @include list-group-item-variant($color, theme-color-level($color, -9), theme-color-level($color, 6));
+
+    // bootstrap/scss/_badge.scss
+    .badge-#{$color} {
+        @include badge-variant($value);
+    }
+
+    // bootstrap/scss/utilities/_background.scss
+    @include bg-variant(".bg-#{$color}", $value, true);
+
+    @if $enable-gradients {
+        @include bg-gradient-variant(".bg-gradient-#{$color}", $value);
+    }
+
+    // bootstrap/scss/utilities/_text.scss
+    @include text-emphasis-variant(".text-#{$color}", $value, true);
+
+    // bootstrap/scss/utilities/_borders.scss
+    .border-#{$color} {
+        border-color: $value !important;
+    }
+
+    // bootstrap/scss/_alert.scss
+    // Ignored because it requires the colors to be contextual.
+    // .alert-#{$color} {
+    //     @include alert-variant(theme-color-level($color, $alert-bg-level), theme-color-level($color, $alert-border-level), theme-color-level($color, $alert-color-level));
+    // }
+}
