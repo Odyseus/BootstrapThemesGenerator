@@ -17,7 +17,11 @@
 !/UserData/www/_assets/js
 !/UserData/www/_assets/img
 !/UserData/www/_assets/img/*.svg
-
+!/UserData/themes
+/UserData/themes/*
+!/UserData/themes/_0_globals
+/UserData/themes/_0_globals/*
+!/UserData/themes/_0_globals/.keepme
 
 ##################
 # Global ignores #

@@ -23,23 +23,8 @@
 # in different files that may perform slightly different tasks.
 
 type "{executable_name}" &> /dev/null &&
-_list_dirs(){
-    # <3 https://stackoverflow.com/a/31603260
-    # List all directories found inside the passed folder ($1).
-    # WARNING! Fails on empty directories!
-    # If certain amount of complexity is needed, just create a Python function on
-    # the application's side that can be accessed as exemplified in the
-    # _command_to_create_update_a_file_ function.
-    (
-        cd "${1}" && \
-        set -- */; printf "%s\n" "${@%/}";
-    )
-} &&
-_get_theme_names{current_date}(){
-    echo $(cd {full_path_to_app_folder}; ./app.py print_theme_names)
-} &&
-_command_to_create_update_a_file_{current_date}(){
-    echo $(cd {full_path_to_app_folder}; ./app.py argument)
+_get_theme_ids{current_date}(){
+    echo $(cd {full_path_to_app_folder}; ./app.py print_theme_ids)
 } &&
 _decide_nospace_{current_date}(){
     # Decide if after the completion of a term should a space character should be added or not.
@@ -56,12 +41,12 @@ _bootswatch_themes_manager_cli_{current_date}(){
 
     case $prev in
         "--theme")
-            theme_names=( $(_get_theme_names{current_date}) )
+            theme_names=( $(_get_theme_ids{current_date}) )
             COMPREPLY=( $( compgen -W "${theme_names[*]}") )
             return 0
             ;;
         "-t")
-            theme_names=( $(_get_theme_names{current_date}) )
+            theme_names=( $(_get_theme_ids{current_date}) )
             COMPREPLY=( $( compgen -W "${theme_names[*]}" -- ${cur}) )
             return 0
             ;;
@@ -73,7 +58,7 @@ _bootswatch_themes_manager_cli_{current_date}(){
         cur=${cur//\\ / }
 
         if [[ ${cur} != *"/"* ]]; then
-            theme_names=( $(_get_theme_names{current_date}) )
+            theme_names=( $(_get_theme_ids{current_date}) )
             COMPREPLY=( $( compgen -W "${theme_names[*]}" -- ${cur}) )
             return 0
         fi
@@ -115,7 +100,6 @@ generate \
             ;;
         "node_modules")
             COMPREPLY=( $(compgen -W "install update" -- "${cur}") )
-            _decide_nospace_{current_date} ${COMPREPLY[0]}
             ;;
     esac
 } &&

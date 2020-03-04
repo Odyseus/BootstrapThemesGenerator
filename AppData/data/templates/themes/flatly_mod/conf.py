@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
-"""Summary
+"""Optional theme configuration file.
 
 Attributes
 ----------
@@ -12,7 +12,6 @@ settings : dict
         - theme_description: A Markdown string that will be used to describe the theme in the page banner.
         - extra_examples: A path to an HTML file relative to "UserData/themes". This file can contain
         any HTML that can illustrate new styles added by the generated theme.
-
 """
 settings = {
     "theme_name": "Flatly mod",
@@ -51,8 +50,8 @@ settings = {
     - Tweaked `<pre>` to allow word wrapping. Also changed the background color and added a border with radius to add contrast against the page background.
     - Expanded element classes generation (`btn-<color>`, `btn-outline-<color>`, `badge-<color>`, `bg-<color>`, `bg-gradient-<color>` and `border-<color>`) to include extra colors (`blue`, `indigo`, `purple`, `pink`, `red`, `orange`, `yellow`, `green`, `teal` and `cyan`).
 
-""",
-    "extra_examples": "extra-examples.html"
+    """,
+    "extra_examples": "extra-examples-with-colors.html"
 }
 
 if __name__ == "__main__":
