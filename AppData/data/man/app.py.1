@@ -1,0 +1,377 @@
+.\" Man page generated from reStructuredText.
+.
+.TH "APP.PY" "1" "Mar 04, 2020" "" "Bootstrap Themes Generator"
+.SH NAME
+app.py \- CLI utility to assist in the creation of Bootstrap themes.
+.
+.nr rst2man-indent-level 0
+.
+.de1 rstReportMargin
+\\$1 \\n[an-margin]
+level \\n[rst2man-indent-level]
+level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
+-
+\\n[rst2man-indent0]
+\\n[rst2man-indent1]
+\\n[rst2man-indent2]
+..
+.de1 INDENT
+.\" .rstReportMargin pre:
+. RS \\$1
+. nr rst2man-indent\\n[rst2man-indent-level] \\n[an-margin]
+. nr rst2man-indent-level +1
+.\" .rstReportMargin post:
+..
+.de UNINDENT
+. RE
+.\" indent \\n[an-margin]
+.\" old: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.nr rst2man-indent-level -1
+.\" new: \\n[rst2man-indent\\n[rst2man-indent-level]]
+.in \\n[rst2man-indent\\n[rst2man-indent-level]]u
+..
+.SH HINT
+.sp
+This Python application can generate a system executable with Bash completions support. See \fBapp.py generate\fP\&.
+.SH CLI SYNOPSIS
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+
+app.py (\-h | \-\-help | \-\-manual | \-\-version)
+app.py build [\-t <id>... | \-\-theme=<id>...]
+             [\-s <args> | \-\-node\-sass\-args=<args>]
+             [\-p <args> | \-\-postcss\-args=<args>]
+app.py node_modules (install | update)
+app.py launch_preview [\-\-host=<host>]
+                      [\-\-port=<port>]
+app.py server (start | stop | restart)
+              [\-\-host=<host>]
+              [\-\-port=<port>]
+app.py generate system_executable
+app.py print_theme_ids
+
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SH REQUIREMENTS
+.INDENT 0.0
+.INDENT 3.5
+.IP "Dependencies"
+.INDENT 0.0
+.IP \(bu 2
+Python 3.5+.
+.IP \(bu 2
+\fBNode.js\fP installed on the system.
+.IP \(bu 2
+\fBpsutil\fP Python module.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS \fBpsutil\fP module
+.sp
+This module is only used to programmatically terminate the HTTP server used to host the themes preview page. Without this Python module, the server can only be stopped/restarted manually.
+.SH DETAILED USAGE
+.INDENT 0.0
+.INDENT 3.5
+.IP "Highlights"
+.INDENT 0.0
+.IP \(bu 2
+Themes are located in \fBUserData/themes\fP\&.
+.IP \(bu 2
+Each folder inside the themes folder that doesn\(aqt start with a \fB_\fP and contains a file named \fBtheme.scss\fP is considered a theme.
+.IP \(bu 2
+Before being able to build themes, the \fBnode_modules install\fP command needs to be executed to install all build requirements.
+.IP \(bu 2
+Themes can be previewed using the \fBlaunch_preview\fP command which will start the server and open the themes preview web page in the default web browser.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SS CLI options
+.INDENT 0.0
+.IP \(bu 2
+\fB\-h\fP or \fB\-\-help\fP: Display this application basic help screen.
+.IP \(bu 2
+\fB\-\-manual\fP: Display this application manual.
+.IP \(bu 2
+\fB\-\-version\fP: Show this application version.
+.UNINDENT
+.SS Commands
+.SS app.py build
+.sp
+The main command to build themes. The build process will generate a file called \fBbootstrap.css\fP with expanded CSS rules and a file called \fBbootstrap.min.css\fP with compressed CSS rules inside a folder called \fBdist\fP located inside a theme folder. Additionally, these two files will be copied into \fBUserData/www/_assets/css/themes/<theme_id>\fP to make them available for selection on the themes preview page (see \fI\%app.py launch_preview\fP).
+.SS Options
+.INDENT 0.0
+.IP \(bu 2
+\fB\-t <id>\fP or \fB\-\-theme=<id>\fP: The ID of the theme that one wants to build. If not specified, all themes found inside the \fBUserData/themes\fP folder will be built. The ID of a theme is just the name of its folder.
+.IP \(bu 2
+\fB\-s <args>\fP or \fB\-\-node\-sass\-args=<args>\fP: Extra arguments to pass to \fBnode\-sass\fP CLI\&.
+.IP \(bu 2
+\fB\-p <args>\fP or \fB\-\-postcss\-args=<args>\fP: Extra arguments to pass to \fBpostcss\fP CLI\&. Default: \fB\-\-no\-map\fP\&.
+.UNINDENT
+.SS app.py node_modules
+.sp
+Convenience command to manage the \fBNode.js\fP modules used to build the themes.
+.SS Sub\-commands
+.INDENT 0.0
+.IP \(bu 2
+\fBinstall\fP: Executes \fBnpm install\fP inside the \fBUserData/www\fP folder.
+.IP \(bu 2
+\fBupdate\fP: Executes \fBnpm update\fP inside the \fBUserData/www\fP folder.
+.UNINDENT
+.SS app.py launch_preview
+.sp
+Launch the web page used to preview generated themes. This command will also restart the web server used to host the page.
+.SS Options
+.INDENT 0.0
+.IP \(bu 2
+\fB\-\-host=<host>\fP See \fI\%app.py server\fP\&.
+.IP \(bu 2
+\fB\-\-port=<port>\fP See \fI\%app.py server\fP\&.
+.UNINDENT
+.SS app.py server
+.sp
+The HTTP server started will host the folder at \fBUserData/www\fP\&.
+.SS Sub\-commands
+.INDENT 0.0
+.IP \(bu 2
+\fBstart\fP: Start HTTP server.
+.IP \(bu 2
+\fBstop\fP: Stop HTTP server.
+.IP \(bu 2
+\fBrestart\fP: Restart HTTP server.
+.UNINDENT
+.SS Options
+.INDENT 0.0
+.IP \(bu 2
+\fB\-\-host=<host>\fP Host name.
+.IP \(bu 2
+\fB\-\-port=<port>\fP Port number.
+.UNINDENT
+.SS app.py generate
+.SS Sub\-commands
+.INDENT 0.0
+.IP \(bu 2
+\fBsystem_executable\fP: Create an executable for the \fBapp.py\fP application on the system \fBPATH\fP to be able to run it from anywhere.
+.INDENT 2.0
+.INDENT 3.5
+.INDENT 0.0
+.IP \(bu 2
+The system executable creation process will ask for an executable name and the absolute path to store the executable file (the default is \fB$HOME/.local/bin\fP).
+.IP \(bu 2
+It will also ask for bash completions creation.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.SH THEMES CREATION
+.INDENT 0.0
+.INDENT 3.5
+.IP "Theming Bootstrap"
+.sp
+Read \fI\%Bootstrap\(aqs documentation\fP <\fBhttps://getbootstrap.com/docs/\fP> (\fBTheming\fP section) to familiarize with Bootstrap\(aqs themes using Sass\&.
+.UNINDENT
+.UNINDENT
+.SS Basic folder structure
+.sp
+\fBNOTE:\fP
+.INDENT 0.0
+.INDENT 3.5
+.INDENT 0.0
+.IP \(bu 2
+The \fB_0_globals\fP folder is a convenient location where to store files that can contain reusable styles or variable overrides common to more than one theme.
+.IP \(bu 2
+The \fBnode_modules\fP folder is inside \fBUserData/www\fP because the themes preview page uses assets from \fBbootswatch\fP to preview Bootswatch\(aqs themes.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+UserData/
+├── themes/
+│   ├── _0_globals/
+│   │   ├── _variable_overrides.scss
+│   │   └── _new_rules.scss
+│   └── theme_1/
+│       ├── conf.py
+│       └── theme.scss
+│   └── theme_2/
+│       ├── conf.py
+│       └── theme.scss
+└── www/
+    └── node_modules/
+        ├── bootstrap
+        └── bootswatch
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Example theme file (theme.scss)
+.INDENT 0.0
+.INDENT 3.5
+.IP "Relative imports"
+.sp
+Note that the following example file imports files that aren\(aqt directly available from the theme file\(aqs location. The \fBbootstrap\fP and \fBbootswatch\fP folders are inside \fBUserData/www/node_modules\fP\&. And the \fB0_variable_overrides\fP, \fB1_new_rules\fP and \fB1_new_colors\fP files are inside \fBUserData/themes/_0_globals\fP\&. This is because the \fBbuild\fP command from this application executes \fBnode\-sass\fP using its \fB\-\-include\-path\fP option specifying both locations to make imports simpler.
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+// START theme.scss
+// #########
+// Imports #
+// #########
+
+@import "bootswatch/dist/flatly/_variables";
+@import "0_variable_overrides";
+@import "bootstrap/scss/bootstrap";
+@import "bootswatch/dist/flatly/_bootswatch";
+@import "1_new_rules";
+@import "1_new_colors";
+
+// ###############
+// Custom styles #
+// ###############
+
+// Various tweaks.
+
+div.boxed {
+    border: #ecece7 solid 1px;
+    border\-radius: 5px;
+    box\-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1), 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+\&.container.boxed h1,
+\&.container.boxed .h1,
+\&.container.boxed h2,
+\&.container.boxed .h2 {
+    border\-bottom: 1px solid #e0e0dc;
+}
+
+// pre tag tweaks.
+
+\&.container.boxed pre {
+    white\-space: pre\-wrap !important;
+    background\-color: #f8f8f8 !important;
+    border\-radius: 4px !important;
+    border: 1px solid #ccc !important;
+    padding\-left: 15px !important;
+    padding\-right: 15px !important;
+}
+
+// END theme.scss
+
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SS Example theme configuration file (conf.py)
+.sp
+The theme configuration file stores data that will be used to identify the theme on the themes preview page. This file is completely optional and it isn\(aqt needed to build a theme nor to preview it.
+.INDENT 0.0
+.IP \(bu 2
+\fBtheme_name\fP: The name for the theme. If not provided, a name for the theme will be generated from the theme\(aqs folder name.
+.IP \(bu 2
+\fBtheme_description\fP: A string describing the theme. The strings is treated as Markdown markup and is going to be rendered as HTML.
+.IP \(bu 2
+\fBextra_examples\fP: A path to an HTML file relative to the \fBUserData/themes\fP folder. This file can contain any HTML markup that exemplifies any new components/colors added by the generated themes that aren\(aqt already exemplified by the existent themes preview page.
+.INDENT 2.0
+.INDENT 3.5
+.INDENT 0.0
+.INDENT 3.5
+.IP "Use of special CSS classes inside the file specified in \fBextra_examples\fP"
+.INDENT 0.0
+.IP \(bu 2
+\fBbs\-docs\-section\fP: This class is used to add separation between sections.
+.IP \(bu 2
+\fBbs\-component\fP: This class is used to add HTML source code preview.
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.UNINDENT
+.INDENT 0.0
+.INDENT 3.5
+.sp
+.nf
+.ft C
+# START conf.py
+#!/usr/bin/python3
+# \-*\- coding: utf\-8 \-*\-
+"""Optional theme configuration file.
+
+Attributes
+\-\-\-\-\-\-\-\-\-\-
+settings : dict
+    The variable containing all settings for a theme. All keys are optional.
+
+        \- theme_name: The display name for a theme. It will be used as the theme preview page\(aqs
+        title and the page banner title.
+        \- theme_description: A Markdown string that will be used to describe the theme in the page banner.
+        \- extra_examples: A path to an HTML file relative to "UserData/themes". This file can contain
+        any HTML that can illustrate new styles added by the generated theme.
+"""
+settings = {
+    "theme_name": "Flatly mod",
+    "theme_description": """
+#### Differences with the original theme
+
+##### Overrides
+
+\- Overridden gigantic headings.
+\- Annihilated web font imports.
+\- Reduced inputs/buttons/badges focus border width.
+\- Changed pagination styles to a less *flashy* style.
+\- Overridden sans serif fonts (the default is now **Open Sans**) and monospace fonts (the default is now **DejaVu Sans Mono**).
+
+##### Added styles
+
+\- Enabled gradients and shadows.
+\- Text styling classes:
+    \- **text\-bold**
+    \- **text\-bolder**
+    \- **text\-italic**
+    \- **text\-oblique**
+    \- **text\-overline**
+    \- **text\-line\-through**
+    \- **text\-underline**
+    \- **text\-font\-size\-small**
+    \- **text\-font\-size\-medium**
+    \- **text\-font\-size\-large**
+    \- **text\-font\-size\-x\-large**
+    \- **text\-font\-size\-xx\-large**
+\- Class to center images horizontally:
+    \- **img\-centered\-container**: This class should be set to a \(ga<div>\(ga containing an \(ga<img>\(ga.
+\- Miscellaneous tweaks/classes:
+    \- **div.boxed**: A class to "frame" an element with a border with radius and a shadow.
+    \- Added a bottom border to \(ga<h1>\(ga and \(ga<h2>\(ga tags and to \(gah1\(ga and \(gah2\(ga classes inside \(ga.container.boxed\(ga.
+    \- Tweaked \(ga<pre>\(ga to allow word wrapping. Also changed the background color and added a border with radius to add contrast against the page background.
+    \- Expanded element classes generation (\(gabtn\-<color>\(ga, \(gabtn\-outline\-<color>\(ga, \(gabadge\-<color>\(ga, \(gabg\-<color>\(ga, \(gabg\-gradient\-<color>\(ga and \(gaborder\-<color>\(ga) to include extra colors (\(gablue\(ga, \(gaindigo\(ga, \(gapurple\(ga, \(gapink\(ga, \(gared\(ga, \(gaorange\(ga, \(gayellow\(ga, \(gagreen\(ga, \(gateal\(ga and \(gacyan\(ga).
+
+    """,
+    "extra_examples": "extra\-examples\-with\-colors.html"
+}
+
+if __name__ == "__main__":
+    pass
+# END conf.py
+
+.ft P
+.fi
+.UNINDENT
+.UNINDENT
+.SH AUTHOR
+Odyseus
+.SH COPYRIGHT
+2016-2020, Odyseus.
+.\" Generated by docutils manpage writer.
+.
