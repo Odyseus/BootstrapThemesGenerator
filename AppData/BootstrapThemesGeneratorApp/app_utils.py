@@ -8,7 +8,6 @@ root_folder : str
     The main folder containing the application. All commands must be executed
     from this location without exceptions.
 """
-
 import os
 import shlex
 
@@ -23,12 +22,18 @@ root_folder = os.path.realpath(os.path.abspath(os.path.join(
 
 _paths_map = {
     "themes_src": os.path.join(root_folder, "UserData", "themes"),
+    "themes_globals": os.path.join(root_folder, "UserData", "themes", "_0_globals"),
     "themes_dist": os.path.join(root_folder, "UserData", "themes", "dist"),
     "preview_assets": os.path.join(root_folder, "UserData", "www", "_assets"),
     "node_sass": os.path.join(root_folder, "UserData", "www", "node_modules", "node-sass", "bin", "node-sass"),
     "postcss": os.path.join(root_folder, "UserData", "www", "node_modules", "postcss-cli", "bin", "postcss"),
     "node_modules": os.path.join(root_folder, "UserData", "www", "node_modules")
 }
+
+_node_sass_includes = [
+    "--include-path", _paths_map["node_modules"],
+    "--include-path", _paths_map["themes_globals"]
+]
 
 
 def build_themes(themes=[], node_sass_args="", postcss_args="", logger=None):
@@ -57,8 +62,8 @@ def build_themes(themes=[], node_sass_args="", postcss_args="", logger=None):
             base_cmd = [_paths_map["node_sass"], theme_src_path]
             cmd_1 = base_cmd + [theme_dist_path, "--output-style", "expanded"]
             cmd_2 = base_cmd + [theme_dist_min_path, "--output-style", "compressed"]
-            cmd_1 = cmd_1 + ["--include-path", _paths_map["node_modules"]]
-            cmd_2 = cmd_2 + ["--include-path", _paths_map["node_modules"]]
+            cmd_1.extend(_node_sass_includes)
+            cmd_2.extend(_node_sass_includes)
             cmd_3 = [_paths_map["postcss"], "--use",
                      "autoprefixer", "--replace", theme_dist_dir + "/*.css"]
 
@@ -68,12 +73,12 @@ def build_themes(themes=[], node_sass_args="", postcss_args="", logger=None):
 
             os.makedirs(theme_dist_dir, exist_ok=True)
 
-            logger.info("Building expanded stylesheet for '%s'" % theme)
-            cmd_utils.exec_command(" ".join(cmd_1), logger=logger)
-            logger.info("Building compressed stylesheet for '%s'" % theme)
-            cmd_utils.exec_command(" ".join(cmd_2), logger=logger)
-            logger.info("Autoprefixing generated CSS files")
-            cmd_utils.exec_command(" ".join(cmd_3), logger=logger)
+            logger.info("Building expanded stylesheet for **%s**" % theme)
+            cmd_utils.run_cmd(cmd_1, stdout=None, stderr=None)
+            logger.info("Building compressed stylesheet for **%s**" % theme)
+            cmd_utils.run_cmd(cmd_2, stdout=None, stderr=None)
+            logger.info("Auto-prefixing generated CSS files")
+            cmd_utils.run_cmd(cmd_3, stdout=None, stderr=None)
 
             logger.info("Copying files to live preview's assets folder")
             file_utils.custom_copytree(theme_dist_dir, theme_preview_css, symlinks=False,
@@ -118,7 +123,7 @@ def get_themes_list():
             yield entry.name
 
 
-def print_theme_names():
+def print_theme_ids():
     """Print theme names.
 
     Called from the Bash completions script to autocomplete theme names.

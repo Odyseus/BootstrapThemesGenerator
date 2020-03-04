@@ -13,12 +13,18 @@ import sys
 from html import escape
 from runpy import run_path
 
+# NOTE: Failsafe imports due to this file being used as a script (when launching the server)
+# and as a module (when generating documentation with Sphinx).
 try:
-    from python_utils.bottle_utils import bottle, bottle_app, WebApp
+    from python_utils.bottle_utils import bottle
+    from python_utils.bottle_utils import bottle_app
+    from python_utils.bottle_utils import WebApp
     from python_utils import file_utils
     from python_utils import mistune_utils
 except (ImportError, SystemError):
-    from .python_utils.bottle_utils import bottle, bottle_app, WebApp
+    from .python_utils.bottle_utils import bottle
+    from .python_utils.bottle_utils import bottle_app
+    from .python_utils.bottle_utils import WebApp
     from .python_utils import file_utils
     from .python_utils import mistune_utils
 
@@ -39,7 +45,7 @@ _menu_item_template = '<a class="dropdown-item" data-description="{theme_descrip
 
 
 class BootstrapThemesGeneratorWebapp(WebApp):
-    """Knowledge Base web server.
+    """Web server.
     """
 
     def __init__(self, *args, **kwargs):

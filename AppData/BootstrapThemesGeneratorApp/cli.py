@@ -11,7 +11,6 @@ root_folder : str
     without exceptions.
 """
 import os
-import webbrowser
 
 from . import app_utils
 from .__init__ import __appdescription__
@@ -30,7 +29,7 @@ docopt_doc = """{appname} {version} ({status})
 
 Usage:
     app.py (-h | --help | --manual | --version)
-    app.py build [-t <name>... | --theme=<name>...]
+    app.py build [-t <id>... | --theme=<id>...]
                  [-s <args> | --node-sass-args=<args>]
                  [-p <args> | --postcss-args=<args>]
     app.py node_modules (install | update)
@@ -40,7 +39,7 @@ Usage:
                   [--host=<host>]
                   [--port=<port>]
     app.py generate system_executable
-    app.py print_theme_names
+    app.py print_theme_ids
 
 Options:
 
@@ -59,8 +58,10 @@ Options:
 --port=<port>
     Port number. [Default: 8899]
 
--t <name>, --theme=<name>
-    Description.
+-t <id>, --theme=<id>
+    The ID of the theme that one wants to build. If no specified, all themes
+    found inside the **UserData/themes** folder will be built. The ID of a
+    theme is just the name of its folder.
 
 -s <args>, --node-sass-args=<args>
     Extra arguments to pass to **node-sass** CLI.
@@ -85,10 +86,10 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
         Where docopt_args is stored.
     action : method
         Set the method that will be executed when calling CommandLineTool.run().
-    node_action : TYPE
-        Description
-    www_root : TYPE
-        Description
+    node_action : str
+        Node command. One of "install" or "update".
+    www_root : str
+        Path to the folder that will be served by the web server.
     """
     action = None
     node_action = None
@@ -104,7 +105,7 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
         self.a = docopt_args
         self._cli_header_blacklist = [
             self.a["--manual"],
-            self.a["print_theme_names"]
+            self.a["print_theme_ids"]
         ]
 
         super().__init__(__appname__)
@@ -135,8 +136,8 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
             elif self.a["restart"]:
                 self.logger.info("restart")
                 self.action = self.http_server_restart
-        elif self.a["print_theme_names"]:
-            self.action = self.print_theme_names
+        elif self.a["print_theme_ids"]:
+            self.action = self.print_theme_ids
         elif self.a["generate"]:
             if self.a["system_executable"]:
                 self.logger.info("**System executable generation...**")
@@ -166,10 +167,10 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
         """
         self._display_manual_page(os.path.join(root_folder, "AppData", "data", "man", "app.py.1"))
 
-    def print_theme_names(self):
-        """See :any:`app_utils.print_theme_names`.
+    def print_theme_ids(self):
+        """See :any:`app_utils.print_theme_ids`.
         """
-        app_utils.print_theme_names()
+        app_utils.print_theme_ids()
 
     def manage_node_modules(self):
         """See :any:`app_utils.manage_node_modules`.
@@ -179,10 +180,13 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
                                       logger=self.logger)
 
     def launch_preview(self):
-        """See :any:`app_utils.print_theme_names`.
+        """See :any:`app_utils.print_theme_ids`.
         """
+        import webbrowser
         url = "http://%s:%s" % (self.a["--host"], self.a["--port"])
         webbrowser.open(url, new=2)
+        # NOTE: The server is restarted AFTER launching the website because executing the web
+        # application will replace the current process.
         self.http_server_restart()
 
     def build_themes(self):
