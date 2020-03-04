@@ -9,13 +9,13 @@ body {
 .dropdown-menu.show[aria-labelledby="custom-theme-selector-label"],
 .dropdown-menu.show[aria-labelledby="bootswatch-theme-selector-label"] {
     display: flex;
-    width: 420px;
+    width: 400px;
     flex-wrap: wrap;
 }
 
 .dropdown-menu.show[aria-labelledby="custom-theme-selector-label"] .dropdown-item,
 .dropdown-menu.show[aria-labelledby="bootswatch-theme-selector-label"] .dropdown-item {
-    width: 33.333%;
+    width: 50%;
 }
 
 .dropdown-menu.show[aria-labelledby="custom-theme-selector-label"] .dropdown-item:first-child,
