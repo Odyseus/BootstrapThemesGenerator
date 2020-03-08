@@ -5,6 +5,7 @@
 # Ignore all the UserData folders content, with exceptions.
 /UserData/*
 !/UserData/README.md
+!/UserData/.browserslistrc
 !/UserData/www
 /UserData/www/*
 !/UserData/www/index.html
