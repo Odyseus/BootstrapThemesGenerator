@@ -4,7 +4,7 @@
 
 Attributes
 ----------
-root_folder : str
+www_root : str
     The path to the folder that will be served by the web server.
 """
 import os
@@ -13,28 +13,30 @@ import sys
 from html import escape
 from runpy import run_path
 
-# NOTE: Failsafe imports due to this file being used as a script (when launching the server)
-# and as a module (when generating documentation with Sphinx).
 try:
-    from python_utils.bottle_utils import bottle
-    from python_utils.bottle_utils import bottle_app
-    from python_utils.bottle_utils import WebApp
-    from python_utils import file_utils
-    from python_utils import mistune_utils
-except (ImportError, SystemError):
-    from .python_utils.bottle_utils import bottle
-    from .python_utils.bottle_utils import bottle_app
-    from .python_utils.bottle_utils import WebApp
-    from .python_utils import file_utils
-    from .python_utils import mistune_utils
+    # If executed as a script to start the web server.
+    host, port, app_dir_path = sys.argv[1:]
+except Exception:
+    # If imported as a module by Sphinx.
+    host, port = None, None
+    app_dir_path = os.path.realpath(os.path.abspath(os.path.join(
+        os.path.normpath(os.path.dirname(__file__)))))
+
+sys.path.insert(0, app_dir_path)
+
+from python_utils import file_utils
+from python_utils import mistune_utils
+from python_utils.bottle_utils import WebApp
+from python_utils.bottle_utils import bottle
+from python_utils.bottle_utils import bottle_app
 
 
-root_folder = os.path.realpath(os.path.abspath(os.path.join(
+www_root = os.path.realpath(os.path.abspath(os.path.join(
     os.path.normpath(os.getcwd()))))
 
-_app_folder = os.path.dirname(os.path.dirname(root_folder))
-_themes_path = os.path.join(root_folder, "_assets", "css", "themes")
-_node_modules_folder = os.path.join(root_folder, "node_modules")
+_app_folder = os.path.dirname(os.path.dirname(www_root))
+_themes_path = os.path.join(www_root, "_assets", "css", "themes")
+_node_modules_folder = os.path.join(www_root, "node_modules")
 _jquery_folder = os.path.join(_node_modules_folder, "jquery", "dist")
 _bootstrap_folder = os.path.join(_node_modules_folder, "bootstrap", "dist")
 _bootswatch_folder = os.path.join(_node_modules_folder, "bootswatch", "dist")
@@ -117,7 +119,7 @@ class BootstrapThemesGeneratorWebapp(WebApp):
         object
             An instance of `bottle.HTTPResponse`.
         """
-        return bottle.static_file(filepath, root=os.path.join(root_folder, "_assets"))
+        return bottle.static_file(filepath, root=os.path.join(www_root, "_assets"))
 
     @bottle_app.route("/")
     def index():
@@ -128,7 +130,7 @@ class BootstrapThemesGeneratorWebapp(WebApp):
         sre
             The content for the landing page.
         """
-        with open(os.path.join(root_folder, "index.html"), "r", encoding="UTF-8") as index_file:
+        with open(os.path.join(www_root, "index.html"), "r", encoding="UTF-8") as index_file:
             index_data = index_file.read()
 
         if index_data:
@@ -218,9 +220,6 @@ def get_themes_list():
 # FIXME: Convert this script into a module.
 # Just because it's the right thing to do.
 # As it is right now, everything works as "it should".
-if __name__ == "__main__":
-    args = sys.argv[1:]
-
-    if len(args) == 2:
-        app = BootstrapThemesGeneratorWebapp(args[0], args[1])
-        app.run()
+if __name__ == "__main__" and host and port:
+    app = BootstrapThemesGeneratorWebapp(host, port)
+    app.run()
