@@ -64,8 +64,8 @@ def build_themes(themes=[], node_sass_args="", postcss_args="", logger=None):
             cmd_2 = base_cmd + [theme_dist_min_path, "--output-style", "compressed"]
             cmd_1.extend(_node_sass_includes)
             cmd_2.extend(_node_sass_includes)
-            cmd_3 = [_paths_map["postcss"], "--use",
-                     "autoprefixer", "--replace", theme_dist_dir + "/*.css"]
+            cmd_3 = [_paths_map["postcss"], "--use", "autoprefixer",
+                     "--replace", theme_dist_dir + "/*.css"]
 
             cmd_1.extend(shlex.split(node_sass_args) if node_sass_args else [])
             cmd_2.extend(shlex.split(node_sass_args) if node_sass_args else [])
@@ -74,11 +74,11 @@ def build_themes(themes=[], node_sass_args="", postcss_args="", logger=None):
             os.makedirs(theme_dist_dir, exist_ok=True)
 
             logger.info("Building expanded stylesheet for **%s**" % theme)
-            cmd_utils.run_cmd(cmd_1, stdout=None, stderr=None)
+            cmd_utils.run_cmd(cmd_1, stdout=None, stderr=None, cwd=os.path.dirname(theme_src_path))
             logger.info("Building compressed stylesheet for **%s**" % theme)
-            cmd_utils.run_cmd(cmd_2, stdout=None, stderr=None)
+            cmd_utils.run_cmd(cmd_2, stdout=None, stderr=None, cwd=os.path.dirname(theme_src_path))
             logger.info("Auto-prefixing generated CSS files")
-            cmd_utils.run_cmd(cmd_3, stdout=None, stderr=None)
+            cmd_utils.run_cmd(cmd_3, stdout=None, stderr=None, cwd=os.path.dirname(theme_src_path))
 
             logger.info("Copying files to live preview's assets folder")
             file_utils.custom_copytree(theme_dist_dir, theme_preview_css, symlinks=False,
