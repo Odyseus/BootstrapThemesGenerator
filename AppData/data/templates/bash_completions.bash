@@ -72,6 +72,7 @@ _bootswatch_themes_manager_cli_{current_date}(){
 build \
 server \
 node_modules \
+build_index_file \
 launch_preview \
 generate \
 -h --help --manual --version" -- "${cur}") )

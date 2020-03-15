@@ -11,13 +11,16 @@
 !/UserData/www/index.html
 !/UserData/www/package.json
 !/UserData/www/package-lock.json
+!/UserData/www/sections
 !/UserData/www/_assets
 /UserData/www/_assets/*
 !/UserData/www/_assets/css
 /UserData/www/_assets/css/themes
-!/UserData/www/_assets/js
+!/UserData/www/_assets/fonts
 !/UserData/www/_assets/img
 !/UserData/www/_assets/img/*.svg
+!/UserData/www/_assets/js
+!/UserData/www/_assets/video
 !/UserData/themes
 /UserData/themes/*
 !/UserData/themes/_0_globals
