@@ -1,0 +1,11 @@
+<h1>Position</h1>
+<p>Use these shorthand utilities for quickly configuring the position of an element.</p>
+<h2>Common values</h2>
+<p>Quick positioning classes are available, though they are not responsive.</p>
+<h2>Fixed top</h2>
+<p>Position an element at the top of the viewport, from edge to edge. Be sure you understand the ramifications of fixed position in your project; you may need to add additional CSS.</p>
+<h2>Fixed bottom</h2>
+<p>Position an element at the bottom of the viewport, from edge to edge. Be sure you understand the ramifications of fixed position in your project; you may need to add additional CSS.</p>
+<h2>Sticky top</h2>
+<p>Position an element at the top of the viewport, from edge to edge, but only after you scroll past it. The <code>.sticky-top</code> utility uses CSS’s <code>position: sticky</code>, which isn’t fully supported in all browsers.</p>
+<p><strong>IE11 and IE10 will render <code>position: sticky</code> as <code>position: relative</code>.</strong> As such, we wrap the styles in a <code>@supports</code> query, limiting the stickiness to only browsers that can render it properly.</p>

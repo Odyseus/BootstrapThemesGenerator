@@ -1,0 +1,159 @@
+<h1>Spinners</h1>
+<p>Indicate the loading state of a component or page with Bootstrap spinners, built entirely with HTML, CSS, and no JavaScript.</p>
+<h2>About</h2>
+<p>Bootstrap “spinners” can be used to show the loading state in your projects. They’re built only with HTML and CSS, meaning you don’t need any JavaScript to create them. You will, however, need some custom JavaScript to toggle their visibility. Their appearance, alignment, and sizing can be easily customized with our amazing utility classes.</p>
+<p>For accessibility purposes, each loader here includes <code>role="status"</code> and a nested <code>&lt;span class="sr-only"&gt;Loading...&lt;/span&gt;</code>.</p>
+<h2>Border spinner</h2>
+<p>Use the border spinners for a lightweight loading indicator.</p>
+<div class="bstg-example">
+    <div class="spinner-border" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<h3>Colors</h3>
+<p>The border spinner uses <code>currentColor</code> for its <code>border-color</code>, meaning you can customize the color with <a href="https://getbootstrap.com">text color utilities</a>. You can use any of our text color utilities on the standard spinner.</p>
+<div class="bstg-example">
+    <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-border text-secondary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-border text-success" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-border text-danger" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-border text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-border text-info" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-border text-light" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-border text-dark" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<div class="bstg-callout bstg-callout-info">
+    <p><strong>Why not use <code>border-color</code> utilities?</strong> Each border spinner specifies a <code>transparent</code> border for at least one side, so <code>.border-{color}</code> utilities would override that.</p>
+</div>
+<h2>Growing spinner</h2>
+<p>If you don’t fancy a border spinner, switch to the grow spinner. While it doesn’t technically spin, it does repeatedly grow!</p>
+<div class="bstg-example">
+    <div class="spinner-grow" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<p>Once again, this spinner is built with <code>currentColor</code>, so you can easily change its appearance with <a href="https://getbootstrap.com">text color utilities</a>. Here it is in blue, along with the supported variants.</p>
+<div class="bstg-example">
+    <div class="spinner-grow text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-secondary" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-success" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-danger" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-warning" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-info" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-light" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow text-dark" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<h2>Alignment</h2>
+<p>Spinners in Bootstrap are built with <code>rem</code>s, <code>currentColor</code>, and <code>display: inline-flex</code>. This means they can easily be resized, recolored, and quickly aligned.</p>
+<h3>Margin</h3>
+<p>Use <a href="https://getbootstrap.com">margin utilities</a> like <code>.m-5</code> for easy spacing.</p>
+<div class="bstg-example">
+    <div class="spinner-border m-5" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<h3>Placement</h3>
+<p>Use <a href="https://getbootstrap.com">flexbox utilities</a>, <a href="https://getbootstrap.com">float utilities</a>, or <a href="https://getbootstrap.com">text alignment</a> utilities to place spinners exactly where you need them in any situation.</p>
+<h4>Flex</h4>
+<div class="bstg-example">
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+<div class="bstg-example">
+    <div class="d-flex align-items-center">
+        <strong>Loading...</strong>
+        <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+    </div>
+</div>
+<h4>Floats</h4>
+<div class="bstg-example">
+    <div class="clearfix">
+        <div class="spinner-border float-right" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+<h4>Text align</h4>
+<div class="bstg-example">
+    <div class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+<h2>Size</h2>
+<p>Add <code>.spinner-border-sm</code> and <code>.spinner-grow-sm</code> to make a smaller spinner that can quickly be used within other components.</p>
+<div class="bstg-example">
+    <div class="spinner-border spinner-border-sm" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow spinner-grow-sm" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<p>Or, use custom CSS or inline styles to change the dimensions as needed.</p>
+<div class="bstg-example">
+    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-grow" style="width: 3rem; height: 3rem;" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+<h2>Buttons</h2>
+<p>Use spinners within buttons to indicate an action is currently processing or taking place. You may also swap the text out of the spinner element and utilize button text as needed.</p>
+<div class="bstg-example">
+    <button class="btn btn-primary" type="button" disabled="">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span class="sr-only">Loading...</span>
+    </button>
+    <button class="btn btn-primary" type="button" disabled="">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
+</div>
+<div class="bstg-example">
+    <button class="btn btn-primary" type="button" disabled="">
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        <span class="sr-only">Loading...</span>
+    </button>
+    <button class="btn btn-primary" type="button" disabled="">
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        Loading...
+    </button>
+</div>
