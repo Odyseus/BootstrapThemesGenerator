@@ -27,13 +27,94 @@ _paths_map = {
     "preview_assets": os.path.join(root_folder, "UserData", "www", "_assets"),
     "node_sass": os.path.join(root_folder, "UserData", "www", "node_modules", "node-sass", "bin", "node-sass"),
     "postcss": os.path.join(root_folder, "UserData", "www", "node_modules", "postcss-cli", "bin", "postcss"),
-    "node_modules": os.path.join(root_folder, "UserData", "www", "node_modules")
+    "node_modules": os.path.join(root_folder, "UserData", "www", "node_modules"),
+    "index_template": os.path.join(root_folder, "AppData", "data", "templates", "index", "index.html"),
+    "index_sections": os.path.join(root_folder, "UserData", "www", "sections"),
+    "index_root": os.path.join(root_folder, "UserData", "www", "index.html")
 }
 
 _node_sass_includes = [
     "--include-path", _paths_map["node_modules"],
     "--include-path", _paths_map["themes_globals"]
 ]
+
+_bootstrap_content = [
+    "content",
+    "components",
+    "utilities"
+]
+
+_tab = """<a class="nav-link {tab_active}" id="{tab_id}" data-toggle="pill" href="#{tabpanel_id}" role="tab" aria-controls="{tabpanel_id}" aria-selected="false">{tab_label}</a>"""
+_tabpanel = """<div class="tab-pane fade {tabpanel_active}" id="{tabpanel_id}" role="tabpanel" aria-labelledby="{tab_id}">
+</div>"""
+
+
+def build_index_file(logger):
+    """Build lindex.html file.
+
+    Parameters
+    ----------
+    logger : LogSystem
+        The logger.
+    """
+    ids = []
+    tabs = {
+        "content": [],
+        "components": [],
+        "utilities": []
+    }
+    tabpanels = {
+        "content": [],
+        "components": [],
+        "utilities": []
+    }
+    index_template = ""
+
+    for cnt in _bootstrap_content:
+        section_files = [entry.path for entry in os.scandir(
+            os.path.join(_paths_map["index_sections"], cnt))
+            if entry.is_file(follow_symlinks=False) and entry.name[-5:] == ".html"]
+
+        for index, section_path in enumerate(sorted(section_files)):
+            base_id = os.path.basename(section_path)[:-5]
+            tab_label = " ".join(base_id[4:].split("-")).capitalize()
+            tab_id = "bstg-%s-%s-tab" % (cnt, base_id)
+            tabpanel_id = "bstg-%s-%s-tabpanel" % (cnt, base_id)
+
+            if tab_id in ids or tabpanel_id in ids:
+                print(tab_id)
+                print(tabpanel_id)
+
+            ids.append(tab_id)
+            ids.append(tabpanel_id)
+
+            tabs[cnt].append(_tab.format(
+                tab_active="active" if index == 0 else "",
+                tabpanel_id=tabpanel_id,
+                tab_id=tab_id,
+                tab_label=tab_label
+            ))
+
+            tabpanels[cnt].append(_tabpanel.format(
+                tabpanel_active="show active" if index == 0 else "",
+                tabpanel_id=tabpanel_id,
+                tab_id=tab_id,
+                tabpanel_content=""
+            ))
+
+    with open(_paths_map["index_template"], "r") as index_template_file:
+        index_template = index_template_file.read()
+
+    with open(_paths_map["index_root"], "w") as index_root_file:
+        index_root_file.write(
+            index_template.replace(
+                "<!-- {{utilities-tabpanels}} -->", "\n".join(tabpanels["utilities"])).replace(
+                "<!-- {{components-tabpanels}} -->", "\n".join(tabpanels["components"])).replace(
+                "<!-- {{content-tabpanels}} -->", "\n".join(tabpanels["content"])).replace(
+                "<!-- {{utilities-tabs}} -->", "\n".join(tabs["utilities"])).replace(
+                "<!-- {{components-tabs}} -->", "\n".join(tabs["components"])).replace(
+                "<!-- {{content-tabs}} -->", "\n".join(tabs["content"]))
+        )
 
 
 def build_themes(themes=[], node_sass_args="", postcss_args="", logger=None):

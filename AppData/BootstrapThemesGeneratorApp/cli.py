@@ -32,6 +32,7 @@ Usage:
     app.py build [-t <id>... | --theme=<id>...]
                  [-s <args> | --node-sass-args=<args>]
                  [-p <args> | --postcss-args=<args>]
+    app.py build_index_file
     app.py node_modules (install | update)
     app.py launch_preview [--host=<host>]
                           [--port=<port>]
@@ -112,6 +113,9 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
 
         if self.a["--manual"]:
             self.action = self.display_manual_page
+        elif self.a["build_index_file"]:
+            self.logger.info("**Building index.html file**")
+            self.action = self.build_index_file
         elif self.a["launch_preview"]:
             self.logger.info("**Launching themes preview page**")
             self.action = self.launch_preview
@@ -171,6 +175,11 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
         """See :any:`app_utils.print_theme_ids`.
         """
         app_utils.print_theme_ids()
+
+    def build_index_file(self):
+        """See :any:`app_utils.build_index_file`.
+        """
+        app_utils.build_index_file(self.logger)
 
     def manage_node_modules(self):
         """See :any:`app_utils.manage_node_modules`.

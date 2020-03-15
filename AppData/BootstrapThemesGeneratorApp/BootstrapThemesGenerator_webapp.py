@@ -44,6 +44,9 @@ _bootswatch_folder = os.path.join(_node_modules_folder, "bootswatch", "dist")
 _menu_item_bootstrap = '<a class="dropdown-item" href="_static_bootstrap/css/bootstrap.min.css" data-description="Bootstrap\'s default theme">Bootstrap\'s default</a>'
 _menu_item_separator = '<div class="dropdown-divider"></div>'
 _menu_item_template = '<a class="dropdown-item" data-description="{theme_description}" href="_assets/css/themes/{theme_id}/bootstrap.min.css">{theme_name}</a>'
+_section_template = """<div class="bstg-section">
+{tabpanel_content}
+</div>"""
 
 
 class BootstrapThemesGeneratorWebapp(WebApp):
@@ -127,7 +130,7 @@ class BootstrapThemesGeneratorWebapp(WebApp):
 
         Returns
         -------
-        sre
+        str
             The content for the landing page.
         """
         with open(os.path.join(www_root, "index.html"), "r", encoding="UTF-8") as index_file:
@@ -138,14 +141,14 @@ class BootstrapThemesGeneratorWebapp(WebApp):
         else:
             return "Something went horribly wrong!!!"
 
-    @bottle_app.post("/build_theme_selector")
-    def build_theme_selector():
-        """Build the custom themes selector menu.
+    @bottle_app.post("/build_custom_theme_selectors")
+    def build_custom_theme_selectors():
+        """Build the custom themes selector menu items.
 
         Returns
         -------
         str
-            The HTML markup for the menu.
+            The HTML markup for the menu items.
         """
         theme_menu_items = []
 
@@ -157,8 +160,6 @@ class BootstrapThemesGeneratorWebapp(WebApp):
             ))
 
         theme_menu_items.sort()
-        theme_menu_items.insert(0, _menu_item_bootstrap)
-        theme_menu_items.insert(1, _menu_item_separator)
 
         return "\n".join(theme_menu_items)
 
@@ -178,14 +179,46 @@ class BootstrapThemesGeneratorWebapp(WebApp):
 
         for theme in get_themes_list():
             if theme["id"] == theme_id:
-                examples_path = os.path.join(themes_src_path, theme["extra_examples"])
+                if "extra_examples_html" in theme:
+                    examples_data += theme["extra_examples_html"]
+
+                if "extra_examples_file" in theme:
+                    examples_path = os.path.join(themes_src_path, theme["extra_examples_file"])
+
                 break
 
         if examples_path and file_utils.is_real_file(examples_path):
             with open(examples_path, "r", encoding="UTF-8") as examples_file:
-                examples_data = examples_file.read()
+                examples_data += examples_file.read()
 
         return examples_data
+
+    @bottle_app.post("/populate_tabpanel")
+    def populate_tabpanel():
+        """Populate tabpanel.
+
+        Returns
+        -------
+        str
+            Tabpanel content read from a file.
+        """
+        # NOTE: The tab ID is used to "devine" the file name.
+        # Index 0: "bstg" prefix.
+        # Index 1: Section name (components/utilities/extras). Which is also the name of the folder
+        #   inside the sections folder.
+        # Last index: the "tab" suffix.
+        # All other parts are going to compose the file name.
+        tab_id_parts = bottle.request.POST["tab_id"].split("-")
+        section_name = tab_id_parts[1]
+        file_name = "-".join(tab_id_parts[2:-1]) + ".html"
+        file_path = os.path.join(www_root, "sections", section_name, file_name)
+        file_content = ""
+
+        if os.path.exists(file_path):
+            with open(file_path, "r", encoding="UTF-8") as html_file:
+                file_content = _section_template.format(tabpanel_content=html_file.read())
+
+        return file_content
 
 
 def get_themes_list():
@@ -213,7 +246,8 @@ def get_themes_list():
                     "_", " ").replace("-", " ")),
                 # NOTE: Escaped to safely use it as the value of an HTML attribute.
                 "description": escape(mistune_utils.md(conf_data.get("theme_description", ""))),
-                "extra_examples": conf_data.get("extra_examples", "")
+                "extra_examples_file": conf_data.get("extra_examples_file", ""),
+                "extra_examples_html": conf_data.get("extra_examples_html", "")
             }
 
 
