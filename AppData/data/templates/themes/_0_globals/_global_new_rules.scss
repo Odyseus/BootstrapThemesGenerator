@@ -52,19 +52,9 @@
     font-size: 130% !important;
 }
 
-// Class to center images.
-
-.img-centered-container {
-    text-align: center;
-}
-
-.img-centered-container img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 // Stop images from being dumbasses.
+// Since in some cases I don't have control over what it's displayed inside a boxed container
+// (I can't add the img-fluid class to images), force img elements to be responsive.
 div.boxed img {
     max-width: 100%;
     height: auto;

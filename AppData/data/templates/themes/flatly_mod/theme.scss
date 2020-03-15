@@ -1,35 +1,44 @@
 // #########
 // Imports #
 // #########
-
 @import "bootswatch/dist/flatly/_variables";
-@import "0_variable_overrides";
+@import "global_variable_overrides";
 @import "bootstrap/scss/bootstrap";
 @import "bootswatch/dist/flatly/_bootswatch";
-@import "1_new_rules";
-@import "1_new_colors";
+@import "global_new_rules";
+@import "global_new_colors";
 
 // ###############
 // Custom styles #
 // ###############
 
-// Various tweaks.
+// The parent theme (Flatly) uses white close buttons.
+// Toasts have white background headers.
+.toast .close {
+    color: $black;
 
+    &:not(:disabled):not(.disabled):hover,
+    &:not(:disabled):not(.disabled):focus {
+        color: $black;
+    }
+}
+
+// Various tweaks.
 div.boxed {
     border: #ecece7 solid 1px;
     border-radius: 5px;
     box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1), 2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
-.container.boxed h1,
-.container.boxed .h1,
-.container.boxed h2,
-.container.boxed .h2 {
+// Add underline to only the headings directly inside a boxed section, not anywhere else.
+.container.boxed > h1,
+.container.boxed > .h1,
+.container.boxed > h2,
+.container.boxed > .h2 {
     border-bottom: 1px solid #e0e0dc;
 }
 
 // pre tag tweaks.
-
 .container.boxed pre {
     white-space: pre-wrap !important;
     background-color: #f8f8f8 !important;
@@ -38,4 +47,3 @@ div.boxed {
     padding-left: 15px !important;
     padding-right: 15px !important;
 }
-
