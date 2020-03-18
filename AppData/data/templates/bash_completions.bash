@@ -75,6 +75,7 @@ node_modules \
 build_index_file \
 launch_preview \
 generate \
+repo \
 -h --help --manual --version" -- "${cur}") )
         return 0
     fi
@@ -83,6 +84,9 @@ generate \
     cmd="${COMP_WORDS[1]}"
 
     case $cmd in
+        "repo")
+            COMPREPLY=( $(compgen -W "subtrees" -- "${cur}") )
+            ;;
         "generate")
             COMPREPLY=( $(compgen -W "system_executable" -- "${cur}") )
             ;;
@@ -103,5 +107,24 @@ generate \
             COMPREPLY=( $(compgen -W "install update" -- "${cur}") )
             ;;
     esac
+
+    # Completion of options and sub-commands.
+    cmd="${COMP_WORDS[2]}"
+
+    case $cmd in
+    "subtrees")
+        COMPREPLY=( $(compgen -W "init update" -- "${cur}") )
+        ;;
+    esac
+
+    # Completion of options and sub-commands.
+    cmd="${COMP_WORDS[3]}"
+
+    case $cmd in
+    "init"|"update")
+        COMPREPLY=( $(compgen -W " -y --dry-run" -- "${cur}") )
+        ;;
+    esac
+
 } &&
 complete -F _bootswatch_themes_manager_cli_{current_date} {executable_name}

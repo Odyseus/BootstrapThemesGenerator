@@ -23,9 +23,13 @@
 !/UserData/www/_assets/video
 !/UserData/themes
 /UserData/themes/*
+!/UserData/themes/flatly_mod
+/UserData/themes/flatly_mod/dist/*
 !/UserData/themes/_0_globals
 /UserData/themes/_0_globals/*
-!/UserData/themes/_0_globals/.keepme
+!/UserData/themes/_0_globals/_global_new_colors.scss
+!/UserData/themes/_0_globals/_global_new_rules.scss
+!/UserData/themes/_0_globals/_global_variable_overrides.scss
 
 ##################
 # Global ignores #
