@@ -29,6 +29,7 @@ _paths_map = {
     "postcss": os.path.join(root_folder, "UserData", "www", "node_modules", "postcss-cli", "bin", "postcss"),
     "node_modules": os.path.join(root_folder, "UserData", "www", "node_modules"),
     "index_template": os.path.join(root_folder, "AppData", "data", "templates", "index", "index.html"),
+    "modals": os.path.join(root_folder, "AppData", "data", "templates", "index", "modals.html"),
     "index_sections": os.path.join(root_folder, "UserData", "www", "sections"),
     "index_root": os.path.join(root_folder, "UserData", "www", "index.html")
 }
@@ -69,6 +70,7 @@ def build_index_file(logger):
         "utilities": []
     }
     index_template = ""
+    modals_data = ""
 
     for cnt in _bootstrap_content:
         section_files = [entry.path for entry in os.scandir(
@@ -105,6 +107,9 @@ def build_index_file(logger):
     with open(_paths_map["index_template"], "r") as index_template_file:
         index_template = index_template_file.read()
 
+    with open(_paths_map["modals"], "r") as modals_file:
+        modals_data = modals_file.read()
+
     with open(_paths_map["index_root"], "w") as index_root_file:
         index_root_file.write(
             index_template.replace(
@@ -113,7 +118,8 @@ def build_index_file(logger):
                 "<!-- {{content-tabpanels}} -->", "\n".join(tabpanels["content"])).replace(
                 "<!-- {{utilities-tabs}} -->", "\n".join(tabs["utilities"])).replace(
                 "<!-- {{components-tabs}} -->", "\n".join(tabs["components"])).replace(
-                "<!-- {{content-tabs}} -->", "\n".join(tabs["content"]))
+                "<!-- {{content-tabs}} -->", "\n".join(tabs["content"])).replace(
+                "<!-- {{modals}} -->", modals_data)
         )
 
 

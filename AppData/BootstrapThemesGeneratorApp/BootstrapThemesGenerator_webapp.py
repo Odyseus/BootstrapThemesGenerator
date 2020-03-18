@@ -41,8 +41,6 @@ _jquery_folder = os.path.join(_node_modules_folder, "jquery", "dist")
 _bootstrap_folder = os.path.join(_node_modules_folder, "bootstrap", "dist")
 _bootswatch_folder = os.path.join(_node_modules_folder, "bootswatch", "dist")
 
-_menu_item_bootstrap = '<a class="dropdown-item" href="_static_bootstrap/css/bootstrap.min.css" data-description="Bootstrap\'s default theme">Bootstrap\'s default</a>'
-_menu_item_separator = '<div class="dropdown-divider"></div>'
 _menu_item_template = '<a class="dropdown-item" data-description="{theme_description}" href="_assets/css/themes/{theme_id}/bootstrap.min.css">{theme_name}</a>'
 _section_template = """<div class="bstg-section">
 {tabpanel_content}
@@ -179,17 +177,16 @@ class BootstrapThemesGeneratorWebapp(WebApp):
 
         for theme in get_themes_list():
             if theme["id"] == theme_id:
-                if "extra_examples_html" in theme:
-                    examples_data += theme["extra_examples_html"]
+                examples_data += theme.get("extra_examples_html", "")
 
                 if "extra_examples_file" in theme:
                     examples_path = os.path.join(themes_src_path, theme["extra_examples_file"])
 
-                break
+                if examples_path and file_utils.is_real_file(examples_path):
+                    with open(examples_path, "r", encoding="UTF-8") as examples_file:
+                        examples_data += examples_file.read()
 
-        if examples_path and file_utils.is_real_file(examples_path):
-            with open(examples_path, "r", encoding="UTF-8") as examples_file:
-                examples_data += examples_file.read()
+                break
 
         return examples_data
 
@@ -209,6 +206,7 @@ class BootstrapThemesGeneratorWebapp(WebApp):
         # Last index: the "tab" suffix.
         # All other parts are going to compose the file name.
         tab_id_parts = bottle.request.POST["tab_id"].split("-")
+        use_section_template = bottle.request.POST["use_section_template"] == "true"
         section_name = tab_id_parts[1]
         file_name = "-".join(tab_id_parts[2:-1]) + ".html"
         file_path = os.path.join(www_root, "sections", section_name, file_name)
@@ -216,7 +214,10 @@ class BootstrapThemesGeneratorWebapp(WebApp):
 
         if os.path.exists(file_path):
             with open(file_path, "r", encoding="UTF-8") as html_file:
-                file_content = _section_template.format(tabpanel_content=html_file.read())
+                if use_section_template:
+                    file_content = _section_template.format(tabpanel_content=html_file.read())
+                else:
+                    file_content = html_file.read()
 
         return file_content
 
@@ -238,7 +239,10 @@ def get_themes_list():
                 entry.name[:1] != "_" and \
                 file_utils.is_real_file(css_path):
             if file_utils.is_real_file(conf_path):
-                conf_data = run_path(conf_path)["settings"]
+                try:
+                    conf_data = run_path(conf_path)["settings"]
+                except Exception:
+                    conf_data = {}
 
             yield {
                 "id": entry.name,

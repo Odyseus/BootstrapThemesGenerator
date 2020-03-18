@@ -41,6 +41,7 @@ Usage:
                   [--port=<port>]
     app.py generate system_executable
     app.py print_theme_ids
+    app.py repo subtrees (init | update) [-y | --dry-run]
 
 Options:
 
@@ -70,6 +71,12 @@ Options:
 -p <args>, --postcss-args=<args>
     Extra arguments to pass to **postcss** CLI. [Default: --no-map]
 
+-y, --dry-run
+    Do not perform file system changes. Only display messages informing of the
+    actions that will be performed or commands that will be executed.
+    WARNING! Some file system changes will be performed (e.g. temporary files
+    creation).
+
 """.format(appname=__appname__,
            appdescription=__appdescription__,
            version=__version__,
@@ -94,6 +101,7 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
     """
     action = None
     node_action = None
+    repo_action = None
     www_root = os.path.join(root_folder, "UserData", "www")
 
     def __init__(self, docopt_args):
@@ -146,6 +154,12 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
             if self.a["system_executable"]:
                 self.logger.info("**System executable generation...**")
                 self.action = self.system_executable_generation
+        elif self.a["repo"]:
+            self.repo_action = "init" if self.a["init"] else "update" if self.a["update"] else ""
+
+            if self.a["subtrees"]:
+                self.logger.info("**Managing repository sub-trees...**")
+                self.action = self.manage_repo_subtrees
 
     def run(self):
         """Execute the assigned action stored in self.action if any.
@@ -187,6 +201,24 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
         app_utils.manage_node_modules(self.node_action,
                                       cwd=self.www_root,
                                       logger=self.logger)
+
+    def manage_repo_subtrees(self):
+        """See :any:`git_utils.manage_repo`
+        """
+        from .python_utils import git_utils
+
+        subtrees = [{
+            "url": "git@gitlab.com:Odyseus/js_web_utils.git",
+            "path": "UserData/www/_assets/js/js_web_utils"
+        }]
+        git_utils.manage_repo(
+            "subtree",
+            self.repo_action,
+            cwd=app_utils.root_folder,
+            subtrees=subtrees,
+            dry_run=self.a["--dry-run"],
+            logger=self.logger
+        )
 
     def launch_preview(self):
         """See :any:`app_utils.print_theme_ids`.
