@@ -4,32 +4,32 @@
 <head>
     <meta charset="utf-8">
     <title id="bstg-meta-title">Preview: Theme name</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="shortcut icon" href="_assets/img/favicon.svg" />
     <link id="bstg-main-stylesheet" rel="stylesheet" href="_static_bootstrap/css/bootstrap.min.css" media="screen">
     <link rel="stylesheet" href="_assets/css/highlight.min.css" media="screen">
     <link rel="stylesheet" href="_assets/css/nerdicons.min.css" media="screen">
     <link rel="stylesheet" href="_assets/css/bootstrap.tweaks.css">
-    <script type="text/javascript" src="_static_jquery"></script>
 </head>
 
-<body style="opacity:0;">
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary px-0 mx-0 py-0">
-        <div class="container-fluid px-0 mx-0">
+<body lang="en" style="opacity:0;" class="bstg-needs-navbar-offset">
+    <nav id="bstg-navbar" class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary px-0 mx-0 py-0">
+        <div class="container-fluid">
+            <button tabindex="0" role="button" id="bstg-sidebar-toggler" class="navbar-toggler bstg-sidebar-toggler-button btn" type="button" title="Toggle sidebars" aria-label="Toggle sidebars">
+                <i class="navbar-toggler-icon"></i>
+            </button>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bstg-navbar-responsive" aria-controls="bstg-navbar-responsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="bstg-navbar-responsive">
                 <div id="bstg-section-selector" class="navbar-nav nav nav-pills" role="tablist">
-                    <a class="navbar-brand nav-link active" id="bstg-theme-description-tab" data-toggle="pill" href="#bstg-theme-description-tabpanel" role="tab" aria-controls="bstg-theme-description-tabpanel" aria-selected="true" title="Theme name">Theme name</a>
+                    <a class="nav-link active py-auto" id="bstg-theme-description-tab" data-toggle="pill" href="#bstg-theme-description-tabpanel" role="tab" aria-controls="bstg-theme-description-tabpanel" aria-selected="true" title="Theme name">Theme name</a>
                     <a class="nav-link" id="bstg-components-tab" data-toggle="pill" href="#bstg-components-tabpanel" role="tab" aria-controls="bstg-components-tabpanel" aria-selected="false" title="Bootstrap components">Components</a>
                     <a class="nav-link" id="bstg-content-tab" data-toggle="pill" href="#bstg-content-tabpanel" role="tab" aria-controls="bstg-content-tabpanel" aria-selected="false" title="Bootstrap content">Content</a>
                     <a class="nav-link" id="bstg-utilities-tab" data-toggle="pill" href="#bstg-utilities-tabpanel" role="tab" aria-controls="bstg-utilities-tabpanel" aria-selected="false" title="Bootstrap utilities">Utilities</a>
                     <a class="nav-link" id="bstg-extras-nerd-icons-tab" data-toggle="pill" href="#bstg-extras-nerd-icons-tabpanel" role="tab" aria-controls="bstg-extras-nerd-icons-tabpanel" aria-selected="false" title="Nerd icons">Nerd icons</a>
-                </div>
-                <ul class="navbar-nav nav mr-auto">
-                    <li class="nav-item dropdown">
+                    <div class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="bstg-theme-selector-label" title="Preview themes">Theme selector <span class="caret"></span></a>
                         <div id="bstg-theme-selector" class="dropdown-menu" aria-labelledby="bstg-theme-selector-label">
                             <a class="dropdown-item" href="_static_bootstrap/css/bootstrap.min.css" data-description="Bootstrap's default theme">Bootstrap's default</a>
@@ -57,9 +57,9 @@
                             <a class="dropdown-item" href="_static_bootswatch/yeti/bootstrap.min.css" data-description="A friendly foundation">Yeti</a>
                             <h6 class="dropdown-header">Custom themes</h6>
                         </div>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
+                    </div>
+                </div>
+                <div class="navbar-nav ml-auto">
                     <form id="bstg-nerd-icons-search-form" class="nav-item navbar-form form-inline d-none">
                         <div class="input-group input-group-sm">
                             <div class="input-group-prepend" for="KB_input-search">
@@ -73,39 +73,39 @@
                             </div>
                         </div>
                     </form>
-                    <li class="nav-item">
-                        <a id="bstg-reload-current-theme" class="nav-link" href="#" title="Reload currently selected theme">
-                            <i class="nf nf-fa-refresh"></i>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-trigger="focus" data-target="#bstg-about-modal">
-                            <i class="nf nf-seti-config"></i>
-                        </a>
-                    </li>
-                </ul>
+                    <a id="bstg-reload-current-theme" class="nav-item nav-link" href="#" title="Reload currently selected theme">
+                        <i class="nf nf-fa-refresh"></i>
+                    </a>
+                    <a class="nav-item nav-link" href="#" data-toggle="modal" data-trigger="focus" data-target="#bstg-about-modal">
+                        <i class="nf nf-seti-config"></i>
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid mx-0 px-0">
         <div class="tab-content">
             <div class="tab-pane fade show active" id="bstg-theme-description-tabpanel" role="tabpanel" aria-labelledby="bstg-theme-description-tab">
-                <div class="jumbotron">
-                    <h1 id="bstg-meta-theme-name">Theme name</h1>
-                    <span id="bstg-meta-theme-description"></span>
+                <div class="row flex-row mx-0 px-0 d-print-block h-100">
+                    <div class="col-12 overflow-auto">
+                        <div class="jumbotron">
+                            <h1 id="bstg-meta-theme-name">Theme name</h1>
+                            <span id="bstg-meta-theme-description"></span>
+                        </div>
+                        <!-- Extra examples ================================================== -->
+                        <div id="bstg-extra-examples" class="bstg-section"></div>
+                    </div>
                 </div>
-                <!-- Extra examples ================================================== -->
-                <div id="bstg-extra-examples" class="bstg-section"></div>
             </div>
             <div class="tab-pane fade" id="bstg-components-tabpanel" role="tabpanel" aria-labelledby="bstg-components-tab">
                 <div class="row flex-row mx-0 px-0 d-print-block h-100">
-                    <div class="bstg-sidebar px-0 col-lg-2 col-md-3 text-bold h-100 d-print-none overflow-auto">
+                    <div class="bstg-sidebar bstg-needs-navbar-offset bg-light text-dark px-0 col-lg-2 col-md-3 text-bold h-100 d-print-none overflow-auto">
                         <div id="bstg-components-selector" class="nav nav-pills flex-column overflow-hidden" role="tablist">
                             <h5 class="nav-link" role="tab" aria-selected="false"><b>Components</b></h5>
                             <!-- {{components-tabs}} -->
                         </div>
                     </div>
-                    <div class="offset-lg-2 offset-md-3 offset-sm-0 col-12 col-lg-10 col-md-9 h-100">
+                    <div class="bstg-sidebar-companion offset-lg-2 offset-md-3 offset-sm-0 col-12 col-lg-10 col-md-9 h-100">
                         <div class="tab-content">
                             <!-- {{components-tabpanels}} -->
                         </div>
@@ -114,13 +114,13 @@
             </div>
             <div class="tab-pane fade" id="bstg-content-tabpanel" role="tabpanel" aria-labelledby="bstg-content-tab">
                 <div class="row flex-row mx-0 px-0 d-print-block h-100">
-                    <div class="bstg-sidebar px-0 col-lg-2 col-md-3 text-bold h-100 d-print-none overflow-auto">
+                    <div class="bstg-sidebar bstg-needs-navbar-offset bg-light text-dark px-0 col-lg-2 col-md-3 text-bold h-100 d-print-none overflow-auto">
                         <div id="bstg-content-selector" class="nav nav-pills flex-column overflow-hidden" role="tablist">
                             <h5 class="nav-link" role="tab" aria-selected="false"><b>Content</b></h5>
                             <!-- {{content-tabs}} -->
                         </div>
                     </div>
-                    <div class="offset-lg-2 offset-md-3 offset-sm-0 col-12 col-lg-10 col-md-9 h-100">
+                    <div class="bstg-sidebar-companion offset-lg-2 offset-md-3 offset-sm-0 col-12 col-lg-10 col-md-9 h-100">
                         <div class="tab-content">
                             <!-- {{content-tabpanels}} -->
                         </div>
@@ -129,13 +129,13 @@
             </div>
             <div class="tab-pane fade" id="bstg-utilities-tabpanel" role="tabpanel" aria-labelledby="bstg-utilities-tab">
                 <div class="row flex-row mx-0 px-0 d-print-block h-100">
-                    <div class="bstg-sidebar px-0 col-lg-2 col-md-3 text-bold h-100 d-print-none overflow-auto">
+                    <div class="bstg-sidebar bstg-needs-navbar-offset bg-light text-dark px-0 col-lg-2 col-md-3 text-bold h-100 d-print-none overflow-auto">
                         <div id="bstg-utilities-selector" class="nav nav-pills flex-column overflow-hidden" role="tablist">
                             <h5 class="nav-link" role="tab" aria-selected="false"><b>Utilities</b></h5>
                             <!-- {{utilities-tabs}} -->
                         </div>
                     </div>
-                    <div class="offset-lg-2 offset-md-3 offset-sm-0 col-12 col-lg-10 col-md-9 h-100">
+                    <div class="bstg-sidebar-companion offset-lg-2 offset-md-3 offset-sm-0 col-12 col-lg-10 col-md-9 h-100">
                         <div class="tab-content">
                             <!-- {{utilities-tabpanels}} -->
                         </div>
@@ -145,36 +145,12 @@
             <div class="tab-pane fade" id="bstg-extras-nerd-icons-tabpanel" role="tabpanel" aria-labelledby="bstg-extras-nerd-icons-tab">
             </div>
         </div>
-        <div id="bstg-source-modal" class="modal fade" tabindex="-1">
-            <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Source Code</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <pre contenteditable><code></code></pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="bstg-about-modal" class="modal fade" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">About</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Inspired by <a href="https://bootswatch.com" rel="nofollow">Bootswatch</a>, a work made by <a href="https://thomaspark.co" rel="nofollow">Thomas Park</a>.</p>
-                        <p>Icons from <a href="https://nerdfonts.com" rel="nofollow">Nerd Fonts</a>.</p>
-                        <p>Based on <a href="https://getbootstrap.com" rel="nofollow">Bootstrap</a>.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- {{modals}} -->
     </div>
-    <a id="to-top-of-page" href="#" class="d-print-none text-bold">Back to top</a>
+    <span id="to-top-of-page" class="text-primary d-print-none" title="Back to top">
+        <i class="nf nf-mdi-arrow_up_box"></i>
+    </span>
+    <script type="text/javascript" src="_static_jquery"></script>
     <script type="text/javascript" src="_static_bootstrap/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="_assets/js/highlight.pack.js"></script>
     <script type="text/javascript" src="_assets/js/debugManager.js"></script>

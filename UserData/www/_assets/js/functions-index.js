@@ -1,71 +1,82 @@
 "use strict"; // jshint ignore:line
 
-(function findDuplicateIds() {
-    let idsSet = new Set();
-    let duplicatedIDs = [];
-    let all = document.querySelectorAll("[id]");
-
-    for (let i = all.length - 1; i >= 0; i--) {
-        let id = all[i].id;
-
-        if (idsSet.has(id)) {
-            duplicatedIDs.push(id);
-        } else {
-            idsSet.add(id);
-        }
-    }
-
-    if (duplicatedIDs.length > 0) {
-        console.error("Duplicated IDs found: " + duplicatedIDs.length + "\n" + duplicatedIDs.join("\n"));
-    }
-})();
-
 (function() {
     let BSTG_Main = null;
     let NerdIcons = null;
     let NerdIconsGrid = null;
+    const SEARCH_INPUT_EVENTS = [
+        "keyup",
+        "search",
+        "input",
+        "paste",
+        "cut",
+        "keypress"
+    ];
+    const SIDEBAR_CLASSES = [
+        "col-lg-2",
+        "col-md-3"
+    ];
+    const TABPANEL_CLASSES = [
+        "offset-0",
+        "offset-lg-2",
+        "offset-md-3",
+        "offset-sm-0",
+        "col-12",
+        "col-lg-10",
+        "col-md-9",
+    ];
+
     const NERD_ICONS_TAB_ID = "bstg-extras-nerd-icons-tab";
-    const SOURCE_BUTTON_HTML = '<button class="bstg-source-button btn btn-primary btn-sm" role="button" \
+    const SOURCE_BUTTON_HTML = '<button class="bstg-view-source-button btn btn-primary btn-sm" role="button" \
     data-toggle="tooltip" tabindex="0" title="View source code">&lt; &gt;</button>';
     const DEFAULT_PREFS = {
         pref_main_stylesheet: "_static_bootstrap/css/bootstrap.min.css",
         pref_selected_section: "",
         pref_selected_content: "",
         pref_selected_component: "",
-        pref_selected_utility: ""
+        pref_selected_utility: "",
+        pref_sidebar_visible: "true"
     };
     const $body = $("body");
     const $componentsSelector = $("#bstg-components-selector");
     const $contentSelector = $("#bstg-content-selector");
-    const $metaThemeDescription = $("#bstg-meta-theme-description");
-    const $metaThemeName = $("#bstg-meta-theme-name");
-    const $metaTitle = $("#bstg-meta-title");
     const $sectionSelector = $("#bstg-section-selector");
     const $sourceModal = $("#bstg-source-modal");
     const $sourceModalCodeBlock = $sourceModal.find("pre code");
-    const $themeDescriptionTab = $("#bstg-theme-description-tab");
     const $utilitiesSelector = $("#bstg-utilities-selector");
     const ExtraExamplesContainer = document.getElementById("bstg-extra-examples");
     const MainStylesheet = document.getElementById("bstg-main-stylesheet");
+    const MetaThemeDescription = document.getElementById("bstg-meta-theme-description");
+    const MetaThemeName = document.getElementById("bstg-meta-theme-name");
+    const MetaTitle = document.getElementById("bstg-meta-title");
+    const Navbar = document.getElementById("bstg-navbar");
     const NerdIconsSearch = document.getElementById("bstg-nerd-icons-search");
     const NerdIconsSearchClearButton = document.getElementById("bstg-nerd-icons-search-button");
     const NerdIconsSearchForm = document.getElementById("bstg-nerd-icons-search-form");
     const NerdIconsTab = document.getElementById("bstg-extras-nerd-icons-tab");
     const ReloadCurrentThemeButton = document.getElementById("bstg-reload-current-theme");
+    const SidebarToggler = document.getElementById("bstg-sidebar-toggler");
+    const ThemeDescriptionTab = document.getElementById("bstg-theme-description-tab");
     const ThemeSelector = document.getElementById("bstg-theme-selector");
-    const DelayedShowBody = BSTG_Utils.debounce(() => {
+    const DelayedShowBody = Ody_Utils.debounce(() => {
         $body.animate({
             opacity: "1"
         }, {
             duration: 400
         });
     });
+    const SidebarsVisible = (aSidebar) => aSidebar.classList.contains("d-none");
+    const NavbarOffsetElements = new Map(Array.prototype.slice.call(
+        document.getElementsByClassName("bstg-needs-navbar-offset")).map((aEl) => [aEl, {}]));
+    const Sidebars = Array.prototype.slice.call(document.getElementsByClassName("bstg-sidebar"));
+    const TabPanels = Array.prototype.slice.call(document.getElementsByClassName("bstg-sidebar-companion"));
 
     class BSTG_MainClass {
         constructor() {
             this._winStorage = window.localStorage;
             this._onMainStylesheetLoadTimer = null;
-            this.filterNerdIcons = BSTG_Utils.debounce(this.doFilterNerdIcons);
+            this.delayedFilterNerdIcons = Ody_Utils.debounce(this.doFilterNerdIcons);
+            this.delayedSetElementsOffset = Ody_Utils.debounce(this.doSetElementsOffset, 50);
 
             let prefs = this.getPrefsFromStorage();
             for (let pref in prefs) {
@@ -95,12 +106,46 @@
             promise.then(() => {
                 MainStylesheet.onload = null;
                 clearTimeout(this._onMainStylesheetLoadTimer);
+                this.toggleSidebars(this.pref_sidebar_visible);
                 this.setActiveSections();
-                this.attachSourceButtons();
-                this.initializeComponents();
-                BSTG_Utils.delayedToggleBackToTopButtonVisibility();
+                this.attachSourceButtons(document);
+                this.initializeComponents(document);
+                Ody_Utils.delayedToggleBackToTopButtonVisibility();
+                this.doSetElementsOffset();
                 DelayedShowBody();
             });
+        }
+
+        doSetElementsOffset() {
+            Ody_Utils.setElementsOffset(Navbar, NavbarOffsetElements);
+        }
+
+        toggleSidebars(aShow = null) {
+            // All this trouble is so I don't have to use hardcoded sizes/margins/paddings nor
+            // idiotic animations. I just let all elements fit the available space.
+            let showSidebar = aShow === null ? Sidebars.every(SidebarsVisible) : aShow;
+
+            if (showSidebar) { // Show sidebar.
+                Sidebars.forEach((aSidebar) => {
+                    aSidebar.classList.remove("d-none");
+                    aSidebar.classList.add(...SIDEBAR_CLASSES);
+                });
+                TabPanels.forEach((aTabPanel) => {
+                    aTabPanel.classList.add(...TABPANEL_CLASSES);
+                });
+            } else { // Hide sidebar.
+                Sidebars.forEach((aSidebar) => {
+                    aSidebar.classList.add("d-none");
+                    aSidebar.classList.remove(...SIDEBAR_CLASSES);
+                });
+                TabPanels.forEach((aTabPanel) => {
+                    aTabPanel.classList.remove(...TABPANEL_CLASSES);
+                    aTabPanel.classList.add("col-12");
+                    aTabPanel.classList.add("offset-0");
+                });
+            }
+
+            this.savePrefToStorage("pref_sidebar_visible", showSidebar);
         }
 
         /**
@@ -112,7 +157,7 @@
                 url: "/build_custom_theme_selectors",
                 cache: false
             }).done((aResponse) => {
-                ThemeSelector.innerHTML = ThemeSelector.innerHTML + aResponse;
+                ThemeSelector.insertAdjacentHTML("beforeend", aResponse);
             }).always((aXHR, aStatusText) => { // jshint ignore:line
                 this.iterateThemeSelectorsItems("set_current");
             }).fail((aXHR, aStatusText, aError) => {
@@ -127,17 +172,17 @@
          * @param {String} aAction - Action to perform.
          */
         iterateThemeSelectorsItems(aAction) {
-            let items = Array.prototype.slice.call(ThemeSelector.querySelectorAll(".dropdown-item"));
-
-            for (let i = items.length - 1; i >= 0; i--) {
+            let menuItems = ThemeSelector.querySelectorAll(".dropdown-item");
+            for (let m = menuItems.length - 1; m >= 0; m--) {
+                let mI = menuItems[m];
                 switch (aAction) {
                     case "set_inactive": // When clicking a menu item.
-                        items[i].classList.remove("active");
+                        mI.classList.remove("active");
                         break;
                     case "set_current": // On initial page load.
-                        if (items[i].getAttribute("href") === this.pref_main_stylesheet) {
-                            this.setThemeData(items[i]);
-                            items[i].classList.add("active");
+                        if (mI.getAttribute("href") === this.pref_main_stylesheet) {
+                            this.setThemeData(mI);
+                            mI.classList.add("active");
                         }
                         break;
                 }
@@ -152,6 +197,7 @@
                 this.handleNavigationPills("section", aE.target.id, aE.target === NerdIconsTab);
                 NerdIconsSearchForm.classList.toggle("d-none", aE.target !== NerdIconsTab);
             }).on("shown.bs.tab", 'a[data-toggle="pill"]', () => {
+                this.toggleSidebars(true);
                 this.resetScrollPosition();
             });
             $contentSelector.on("show.bs.tab", 'a[data-toggle="pill"]', (aE) => {
@@ -180,6 +226,12 @@
                 }
             }, false);
 
+            SidebarToggler.addEventListener("click", (aE) => {
+                aE.preventDefault();
+
+                this.toggleSidebars();
+            }, false);
+
             // NOTE: Target the anchors with "empty links" and source buttons on body click
             // so I can target anchors and buttons dynamically inserted into the HTML.
             $body[0].addEventListener("click", (aE) => {
@@ -190,7 +242,7 @@
                         target.getAttribute("href") === "#" && aE.preventDefault();
                         break;
                     case "button":
-                        if (target.classList.contains("bstg-source-button")) {
+                        if (target.classList.contains("bstg-view-source-button")) {
                             aE.preventDefault();
 
                             $sourceModalCodeBlock.text(this.cleanSource(target.parentNode.innerHTML));
@@ -209,23 +261,22 @@
                 }
             });
 
-            // NOTE: Workaround for Firefox in Linux. ¬¬
-            $sourceModal.on("keyup", (aE) => {
-                if (aE.keyCode === 27) { // Escape key.
-                    $(aE.target).modal("hide");
-                }
-            });
-
-            $(NerdIconsSearch).on("keyup search input paste cut keypress",
-                this.nerdIconsSearchEventHandler.bind(this));
+            for (let i = SEARCH_INPUT_EVENTS.length - 1; i >= 0; i--) {
+                NerdIconsSearch.addEventListener(SEARCH_INPUT_EVENTS[i],
+                    this.nerdIconsSearchEventHandler.bind(this), false);
+            }
 
             NerdIconsSearchClearButton.addEventListener("click", () => {
                 NerdIconsSearch.value = "";
-                this.filterNerdIcons("");
+                this.delayedFilterNerdIcons("");
             }, false);
 
             ReloadCurrentThemeButton.addEventListener("click", () => {
                 this.selectTheme();
+            }, false);
+
+            window.addEventListener("resize", () => {
+                this.delayedSetElementsOffset();
             }, false);
         }
 
@@ -239,7 +290,7 @@
             let valueLength = value.length;
 
             if (valueLength === 0 || valueLength > 2) {
-                this.filterNerdIcons(value);
+                this.delayedFilterNerdIcons(value);
             }
         }
 
@@ -255,9 +306,11 @@
                     NerdIcons = NerdIconsGrid.getElementsByClassName("bstg-icon-class");
                 }
             } finally {
-                Array.prototype.filter.call(NerdIcons, function(aEl) {
-                    aEl.parentNode.classList.toggle("d-none", aEl.textContent.toLowerCase().indexOf(aTerm) === -1);
-                });
+                // NOTE: This is ultra-mega-slow on Shitmium based browsers.
+                // In Firefox based browsers is practically instantaneous.
+                for (let i = NerdIcons.length - 1; i >= 0; i--) {
+                    NerdIcons[i].parentNode.classList.toggle("d-none", NerdIcons[i].textContent.indexOf(aTerm) === -1);
+                }
             }
         }
 
@@ -290,7 +343,8 @@
                     url: "/populate_tabpanel",
                     cache: false,
                     data: {
-                        tab_id: aTabId
+                        tab_id: aTabId,
+                        use_section_template: aTabId !== NERD_ICONS_TAB_ID
                     }
                 }).done((aResponse) => {
                     tabpanel.innerHTML = aResponse;
@@ -305,60 +359,23 @@
         }
 
         /**
-         * Initialize Bootstrap components.
-         *
-         * @param {Object} a$El           - The element that has the component to initialize.
-         * @param {String} aComponentType - The Bootstrap component name.
-         * @param {Object} aInitOptions   - Bootstrap component initialization options.
-         * @param {Array}  aExtraMethods  - Extra methods to call on a Bootstrap component.
-         */
-        initBootstrapComponent(a$El, aComponentType, aInitOptions = {}, aExtraMethods = []) {
-            if (!a$El.data(aComponentType + "-initialized")) {
-                let $el = a$El[aComponentType](aInitOptions);
-
-                for (let i = aExtraMethods.length - 1; i >= 0; i--) {
-                    $el[aComponentType](aExtraMethods[i]);
-                }
-
-                a$El.data(aComponentType + "-initialized", true);
-            }
-        }
-
-        /**
          * Initialize components.
          *
-         * @param {Object} aParent - The element from which to find the components to initialize.
+         * @param {Object} aContainer - The element from which to find the components to initialize.
          */
-        initializeComponents(aParent) {
-            let $popovers = aParent ?
-                $(aParent).find('[data-toggle="popover"]') :
-                $('[data-toggle="popover"]');
-            $popovers.each((aIndex, aEl) => {
-                this.initBootstrapComponent($(aEl), "popover");
-            });
+        initializeComponents(aContainer) {
+            $(aContainer.querySelectorAll('[data-toggle="popover"]')).popover();
 
-            let $tooltips = aParent ?
-                $(aParent).find('[data-toggle="tooltip"]') :
-                $('[data-toggle="tooltip"]');
-            $tooltips.add($('[data-tt="tooltip"]'));
-            $tooltips.each((aIndex, aEl) => {
-                this.initBootstrapComponent($(aEl), "tooltip");
-            });
+            $(aContainer.querySelectorAll('[data-toggle="tooltip"]')).tooltip();
 
-            let $toasts = aParent ?
-                $(aParent).find(".toast") :
-                $(".toast");
-            $toasts.each((aIndex, aEl) => {
-                this.initBootstrapComponent($(aEl), "toast", {
-                    autohide: false
-                }, ["show"]);
-            });
+            $(aContainer.querySelectorAll(".toast")).toast({
+                autohide: false
+            }).toast("show");
 
-            // Fetch all forms.
-            let forms = document.getElementsByTagName("form");
-
-            // Loop over them to handle validation and prevent submission.
-            Array.prototype.filter.call(forms, function(aForm) {
+            // Loop over all forms to handle validation and prevent submission.
+            // NOTE: Use of filter instead of for-loop due to "function declaration inside loops"
+            // nonsense.
+            Array.prototype.filter.call(aContainer.getElementsByTagName("form"), function(aForm) {
                 aForm.addEventListener("submit", function(aE) {
                     // Handle validation.
                     if (aForm.classList.contains("needs-validation")) {
@@ -375,20 +392,24 @@
                 }, false);
             });
 
+            // Workaround for Firefox in Linux. ¬¬
+            // NOTE: This should go inside attachListeners, but I'm doing it here
+            // so I can "kill two birds with one stone".
+            // NOTE: Use of filter instead of for-loop due to "function declaration inside loops"
+            // nonsense.
+            Array.prototype.filter.call(aContainer.querySelectorAll(".modal"), function(aModal) {
+                aModal.addEventListener("keyup", (aE) => {
+                    if (aE.keyCode === 27) { // Escape key.
+                        $(aE.target).modal("hide");
+                    }
+                }, false);
+            });
+
             // NOTE: Specific sections triggers. ¬¬
-            if (aParent) {
-                let parentID = aParent.id;
+            if (aContainer !== document) {
+                let containerID = aContainer.id;
 
-                if (/-modal-tabpanel/.test(parentID)) {
-                    // NOTE: Workaround for Firefox in Linux. ¬¬
-                    aParent.querySelectorAll(".modal").forEach((aModal) => {
-                        $(aModal).on("keyup", (aE) => {
-                            if (aE.keyCode === 27) { // Escape key.
-                                $(aE.target).modal("hide");
-                            }
-                        });
-                    });
-
+                if (containerID.endsWith("-modal-tabpanel")) {
                     // Example modal with ID exampleModalPopovers.
                     $(".tooltip-test").tooltip();
                     $(".popover-test").popover();
@@ -403,10 +424,10 @@
                         $modal.find(".modal-title").text("New message to " + recipient);
                         $modal.find(".modal-body input").val(recipient);
                     });
-                } else if (/-forms-tabpanel/.test(parentID)) {
+                } else if (containerID.endsWith("-forms-tabpanel")) {
                     // Indeterminate checkbox example.
                     $('.bstg-example-indeterminate [type="checkbox"]').prop("indeterminate", true);
-                } else if (/-progress-tabpanel/.test(parentID)) {
+                } else if (containerID.endsWith("-progress-tabpanel")) {
                     // Activate animated progress bar.
                     $(".bstg-toggle-animated-progress").on("click", function() {
                         $(this).siblings(".progress").find(".progress-bar-striped").toggleClass("progress-bar-animated");
@@ -414,9 +435,10 @@
                 }
 
                 if (typeof hljs === "object") {
-                    aParent.querySelectorAll("pre code").forEach((block) => {
-                        hljs.highlightBlock(block);
-                    });
+                    let blocks = aContainer.querySelectorAll("pre code");
+                    for (let b = blocks.length - 1; b >= 0; b--) {
+                        hljs.highlightBlock(blocks[b]);
+                    }
                 }
             }
         }
@@ -460,18 +482,18 @@
         /**
          * Attach the view source code button.
          *
-         * @param {Object} aParent - The element inside which to find all the example blocks.
+         * @param {Object} aContainer - The element inside which to find all the example blocks.
          */
-        attachSourceButtons(aParent) {
-            let $examples = aParent ? $(aParent).find(".bstg-example") : $(".bstg-example");
-            $examples.each(function() {
-                let $example = $(this);
+        attachSourceButtons(aContainer) {
+            let examples = aContainer.querySelectorAll(".bstg-example");
+            for (let i = examples.length - 1; i >= 0; i--) {
+                let example = examples[i];
 
-                if (!$example.data("has-source-button")) {
-                    $example.append($(SOURCE_BUTTON_HTML));
-                    $example.data("has-source-button", true);
+                if (!example.getAttribute("has-source-button")) {
+                    example.insertAdjacentHTML("beforeend", SOURCE_BUTTON_HTML);
+                    example.setAttribute("has-source-button", true);
                 }
-            });
+            }
         }
 
         /**
@@ -529,11 +551,11 @@
          * @param {Object} aEl - The menu item that triggered the function.
          */
         setThemeData(aEl) {
-            $metaTitle.text("Preview: " + aEl.textContent);
-            $metaThemeName.text(aEl.textContent);
-            $themeDescriptionTab.text(aEl.textContent);
-            $themeDescriptionTab.attr("title", aEl.textContent);
-            $metaThemeDescription.html(this.htmlDecode(aEl.getAttribute("data-description")));
+            MetaTitle.textContent = "Preview: " + aEl.textContent;
+            MetaThemeName.textContent = aEl.textContent;
+            ThemeDescriptionTab.textContent = aEl.textContent;
+            ThemeDescriptionTab.setAttribute("title", aEl.textContent);
+            MetaThemeDescription.innerHTML = this.htmlDecode(aEl.getAttribute("data-description"));
         }
 
         /**
@@ -571,6 +593,7 @@
                     });
 
                     promise.then(() => {
+                        this.delayedSetElementsOffset();
                         MainStylesheet.onload = null;
                         clearTimeout(this._onMainStylesheetLoadTimer);
                         $body.animate({
@@ -582,7 +605,7 @@
                                     $("html, body").animate({
                                         scrollTop: scroll
                                     }, 400);
-                                    BSTG_Utils.delayedToggleBackToTopButtonVisibility();
+                                    Ody_Utils.delayedToggleBackToTopButtonVisibility();
                                 }
                             }
                         });
@@ -669,13 +692,15 @@
                 pref_selected_component: this._winStorage.getItem("BSTG_pref_selected_component") ||
                     DEFAULT_PREFS.pref_selected_component,
                 pref_selected_utility: this._winStorage.getItem("BSTG_pref_selected_utility") ||
-                    DEFAULT_PREFS.pref_selected_utility
+                    DEFAULT_PREFS.pref_selected_utility,
+                pref_sidebar_visible: (this._winStorage.getItem("BSTG_pref_sidebar_visible") ||
+                    DEFAULT_PREFS.pref_sidebar_visible) === "true"
             };
         }
     }
 
-    if (typeof BSTG_Debugger === "object") {
-        BSTG_Debugger.wrapObjectMethods({
+    if (typeof Ody_Debugger === "object") {
+        Ody_Debugger.wrapObjectMethods({
             BSTG_MainClass: BSTG_MainClass
         });
     }
@@ -683,6 +708,6 @@
     BSTG_Main = new BSTG_MainClass();
 })();
 
-/* global BSTG_Utils,
-          BSTG_Debugger
+/* global Ody_Utils,
+          Ody_Debugger
  */

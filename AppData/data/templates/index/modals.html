@@ -1,0 +1,80 @@
+<div id="bstg-source-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Source Code</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <pre contenteditable><code></code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="bstg-about-modal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bootstrap themes preview</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <h4>Page settings&nbsp;
+                    <button type="button" data-dismiss="modal" data-toggle="modal" data-target="#bstg-pref-reset-settings-modal" class="btn btn-sm btn-outline-warning mx-auto" title="Reset page settings">
+                        <i class="nf nf-fa-refresh"></i>
+                    </button>
+                </h4>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6 mx-auto my-auto">
+                            <form class="form-inline mx-auto my-auto">
+                                <div class="form-group text-left">
+                                    <div class="form-check my-2">
+                                        <input id="ody-debugger-enabled" class="form-check-input" type="checkbox">
+                                        <label class="form-check-label" for="ody-debugger-enabled">Debugger enabled</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-6 mx-auto my-auto">
+                            <form class="form-inline mx-auto my-auto">
+                                <div class="form-group text-left">
+                                    <label for="ody-debugger-logging-level">Logging level&nbsp;&nbsp;</label>
+                                    <select id="ody-debugger-logging-level" class="custom-select custom-select-sm">
+                                        <option value="0">Normal</option>
+                                        <option value="1">Verbose</option>
+                                        <option value="2">Very verbose</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h4>About</h4>
+                <p>Inspired by <a href="https://bootswatch.com" rel="nofollow">Bootswatch</a>, a work made by <a href="https://thomaspark.co" rel="nofollow">Thomas Park</a>.</p>
+                <p>Icons from <a href="https://nerdfonts.com" rel="nofollow">Nerd Fonts</a>, iconic font aggregator, collection, and patcher.</p>
+                <p>Based on <a href="https://getbootstrap.com" rel="nofollow">Bootstrap</a>, HTML, CSS, and JS library.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="bstg-pref-reset-settings-modal" tabindex="-1" role="dialog" aria-labelledby="bstg-pref-reset-settings-title" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bstg-pref-reset-settings-title">Reset page settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">Do you wish to reset the page settings?</div>
+            <div class="modal-footer">
+                <button id="bstg-pref-reset-settings-button" type="button" data-dismiss="modal" class="btn btn-warning">Reset page settings</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

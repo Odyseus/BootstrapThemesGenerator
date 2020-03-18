@@ -1,31 +1,36 @@
 :root {
     --bstg-example-border: rgba(128, 128, 128, 0.5);
-    --bstg-highlight-background: rgba(86, 61, 124, 0.15);
+    --bstg-highlight-background: rgba(128, 128, 128, 0.25);
 }
 
 body {
-    margin-top: 50px;
-    margin-bottom: 3em;
+    padding-top: 1rem;
+    /* To separate content from the bottom edge. */
+    margin-bottom: 3rem;
     /* Keep scrollbars visible because I hate all the elements in the page dancing around. */
     overflow-y: scroll;
 }
 
+/* Nerd icons size. */
 .bstg-nerd-icons-row .nf {
     font-size: 3rem;
 }
 
+/* To allow the "name" of an icon to wrap. */
 .bstg-nerd-icons-row .bstg-icon-class {
     word-wrap: break-word;
 }
 
+/* To center the content of the Nerd icons grid. */
 .bstg-nerd-icons-row .col {
     text-align: center;
     border: 1px solid var(--bstg-example-border);
     padding: 0.5rem 0;
 }
 
+/* Sidebars. */
 .bstg-sidebar {
-    padding-top: 50px;
+    padding-top: 0.5rem;
     position: fixed;
     left: 0;
     top: 0;
@@ -39,25 +44,27 @@ body {
     border-bottom-width: 0;
 }
 
-.bstg-sidebar,
-.bstg-sidebar div {
-    margin-left: 0;
-    background-color: transparent;
-}
-
-.bstg-sidebar .nav-item {
-    width: 100%;
-}
-
+/* Remove border radius and reduce padding of nav items. */
 .bstg-sidebar .nav-link {
     border-radius: 0;
     padding: 0.25rem 1rem;
 }
 
+/* Examples container. */
+.bstg-example {
+    position: relative;
+}
+
+.bstg-example::after {
+    display: block;
+    clear: both;
+    content: "";
+}
+
 .bstg-example,
 .bstg-section {
     /* No padding at the top because each element inside these sections have top margins. */
-    padding: 0 1em 1em 1em;
+    padding: 0 1rem 1rem 1rem;
     border: 1px solid var(--bstg-example-border);
     border-radius: 5px;
     -webkit-box-shadow: 1px 1px 0 var(--bstg-example-border), 1px 1px 0 var(--bstg-example-border);
@@ -73,62 +80,51 @@ body {
 }
 
 /* Add separation to all direct children of these sections. */
-.bstg-example > *:not(.bstg-source-button),
+.bstg-example > *:not(.bstg-view-source-button),
 .bstg-section > * {
     margin-top: 1rem;
 }
 
-/**********************
- * Examples overrides *
- **********************/
+/* Highlighting class. */
 .bstg-highlight {
     background-color: var(--bstg-highlight-background);
     border: 1px solid var(--bstg-example-border);
 }
 
-.bstg-example {
-    position: relative;
-}
-
-.bstg-example::after {
-    display: block;
-    clear: both;
-    content: "";
-}
-
+/* Localization example for custom file input found in forms.html. */
 .bstg-example .custom-file-input:lang(es) ~ .custom-file-label::after {
     content: "Elegir";
 }
 
+/* This is to make possible to render a dropdown menu directly in the body
+ * of the dropdowns.html page.
+ */
 .bstg-example > .dropdown-menu:first-child {
     position: static;
     display: block;
 }
 
-.bstg-example > .form-group:last-child {
-    margin-bottom: 0;
-}
-
+/* I couldn't figure out why this is needed. */
 .bstg-example > .close {
     float: none;
 }
 
+/* Used to make textareas resizeable vertically(?). */
 .bstg-example > textarea.form-control {
     resize: vertical;
 }
 
+/* Limit the width of list-group class.*/
 .bstg-example > .list-group {
     max-width: 400px;
 }
 
+/* Limit the width of list-group-horizontal class.*/
 .bstg-example > [class*="list-group-horizontal"] {
     max-width: 100%;
 }
 
-.tooltip-demo a {
-    white-space: nowrap;
-}
-
+/* Scrollspy examples in scrollspy.html. */
 .scrollspy-example {
     position: relative;
     height: 200px;
@@ -143,6 +139,10 @@ body {
 }
 
 /* Callouts. */
+/* NOTE: I suppose that they implemented these callouts instead of directly using the alert classes
+ * so they are not confused with the alert examples (?). I was about to replace these classes with
+ * their alert counterparts, but I like the difference and style of the callouts.
+ */
 .bstg-callout {
     padding: 1.25rem;
     margin-bottom: 1.25rem;
@@ -193,26 +193,27 @@ body {
 }
 
 /* Override fixed/sticky-top classes' position so the example doesn't affect the page itself. */
+.bstg-example .fixed-bottom,
 .bstg-example .fixed-top,
 .bstg-example .sticky-top {
     position: static;
 }
 
-.bstg-example .fixed-bottom {
-    position: static;
-}
-
+/* Border examples in borders.html */
+/* NOTE: I couldn't find a way to make the borders visible in dark and light themes.
+ * So, I gave up. LOL
+ * As they are, they are only visible on light themes.
+ */
 .bstg-example-border-utils [class^="border"] {
     display: inline-block;
     width: 5rem;
     height: 5rem;
-    margin-right: 0.25rem;
+    margin-right: 0.5rem;
     background-color: #f5f5f5;
-    border: 1px solid var(--bstg-example-border);
 }
 
 .bstg-example-border-utils-0 [class^="border"] {
-    border: 1px solid var(--bstg-example-border);
+    border: 2px solid var(--bstg-example-border);
 }
 
 /* Multiple columns for the theme selector menus. */
@@ -229,16 +230,20 @@ body {
 }
 /* stylelint-enable declaration-block-no-duplicate-properties */
 
+/* Three menu items per row. */
 #bstg-theme-selector.show .dropdown-item {
     width: 33.333333%;
     word-wrap: break-word;
 }
 
+/* Header occupies an entire row so it also acts as a separator/divider. */
 #bstg-theme-selector.show .dropdown-header,
+/* The default Bootstrap theme occupies an entire row. */
 #bstg-theme-selector.show .dropdown-item:first-child {
     width: 100%;
 }
 
+/* Placeholder images. */
 .bstg-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;
@@ -258,10 +263,7 @@ body {
     }
 }
 
-.bstg-example .modal-dialog {
-    width: 90%;
-}
-
+/* Highlight grid examples in modal.html. */
 .bstg-example-row .row > .col,
 .bstg-example-row .row > [class^="col-"] {
     padding-top: 0.75rem;
@@ -270,19 +272,8 @@ body {
     border: 1px solid rgba(86, 61, 124, 0.2);
 }
 
-.bstg-example-row .flex-items-bottom,
-.bstg-example-row .flex-items-middle,
-.bstg-example-row .flex-items-top {
-    min-height: 6rem;
-    background-color: rgba(255, 0, 0, 0.1);
-}
-
-.bstg-example-row-flex-cols .row {
-    min-height: 10rem;
-    background-color: rgba(255, 0, 0, 0.1);
-}
-
-.bstg-source-button {
+/* View source button. */
+.bstg-view-source-button {
     display: none;
     position: absolute;
     top: 0;
@@ -291,27 +282,12 @@ body {
     font-weight: bold;
 }
 
-.bstg-source-button:hover {
+.bstg-view-source-button:hover {
     cursor: pointer;
 }
 
-.bstg-example:hover .bstg-source-button {
+.bstg-example:hover .bstg-view-source-button {
     display: block;
-}
-
-.bstg-example-tabs .nav-tabs {
-    margin-bottom: 1rem;
-}
-
-.progress {
-    margin-bottom: 10px;
-}
-
-@media (max-width: 767px) {
-    #bstg-banner {
-        margin-bottom: 2em;
-        text-align: center;
-    }
 }
 
 /* Homogenize pre tags so they look right when highlighted no matter the theme used. */
@@ -345,4 +321,27 @@ pre {
     bottom: auto;
     z-index: 100;
     display: block;
+}
+
+/* For Back To Top Button */
+#to-top-of-page {
+    bottom: 0;
+    display: none;
+    font-size: 2.5em;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    position: fixed;
+    right: 1rem;
+    text-decoration: none;
+    z-index: 999999;
+}
+
+#to-top-of-page:hover {
+    opacity: 0.5 !important;
+}
+
+/* Keep sidebar toggler always visible. */
+#bstg-sidebar-toggler.navbar-toggler {
+    display: block !important;
 }
