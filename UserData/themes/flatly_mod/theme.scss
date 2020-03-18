@@ -15,11 +15,11 @@
 // The parent theme (Flatly) uses white close buttons.
 // Toasts have white background headers.
 .toast .close {
-    color: $black;
+    color: #000;
 
     &:not(:disabled):not(.disabled):hover,
     &:not(:disabled):not(.disabled):focus {
-        color: $black;
+        color: #000;
     }
 }
 
