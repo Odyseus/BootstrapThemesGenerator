@@ -1,6 +1,6 @@
-"use strict"; // jshint ignore:line
-
 (function() {
+    "use strict"; // jshint ignore:line
+
     let BSTG_Main = null;
     let NerdIcons = null;
     let NerdIconsGrid = null;
@@ -228,7 +228,6 @@
 
             SidebarToggler.addEventListener("click", (aE) => {
                 aE.preventDefault();
-
                 this.toggleSidebars();
             }, false);
 
@@ -238,9 +237,6 @@
                 let target = aE.target;
 
                 switch (target.tagName.toLowerCase()) {
-                    case "a":
-                        target.getAttribute("href") === "#" && aE.preventDefault();
-                        break;
                     case "button":
                         if (target.classList.contains("bstg-view-source-button")) {
                             aE.preventDefault();
@@ -267,8 +263,7 @@
             }
 
             NerdIconsSearchClearButton.addEventListener("click", () => {
-                NerdIconsSearch.value = "";
-                this.delayedFilterNerdIcons("");
+                this.clearNerdIconsSearchInput(NerdIconsSearch);
             }, false);
 
             ReloadCurrentThemeButton.addEventListener("click", () => {
@@ -281,16 +276,66 @@
         }
 
         /**
-         * Handle nerd icons search.
+         * Clear search input.
+         *
+         * @param {Object} aInput - The input element to clear.
+         */
+        clearNerdIconsSearchInput(aInput) {
+            if (aInput) {
+                aInput.setAttribute("value", "");
+                aInput.value = "";
+            }
+
+            this.delayedFilterNerdIcons("");
+        }
+
+        /**
+         * Handle events triggered by the input search.
          *
          * @param {Object} aE - Event that triggered the function.
          */
         nerdIconsSearchEventHandler(aE) {
-            let value = aE.target.value;
-            let valueLength = value.length;
+            // Prevent form submission.
+            if (aE.type === "keypress" && aE.keyCode === 13) {
+                aE.preventDefault();
+                NerdIconsSearchForm.submit();
+                return false;
+            }
 
-            if (valueLength === 0 || valueLength > 2) {
-                this.delayedFilterNerdIcons(value);
+            switch (aE.type) {
+                case "keyup":
+                case "search":
+                case "input":
+                case "paste":
+                case "cut":
+                    // The best that I could come up with to avoid triggering the doFilter() function
+                    // a million times unnecessarily. Which would trigger a million times the function
+                    // DataTables.drawCallback(). And which will make the re-draw of the table reset the
+                    // current scroll position. A snow ball of little annoyances that become a huge
+                    // performance problem.
+                    let triggerSearch = aE.type !== "keyup" ||
+                        String.fromCharCode(aE.keyCode).match(/(\w|\s)/g) !== null ||
+                        // Backspace.  So clearing the search box can trigger a clearSearchInput() (inside the
+                        // call to doFilter()).
+                        aE.which === 8 ||
+                        // Delete.
+                        aE.which === 46 ||
+                        // Colon. So exact "type searches" can be performed (type:term).
+                        aE.which === 16 ||
+                        // Ultimately, let the Enter key trigger a search.
+                        aE.which === 13;
+
+                    if (aE.which === 27) { // Escape key
+                        this.clearNerdIconsSearchInput(aE.target);
+                    } else {
+                        let value = aE.target.value.trim();
+                        let valueLength = value.length;
+
+                        if (triggerSearch && (valueLength === 0 || valueLength > 2)) {
+                            this.delayedFilterNerdIcons(value);
+                        }
+                    }
+                    break;
             }
         }
 
