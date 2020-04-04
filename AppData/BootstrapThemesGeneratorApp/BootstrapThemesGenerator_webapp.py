@@ -171,7 +171,7 @@ class BootstrapThemesGeneratorWebapp(WebApp):
             The content of the extra HTML file to be inserted into the index.
         """
         theme_id = os.path.basename(os.path.dirname(bottle.request.POST["theme_href"]))
-        themes_src_path = os.path.join("..", "themes")
+        themes_src_path = os.path.join(os.pardir, "themes")
         examples_path = ""
         examples_data = ""
 
