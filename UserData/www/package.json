@@ -6,7 +6,7 @@
         "autoprefixer": "^9.7.4",
         "bootstrap": "^4.4.1",
         "bootswatch": "^4.4.1",
-        "jquery": "^3.4.1",
+        "jquery": "^3.5.0",
         "node-sass": "^4.13.0",
         "postcss-cli": "^7.1.0"
     },
