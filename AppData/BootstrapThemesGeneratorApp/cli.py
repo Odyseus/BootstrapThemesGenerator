@@ -221,7 +221,7 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
         )
 
     def launch_preview(self):
-        """See :any:`app_utils.print_theme_ids`.
+        """Launch preview.
         """
         import webbrowser
         url = "http://%s:%s" % (self.a["--host"], self.a["--port"])
