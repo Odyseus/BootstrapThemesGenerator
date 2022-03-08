@@ -9,20 +9,32 @@
     <li>For easier scaling across device sizes, block elements should use <code>rem</code>s for <code>margin</code>s.</li>
     <li>Keep declarations of <code>font</code>-related properties to a minimum, using <code>inherit</code> whenever possible.</li>
 </ul>
+<h2>CSS variables</h2>
+<p><small class="d-inline-flex px-2 py-1 font-monospace text-muted border rounded-3">Added in v5.1.1</small></p>
+<p>With v5.1.1, we standardized our required <code>@import</code>s across all our CSS bundles (including <code>bootstrap.css</code>, <code>bootstrap-reboot.css</code>, and <code>bootstrap-grid.css</code> to include <code>_root.scss</code> . This adds <code>:root</code> level CSS variables to all bundles, regardless of how many of them are used in that bundle. Ultimately Bootstrap 5 will continue to see more CSS variables added over time.</p>
 <h2>Page defaults</h2>
-<p>The <code><span class="nt">&lt;html&gt;</span></code> and <code>&lt;body&gt;</code> elements are updated to provide better page-wide defaults. More specifically:</p>
+<p>The <code>&lt;html&gt;</code> and <code>&lt;body&gt;</code> elements are updated to provide better page-wide defaults. More specifically:</p>
 <ul>
-    <li>The <code>box-sizing</code> is globally set on every element—including <code>*::before</code> and <code>*::after</code>, to <code>border-box</code>. This ensures that the declared width of element is never exceeded due to padding or border.</li>
-    <li>No base <code>font-size</code> is declared on the <code><span class="nt">&lt;html&gt;</span></code>, but <code>16px</code> is assumed (the browser default). <code>font-size: 1rem</code> is applied on the <code>&lt;body&gt;</code> for easy responsive type-scaling via media queries while respecting user preferences and ensuring a more accessible approach.</li>
-    <li>The <code>&lt;body&gt;</code> also sets a global <code>font-family</code>, <code>line-height</code>, and <code>text-align</code>. This is inherited later by some form elements to prevent font inconsistencies.</li>
+    <li>The <code>box-sizing</code> is globally set on every element—including <code>*::before</code> and <code>*::after</code>, to <code>border-box</code>. This ensures that the declared width of element is never exceeded due to padding or border.
+        <ul>
+            <li>No base <code>font-size</code> is declared on the <code>&lt;html&gt;</code>, but <code>16px</code> is assumed (the browser default). <code>font-size: 1rem</code> is applied on the <code>&lt;body&gt;</code> for easy responsive type-scaling via media queries while respecting user preferences and ensuring a more accessible approach. This browser default can be overridden by modifying the <code>$font-size-root</code> variable.</li>
+        </ul>
+    </li>
+    <li>The <code>&lt;body&gt;</code> also sets a global <code>font-family</code>, <code>font-weight</code>, <code>line-height</code>, and <code>color</code>. This is inherited later by some form elements to prevent font inconsistencies.</li>
     <li>For safety, the <code>&lt;body&gt;</code> has a declared <code>background-color</code>, defaulting to <code>#fff</code>.</li>
 </ul>
 <h2>Native font stack</h2>
-<p>The default web fonts (Helvetica Neue, Helvetica, and Arial) have been dropped in Bootstrap 4 and replaced with a “native font stack” for optimum text rendering on every device and OS. Read more about <a href="https://www.smashingmagazine.com/2015/11/using-system-ui-fonts-practical-guide/">native font stacks in this <em>Smashing Magazine</em> article</a>.</p>
+<p>Bootstrap utilizes a &ldquo;native font stack&rdquo; or &ldquo;system font stack&rdquo; for optimum text rendering on every device and OS. These system fonts have been designed specifically with today&rsquo;s devices in mind, with improved rendering on screens, variable font support, and more. Read more about <a href="https://www.smashingmagazine.com/2015/11/using-system-ui-fonts-practical-guide/">native font stacks in this <em>Smashing Magazine</em> article</a>.</p>
+<p>Note that because the font stack includes emoji fonts, many common symbol/dingbat unicode characters will be rendered as multi-colored pictographs. Their appearance will vary, depending on the style used in the browser/platform&rsquo;s native emoji font, and they won&rsquo;t be affected by any CSS <code>color</code> styles.</p>
 <p>This <code>font-family</code> is applied to the <code>&lt;body&gt;</code> and automatically inherited globally throughout Bootstrap. To switch the global <code>font-family</code>, update <code>$font-family-base</code> and recompile Bootstrap.</p>
+<h2>CSS variables</h2>
+<p>As Bootstrap 5 continues to mature, more and more styles will be built with <a href="https://getbootstrap.com/docs/5.1/customize/css-variables/">CSS variables</a> as a means to provide more real-time customization without the need to always recompile Sass. Our approach is to take our source Sass variables and transform them into CSS variables. That way, even if you don&rsquo;t use CSS variables, you still have all the power of Sass. <strong>This is still in-progress and will take time to fully implement.</strong></p>
+<p>For example, consider these <code>:root</code> CSS variables for common <code>&lt;body&gt;</code> styles:</p>
+<p>In practice, those variables are then applied in Reboot like so:</p>
+<p>Which allows you to make real-time customizations however you like:</p>
 <h2>Headings and paragraphs</h2>
 <p>All heading elements—e.g., <code>&lt;h1&gt;</code>—and <code>&lt;p&gt;</code> are reset to have their <code>margin-top</code> removed. Headings have <code>margin-bottom: .5rem</code> added and paragraphs <code>margin-bottom: 1rem</code> for easy spacing.</p>
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Heading</th>
@@ -32,71 +44,61 @@
     <tbody>
         <tr>
             <td>
-                <p><code>&lt;h1&gt;&lt;/h1&gt;</code></p>
+                <code>&lt;h1&gt;&lt;/h1&gt;</code>
             </td>
             <td><span class="h1">h1. Bootstrap heading</span></td>
         </tr>
         <tr>
             <td>
-                <p><code>&lt;h2&gt;&lt;/h2&gt;</code></p>
+                <code>&lt;h2&gt;&lt;/h2&gt;</code>
             </td>
             <td><span class="h2">h2. Bootstrap heading</span></td>
         </tr>
         <tr>
             <td>
-                <p><code>&lt;h3&gt;&lt;/h3&gt;</code></p>
+                <code>&lt;h3&gt;&lt;/h3&gt;</code>
             </td>
             <td><span class="h3">h3. Bootstrap heading</span></td>
         </tr>
         <tr>
             <td>
-                <p><code>&lt;h4&gt;&lt;/h4&gt;</code></p>
+                <code>&lt;h4&gt;&lt;/h4&gt;</code>
             </td>
             <td><span class="h4">h4. Bootstrap heading</span></td>
         </tr>
         <tr>
             <td>
-                <p><code>&lt;h5&gt;&lt;/h5&gt;</code></p>
+                <code>&lt;h5&gt;&lt;/h5&gt;</code>
             </td>
             <td><span class="h5">h5. Bootstrap heading</span></td>
         </tr>
         <tr>
             <td>
-                <p><code>&lt;h6&gt;&lt;/h6&gt;</code></p>
+                <code>&lt;h6&gt;&lt;/h6&gt;</code>
             </td>
             <td><span class="h6">h6. Bootstrap heading</span></td>
         </tr>
     </tbody>
 </table>
 <h2>Lists</h2>
-<p>All lists—<code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>, and <code>&lt;dl&gt;</code>—have their <code>margin-top</code> removed and a <code>margin-bottom: 1rem</code>. Nested lists have no <code>margin-bottom</code>.</p>
+<p>All lists—<code>&lt;ul&gt;</code>, <code>&lt;ol&gt;</code>, and <code>&lt;dl&gt;</code>—have their <code>margin-top</code> removed and a <code>margin-bottom: 1rem</code>. Nested lists have no <code>margin-bottom</code>. We&rsquo;ve also reset the <code>padding-left</code> on <code>&lt;ul&gt;</code> and <code>&lt;ol&gt;</code> elements.</p>
 <div class="bstg-example">
     <ul>
-        <li>Lorem ipsum dolor sit amet</li>
-        <li>Consectetur adipiscing elit</li>
-        <li>Integer molestie lorem at massa</li>
-        <li>Facilisis in pretium nisl aliquet</li>
-        <li>Nulla volutpat aliquam velit
+        <li>All lists have their top margin removed</li>
+        <li>And their bottom margin normalized</li>
+        <li>Nested lists have no bottom margin
             <ul>
-                <li>Phasellus iaculis neque</li>
-                <li>Purus sodales ultricies</li>
-                <li>Vestibulum laoreet porttitor sem</li>
-                <li>Ac tristique libero volutpat at</li>
+                <li>This way they have a more even appearance</li>
+                <li>Particularly when followed by more list items</li>
             </ul>
         </li>
-        <li>Faucibus porta lacus fringilla vel</li>
-        <li>Aenean sit amet erat nunc</li>
-        <li>Eget porttitor lorem</li>
+        <li>The left padding has also been reset</li>
     </ul>
     <ol>
-        <li>Lorem ipsum dolor sit amet</li>
-        <li>Consectetur adipiscing elit</li>
-        <li>Integer molestie lorem at massa</li>
-        <li>Facilisis in pretium nisl aliquet</li>
-        <li>Nulla volutpat aliquam velit</li>
-        <li>Faucibus porta lacus fringilla vel</li>
-        <li>Aenean sit amet erat nunc</li>
-        <li>Eget porttitor lorem</li>
+        <li>Here&rsquo;s an ordered list</li>
+        <li>With a few list items</li>
+        <li>It has the same overall look</li>
+        <li>As the previous unordered list</li>
     </ol>
 </div>
 <p>For simpler styling, clear hierarchy, and better spacing, description lists have updated <code>margin</code>s. <code>&lt;dd&gt;</code>s reset <code>margin-left</code> to <code>0</code> and add <code>margin-bottom: .5rem</code>. <code>&lt;dt&gt;</code>s are <strong>bolded</strong>.</p>
@@ -104,24 +106,43 @@
     <dl>
         <dt>Description lists</dt>
         <dd>A description list is perfect for defining terms.</dd>
-        <dt>Euismod</dt>
-        <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem.</dd>
-        <dd>Donec id elit non mi porta gravida at eget metus.</dd>
-        <dt>Malesuada porta</dt>
-        <dd>Etiam porta sem malesuada magna mollis euismod.</dd>
+        <dt>Term</dt>
+        <dd>Definition for the term.</dd>
+        <dd>A second definition for the same term.</dd>
+        <dt>Another term</dt>
+        <dd>Definition for this other term.</dd>
     </dl>
 </div>
-<h2>Preformatted text</h2>
-<p>The <code>&lt;pre&gt;</code> element is reset to remove its <code>margin-top</code> and use <code>rem</code> units for its <code>margin-bottom</code>.</p>
+<h2>Inline code</h2>
+<p>Wrap inline snippets of code with <code>&lt;code&gt;</code>. Be sure to escape HTML angle brackets.</p>
 <div class="bstg-example">
-    <pre>
-.example-element {
-  margin-bottom: 1rem;
-}
-</pre>
+    For example, <code>&lt;section&gt;</code> should be wrapped as inline.
+</div>
+<h2>Code blocks</h2>
+<p>Use <code>&lt;pre&gt;</code>s for multiple lines of code. Once again, be sure to escape any angle brackets in the code for proper rendering. The <code>&lt;pre&gt;</code> element is reset to remove its <code>margin-top</code> and use <code>rem</code> units for its <code>margin-bottom</code>.</p>
+<div class="bstg-example">
+    <pre><code>&lt;p&gt;Sample text here...&lt;/p&gt;
+&lt;p&gt;And another line of sample text here...&lt;/p&gt;
+</code></pre>
+</div>
+<h2>Variables</h2>
+<p>For indicating variables use the <code>&lt;var&gt;</code> tag.</p>
+<div class="bstg-example">
+    <var>y</var> = <var>m</var><var>x</var> + <var>b</var>
+</div>
+<h2>User input</h2>
+<p>Use the <code>&lt;kbd&gt;</code> to indicate input that is typically entered via keyboard.</p>
+<div class="bstg-example">
+    To switch directories, type <kbd>cd</kbd> followed by the name of the directory.<br>
+    To edit settings, press <kbd><kbd>ctrl</kbd> + <kbd>,</kbd></kbd>
+</div>
+<h2>Sample output</h2>
+<p>For indicating sample output from a program use the <code>&lt;samp&gt;</code> tag.</p>
+<div class="bstg-example">
+    <samp>This text is meant to be treated as sample output from a computer program.</samp>
 </div>
 <h2>Tables</h2>
-<p>Tables are slightly adjusted to style <code>&lt;caption&gt;</code>s, collapse borders, and ensure consistent <code>text-align</code> throughout. Additional changes for borders, padding, and more come with <a href="https://getbootstrap.com">the <code>.table</code> class</a>.</p>
+<p>Tables are slightly adjusted to style <code>&lt;caption&gt;</code>s, collapse borders, and ensure consistent <code>text-align</code> throughout. Additional changes for borders, padding, and more come with <a href="https://getbootstrap.com/docs/5.1/content/tables/">the <code>.table</code> class</a>.</p>
 <div class="bstg-example">
     <table>
         <caption>
@@ -164,7 +185,7 @@
     <li><code>&lt;legend&gt;</code>s, like fieldsets, have also been restyled to be displayed as a heading of sorts.</li>
     <li><code>&lt;label&gt;</code>s are set to <code>display: inline-block</code> to allow <code>margin</code> to be applied.</li>
     <li><code>&lt;input&gt;</code>s, <code>&lt;select&gt;</code>s, <code>&lt;textarea&gt;</code>s, and <code>&lt;button&gt;</code>s are mostly addressed by Normalize, but Reboot removes their <code>margin</code> and sets <code>line-height: inherit</code>, too.</li>
-    <li><code>&lt;textarea&gt;</code>s are modified to only be resizable vertically as horizontal resizing often “breaks” page layout.</li>
+    <li><code>&lt;textarea&gt;</code>s are modified to only be resizable vertically as horizontal resizing often &ldquo;breaks&rdquo; page layout.</li>
     <li><code>&lt;button&gt;</code>s and <code>&lt;input&gt;</code> button elements have <code>cursor: pointer</code> when <code>:not(:disabled)</code>.</li>
 </ul>
 <p>These changes, and more, are demonstrated below.</p>
@@ -173,7 +194,47 @@
         <legend>Example legend</legend>
         <p>
             <label for="input">Example input</label>
-            <input type="text" id="input" placeholder="Example input" />
+            <input type="text"
+                   id="input"
+                   placeholder="Example input">
+        </p>
+        <p>
+            <label for="email">Example email</label>
+            <input type="email"
+                   id="email"
+                   placeholder="test@example.com">
+        </p>
+        <p>
+            <label for="tel">Example telephone</label>
+            <input type="tel"
+                   id="tel">
+        </p>
+        <p>
+            <label for="url">Example url</label>
+            <input type="url"
+                   id="url">
+        </p>
+        <p>
+            <label for="number">Example number</label>
+            <input type="number"
+                   id="number">
+        </p>
+        <p>
+            <label for="search">Example search</label>
+            <input type="search"
+                   id="search">
+        </p>
+        <p>
+            <label for="range">Example range</label>
+            <input type="range"
+                   id="range"
+                   min="0"
+                   max="10">
+        </p>
+        <p>
+            <label for="file">Example file input</label>
+            <input type="file"
+                   id="file">
         </p>
         <p>
             <label for="select">Example select</label>
@@ -193,66 +254,127 @@
         </p>
         <p>
             <label>
-                <input type="checkbox" value="" />
+                <input type="checkbox"
+                       value="">
                 Check this checkbox
             </label>
         </p>
         <p>
             <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="" />
+                <input type="radio"
+                       name="optionsRadios"
+                       id="optionsRadios1"
+                       value="option1"
+                       checked>
                 Option one is this and that
             </label>
             <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" />
+                <input type="radio"
+                       name="optionsRadios"
+                       id="optionsRadios2"
+                       value="option2">
                 Option two is something else that's also super long to demonstrate the wrapping of these fancy form controls.
             </label>
             <label>
-                <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled="" />
+                <input type="radio"
+                       name="optionsRadios"
+                       id="optionsRadios3"
+                       value="option3"
+                       disabled>
                 Option three is disabled
             </label>
         </p>
         <p>
             <label for="textarea">Example textarea</label>
-            <textarea id="textarea" rows="3"></textarea>
+            <textarea id="textarea"
+                      rows="3"></textarea>
         </p>
         <p>
             <label for="date">Example date</label>
-            <input type="date" id="date" />
+            <input type="date"
+                   id="date">
         </p>
         <p>
             <label for="time">Example time</label>
-            <input type="time" id="time" />
+            <input type="time"
+                   id="time">
+        </p>
+        <p>
+            <label for="password">Example password</label>
+            <input type="password"
+                   id="password">
+        </p>
+        <p>
+            <label for="datetime-local">Example datetime-local</label>
+            <input type="datetime-local"
+                   id="datetime-local">
+        </p>
+        <p>
+            <label for="week">Example week</label>
+            <input type="week"
+                   id="week">
+        </p>
+        <p>
+            <label for="month">Example month</label>
+            <input type="month"
+                   id="month">
+        </p>
+        <p>
+            <label for="color">Example color</label>
+            <input type="color"
+                   id="color">
         </p>
         <p>
             <label for="output">Example output</label>
-            <output name="result" id="output">100</output>
+            <output name="result"
+                    id="output">100</output>
         </p>
         <p>
             <button type="submit">Button submit</button>
-            <input type="submit" value="Input submit button" />
-            <input type="reset" value="Input reset button" />
-            <input type="button" value="Input button" />
+            <input type="submit"
+                   value="Input submit button">
+            <input type="reset"
+                   value="Input reset button">
+            <input type="button"
+                   value="Input button">
         </p>
         <p>
-            <button type="submit" disabled="">Button submit</button>
-            <input type="submit" value="Input submit button" disabled="" />
-            <input type="reset" value="Input reset button" disabled="" />
-            <input type="button" value="Input button" disabled="" />
+            <button type="submit"
+                    disabled>Button submit</button>
+            <input type="submit"
+                   value="Input submit button"
+                   disabled>
+            <input type="reset"
+                   value="Input reset button"
+                   disabled>
+            <input type="button"
+                   value="Input button"
+                   disabled>
         </p>
     </fieldset>
 </form>
+<div class="bstg-callout bstg-callout-warning">
+    <h5>Date &amp; color input support</h5>
+    <p>Keep in mind date inputs are <a href="https://caniuse.com/input-datetime">not fully supported</a> by all browsers, namely Safari.
+</div>
+<h3>Pointers on buttons</h3>
+<p>Reboot includes an enhancement for <code>role=&quot;button&quot;</code> to change the default cursor to <code>pointer</code>. Add this attribute to elements to help indicate elements are interactive. This role isn&rsquo;t necessary for <code>&lt;button&gt;</code> elements, which get their own <code>cursor</code> change.</p>
+<div class="bstg-example">
+    <span role="button"
+          tabindex="0">Non-button element button</span>
+</div>
 <h2>Misc elements</h2>
 <h3>Address</h3>
 <p>The <code>&lt;address&gt;</code> element is updated to reset the browser default <code>font-style</code> from <code>italic</code> to <code>normal</code>. <code>line-height</code> is also now inherited, and <code>margin-bottom: 1rem</code> has been added. <code>&lt;address&gt;</code>s are for presenting contact information for the nearest ancestor (or an entire body of work). Preserve formatting by ending lines with <code>&lt;br&gt;</code>.</p>
 <div class="bstg-example">
     <address>
-        <strong>Twitter, Inc.</strong><br />
-        1355 Market St, Suite 900<br />
-        San Francisco, CA 94103<br />
+        <strong>Twitter, Inc.</strong><br>
+        1355 Market St, Suite 900<br>
+        San Francisco, CA 94103<br>
         <abbr title="Phone">P:</abbr> (123) 456-7890
     </address>
     <address>
-        <strong>Full Name</strong><br />
+        <strong>Full Name</strong><br>
         <a href="mailto:first.last@example.com">first.last@example.com</a>
     </address>
 </div>
@@ -260,14 +382,14 @@
 <p>The default <code>margin</code> on blockquotes is <code>1em 40px</code>, so we reset that to <code>0 0 1rem</code> for something more consistent with other elements.</p>
 <div class="bstg-example">
     <blockquote class="blockquote">
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-        <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+        <p>A well-known quote, contained in a blockquote element.</p>
     </blockquote>
+    <p>Someone famous in <cite title="Source Title">Source Title</cite></p>
 </div>
 <h3>Inline elements</h3>
 <p>The <code>&lt;abbr&gt;</code> element receives basic styling to make it stand out amongst paragraph text.</p>
 <div class="bstg-example">
-    Nulla <abbr title="attribute">attr</abbr> vitae elit libero, a pharetra augue.
+    The <abbr title="HyperText Markup Language">HTML</abbr> abbreviation element.
 </div>
 <h3>Summary</h3>
 <p>The default <code>cursor</code> on summary is <code>text</code>, so we reset that to <code>pointer</code> to convey that the element can be interacted with by clicking on it.</p>
@@ -276,15 +398,15 @@
         <summary>Some details</summary>
         <p>More info about the details.</p>
     </details>
-    <details open="">
+    <details open>
         <summary>Even more details</summary>
         <p>Here are even more details about the details.</p>
     </details>
 </div>
 <h2>HTML5 <code>[hidden]</code> attribute</h2>
-<p>HTML5 adds <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden">a new global attribute named <code>[hidden]</code></a>, which is styled as <code>display: none</code> by default. Borrowing an idea from <a href="https://purecss.io/">PureCSS</a>, we improve upon this default by making <code>[hidden] { display: none !important; }</code> to help prevent its <code>display</code> from getting accidentally overridden. While <code>[hidden]</code> isn’t natively supported by IE10, the explicit declaration in our CSS gets around that problem.</p>
+<p>HTML5 adds <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/hidden">a new global attribute named <code>[hidden]</code></a>, which is styled as <code>display: none</code> by default. Borrowing an idea from <a href="https://purecss.io/">PureCSS</a>, we improve upon this default by making <code>[hidden] { display: none !important; }</code> to help prevent its <code>display</code> from getting accidentally overridden.</p>
 <div class="bstg-callout bstg-callout-warning">
     <h5>jQuery incompatibility</h5>
-    <p><code>[hidden]</code> is not compatible with jQuery’s <code>$(...).hide()</code> and <code>$(...).show()</code> methods. Therefore, we don’t currently especially endorse <code>[hidden]</code> over other techniques for managing the <code>display</code> of elements.</p>
+    <p><code>[hidden]</code> is not compatible with jQuery&rsquo;s <code>$(...).hide()</code> and <code>$(...).show()</code> methods. Therefore, we don&rsquo;t currently especially endorse <code>[hidden]</code> over other techniques for managing the <code>display</code> of elements.
 </div>
-<p>To merely toggle the visibility of an element, meaning its <code>display</code> is not modified and the element can still affect the flow of the document, use <a href="https://getbootstrap.com">the <code>.invisible</code> class</a> instead.</p>
+<p>To merely toggle the visibility of an element, meaning its <code>display</code> is not modified and the element can still affect the flow of the document, use <a href="https://getbootstrap.com/docs/5.1/utilities/visibility/">the <code>.invisible</code> class</a> instead.</p>

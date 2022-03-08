@@ -1,0 +1,44 @@
+<h1>Range</h1>
+<p>Use our custom range inputs for consistent cross-browser styling and built-in customization.</p>
+<h2>Overview</h2>
+<p>Create custom <code>&lt;input type=&quot;range&quot;&gt;</code> controls with <code>.form-range</code>. The track (the background) and thumb (the value) are both styled to appear the same across browsers. As only Firefox supports &ldquo;filling&rdquo; their track from the left or right of the thumb as a means to visually indicate progress, we do not currently support it.</p>
+<div class="bstg-example">
+    <label for="customRange1"
+           class="form-label">Example range</label>
+    <input type="range"
+           class="form-range"
+           id="customRange1">
+</div>
+<h2>Disabled</h2>
+<p>Add the <code>disabled</code> boolean attribute on an input to give it a grayed out appearance and remove pointer events.</p>
+<div class="bstg-example">
+    <label for="disabledRange"
+           class="form-label">Disabled range</label>
+    <input type="range"
+           class="form-range"
+           id="disabledRange"
+           disabled>
+</div>
+<h2>Min and max</h2>
+<p>Range inputs have implicit values for <code>min</code> and <code>max</code>—<code>0</code> and <code>100</code>, respectively. You may specify new values for those using the <code>min</code> and <code>max</code> attributes.</p>
+<div class="bstg-example">
+    <label for="customRange2"
+           class="form-label">Example range</label>
+    <input type="range"
+           class="form-range"
+           min="0"
+           max="5"
+           id="customRange2">
+</div>
+<h2>Steps</h2>
+<p>By default, range inputs &ldquo;snap&rdquo; to integer values. To change this, you can specify a <code>step</code> value. In the example below, we double the number of steps by using <code>step=&quot;0.5&quot;</code>.</p>
+<div class="bstg-example">
+    <label for="customRange3"
+           class="form-label">Example range</label>
+    <input type="range"
+           class="form-range"
+           min="0"
+           max="5"
+           step="0.5"
+           id="customRange3">
+</div>

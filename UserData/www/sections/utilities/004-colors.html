@@ -1,13 +1,14 @@
 <h1>Colors</h1>
-<p>Convey meaning through color with a handful of color utility classes. Includes support for styling links with hover states, too.</p>
-<h2>Color</h2>
+<p>Convey meaning through <code>color</code> with a handful of color utility classes. Includes support for styling links with hover states, too.</p>
+<h2>Colors</h2>
+<p>Colorize text with color utilities. If you want to colorize links, you can use the <a href="https://getbootstrap.com/docs/5.1/helpers/colored-links/"><code>.link-*</code> helper classes</a> which have <code>:hover</code> and <code>:focus</code> states.</p>
 <div class="bstg-example">
     <p class="text-primary">.text-primary</p>
     <p class="text-secondary">.text-secondary</p>
     <p class="text-success">.text-success</p>
     <p class="text-danger">.text-danger</p>
-    <p class="text-warning">.text-warning</p>
-    <p class="text-info">.text-info</p>
+    <p class="text-warning bg-dark">.text-warning</p>
+    <p class="text-info bg-dark">.text-info</p>
     <p class="text-light bg-dark">.text-light</p>
     <p class="text-dark">.text-dark</p>
     <p class="text-body">.text-body</p>
@@ -16,50 +17,44 @@
     <p class="text-black-50">.text-black-50</p>
     <p class="text-white-50 bg-dark">.text-white-50</p>
 </div>
-<p>Contextual text classes also work well on anchors with the provided hover and focus states. <strong>Note that the <code>.text-white</code> and <code>.text-muted</code> class has no additional link styling beyond underline.</strong></p>
-<div class="bstg-example">
-    <p><a href="#" class="text-primary">Primary link</a></p>
-    <p><a href="#" class="text-secondary">Secondary link</a></p>
-    <p><a href="#" class="text-success">Success link</a></p>
-    <p><a href="#" class="text-danger">Danger link</a></p>
-    <p><a href="#" class="text-warning">Warning link</a></p>
-    <p><a href="#" class="text-info">Info link</a></p>
-    <p><a href="#" class="text-light bg-dark">Light link</a></p>
-    <p><a href="#" class="text-dark">Dark link</a></p>
-    <p><a href="#" class="text-muted">Muted link</a></p>
-    <p><a href="#" class="text-white bg-dark">White link</a></p>
-</div>
-<h2>Background color</h2>
-<p>Similar to the contextual text color classes, easily set the background of an element to any contextual class. Anchor components will darken on hover, just like the text classes. Background utilities <strong>do not set <code>color</code></strong>, so in some cases you’ll want to use <code>.text-*</code> utilities.</p>
-<div class="bstg-example">
-    <div class="p-3 mb-2 bg-primary text-white">.bg-primary</div>
-    <div class="p-3 mb-2 bg-secondary text-white">.bg-secondary</div>
-    <div class="p-3 mb-2 bg-success text-white">.bg-success</div>
-    <div class="p-3 mb-2 bg-danger text-white">.bg-danger</div>
-    <div class="p-3 mb-2 bg-warning text-dark">.bg-warning</div>
-    <div class="p-3 mb-2 bg-info text-white">.bg-info</div>
-    <div class="p-3 mb-2 bg-light text-dark">.bg-light</div>
-    <div class="p-3 mb-2 bg-dark text-white">.bg-dark</div>
-    <div class="p-3 mb-2 bg-white text-dark">.bg-white</div>
-    <div class="p-3 mb-2 bg-transparent text-dark">.bg-transparent</div>
-</div>
-<h2>Background gradient</h2>
-<p>When <code>$enable-gradients</code> is set to <code>true</code> (default is <code>false</code>), you can use <code>.bg-gradient-</code> utility classes. <a href="https://getbootstrap.com">Learn about our Sass options</a> to enable these classes and more.</p>
-<ul>
-    <li><code>.bg-gradient-primary</code></li>
-    <li><code>.bg-gradient-secondary</code></li>
-    <li><code>.bg-gradient-success</code></li>
-    <li><code>.bg-gradient-danger</code></li>
-    <li><code>.bg-gradient-warning</code></li>
-    <li><code>.bg-gradient-info</code></li>
-    <li><code>.bg-gradient-light</code></li>
-    <li><code>.bg-gradient-dark</code></li>
-</ul>
-<div class="bstg-callout bstg-callout-info">
-    <h4>Dealing with specificity</h4>
-    <p>Sometimes contextual classes cannot be applied due to the specificity of another selector. In some cases, a sufficient workaround is to wrap your element’s content in a <code>&lt;div&gt;</code> with the class.</p>
-</div>
 <div class="bstg-callout bstg-callout-warning">
-    <h5>Conveying meaning to assistive technologies</h5>
-    <p>Using color to add meaning only provides a visual indication, which will not be conveyed to users of assistive technologies – such as screen readers. Ensure that information denoted by the color is either obvious from the content itself (e.g. the visible text), or is included through alternative means, such as additional text hidden with the <code>.sr-only</code> class.</p>
+    <strong>Deprecation:</strong> With the addition of <code>.text-opacity-*</code> utilities and CSS variables for text utilities, <code>.text-black-50</code> and <code>.text-white-50</code> are deprecated as of v5.1.0. They&rsquo;ll be removed in v6.0.0.
 </div>
+<div class="bstg-callout bstg-callout-info">
+    <h5>Conveying meaning to assistive technologies</h5>
+    <p>Using color to add meaning only provides a visual indication, which will not be conveyed to users of assistive technologies – such as screen readers. Ensure that information denoted by the color is either obvious from the content itself (e.g. the visible text), or is included through alternative means, such as additional text hidden with the <code>.visually-hidden</code> class.
+</div>
+<h2>Opacity</h2>
+<p><small class="d-inline-flex px-2 py-1 font-monospace text-muted border rounded-3">Added in v5.1.0</small></p>
+<p>As of v5.1.0, text color utilities are generated with Sass using CSS variables. This allows for real-time color changes without compilation and dynamic alpha transparency changes.</p>
+<h3>How it works</h3>
+<p>Consider our default <code>.text-primary</code> utility.</p>
+<p>We use an RGB version of our <code>--bs-primary</code> (with the value of <code>13, 110, 253</code>) CSS variable and attached a second CSS variable, <code>--bs-text-opacity</code>, for the alpha transparency (with a default value <code>1</code> thanks to a local CSS variable). That means anytime you use <code>.text-primary</code> now, your computed <code>color</code> value is <code>rgba(13, 110, 253, 1)</code>. The local CSS variable inside each <code>.text-*</code> class avoids inheritance issues so nested instances of the utilities don&rsquo;t automatically have a modified alpha transparency.</p>
+<h3>Example</h3>
+<p>To change that opacity, override <code>--bs-text-opacity</code> via custom styles or inline styles.</p>
+<div class="bstg-example">
+    <div class="text-primary">This is default primary text</div>
+    <div class="text-primary"
+         style="--bs-text-opacity: .5;">This is 50% opacity primary text</div>
+</div>
+<p>Or, choose from any of the <code>.text-opacity</code> utilities:</p>
+<div class="bstg-example">
+    <div class="text-primary">This is default primary text</div>
+    <div class="text-primary text-opacity-75">This is 75% opacity primary text</div>
+    <div class="text-primary text-opacity-50">This is 50% opacity primary text</div>
+    <div class="text-primary text-opacity-25">This is 25% opacity primary text</div>
+</div>
+<h2>Specificity</h2>
+<p>Sometimes contextual classes cannot be applied due to the specificity of another selector. In some cases, a sufficient workaround is to wrap your element&rsquo;s content in a <code>&lt;div&gt;</code> or more semantic element with the desired class.</p>
+<h2>Sass</h2>
+<p>In addition to the following Sass functionality, consider reading about our included <a href="https://getbootstrap.com/docs/5.1/customize/css-variables/">CSS custom properties</a> (aka CSS variables) for colors and more.</p>
+<h3>Variables</h3>
+<p>Most <code>color</code> utilities are generated by our theme colors, reassigned from our generic color palette variables.</p>
+<p>Grayscale colors are also available, but only a subset are used to generate any utilities.</p>
+<h3>Map</h3>
+<p>Theme colors are then put into a Sass map so we can loop over them to generate our utilities, component modifiers, and more.</p>
+<p>Grayscale colors are also available as a Sass map. <strong>This map is not used to generate any utilities.</strong></p>
+<p>RGB colors are generated from a separate Sass map:</p>
+<p>And color opacities build on that with their own map that&rsquo;s consumed by the utilities API:</p>
+<h3>Utilities API</h3>
+<p>Color utilities are declared in our utilities API in <code>scss/_utilities.scss</code>. <a href="https://getbootstrap.com/docs/5.1/utilities/api/#using-the-api">Learn how to use the utilities API.</a></p>

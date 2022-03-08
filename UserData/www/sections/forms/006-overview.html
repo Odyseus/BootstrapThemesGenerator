@@ -1,0 +1,186 @@
+<h1>Forms</h1>
+<p>Examples and usage guidelines for form control styles, layout options, and custom components for creating a wide variety of forms.</p>
+<div class="row g-3">
+    <div class="col-md-6">
+        <a class="d-block text-decoration-none"
+           href="../form-control/">
+            <strong class="d-block h5 mb-0">Form control</strong>
+            <span class="text-secondary">Style textual inputs and textareas with support for multiple states.</span>
+        </a>
+    </div>
+    <div class="col-md-6">
+        <a class="d-block text-decoration-none"
+           href="../select/">
+            <strong class="d-block h5 mb-0">Select</strong>
+            <span class="text-secondary">Improve browser default select elements with a custom initial appearance.</span>
+        </a>
+    </div>
+    <div class="col-md-6">
+        <a class="d-block text-decoration-none"
+           href="../checks-radios/">
+            <strong class="d-block h5 mb-0">Checks &amp; radios</strong>
+            <span class="text-secondary">Use our custom radio buttons and checkboxes in forms for selecting input options.</span>
+        </a>
+    </div>
+    <div class="col-md-6">
+        <a class="d-block text-decoration-none"
+           href="../range/">
+            <strong class="d-block h5 mb-0">Range</strong>
+            <span class="text-secondary">Replace browser default range inputs with our custom version.</span>
+        </a>
+    </div>
+    <div class="col-md-6">
+        <a class="d-block text-decoration-none"
+           href="../input-group/">
+            <strong class="d-block h5 mb-0">Input group</strong>
+            <span class="text-secondary">Attach labels and buttons to your inputs for increased semantic value.</span>
+        </a>
+    </div>
+    <div class="col-md-6">
+        <a class="d-block text-decoration-none"
+           href="../floating-labels/">
+            <strong class="d-block h5 mb-0">Floating labels</strong>
+            <span class="text-secondary">Create beautifully simple form labels that float over your input fields.</span>
+        </a>
+    </div>
+    <div class="col-md-6">
+        <a class="d-block text-decoration-none"
+           href="../layout/">
+            <strong class="d-block h5 mb-0">Layout</strong>
+            <span class="text-secondary">Create inline, horizontal, or complex grid-based layouts with your forms.</span>
+        </a>
+    </div>
+    <div class="col-md-6">
+        <a class="d-block text-decoration-none"
+           href="../validation/">
+            <strong class="d-block h5 mb-0">Validation</strong>
+            <span class="text-secondary">Validate your forms with custom or native validation behaviors and styles.</span>
+        </a>
+    </div>
+</div>
+<h2>Overview</h2>
+<p>Bootstrap&rsquo;s form controls expand on <a href="https://getbootstrap.com/docs/5.1/content/reboot/#forms">our Rebooted form styles</a> with classes. Use these classes to opt into their customized displays for a more consistent rendering across browsers and devices.</p>
+<p>Be sure to use an appropriate <code>type</code> attribute on all inputs (e.g., <code>email</code> for email address or <code>number</code> for numerical information) to take advantage of newer input controls like email verification, number selection, and more.</p>
+<p>Here&rsquo;s a quick example to demonstrate Bootstrap&rsquo;s form styles. Keep reading for documentation on required classes, form layout, and more.</p>
+<div class="bstg-example">
+    <form>
+        <div class="mb-3">
+            <label for="exampleInputEmail1"
+                   class="form-label">Email address</label>
+            <input type="email"
+                   class="form-control"
+                   id="exampleInputEmail1"
+                   aria-describedby="emailHelp">
+            <div id="emailHelp"
+                 class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1"
+                   class="form-label">Password</label>
+            <input type="password"
+                   class="form-control"
+                   id="exampleInputPassword1">
+        </div>
+        <div class="mb-3 form-check">
+            <input type="checkbox"
+                   class="form-check-input"
+                   id="exampleCheck1">
+            <label class="form-check-label"
+                   for="exampleCheck1">Check me out</label>
+        </div>
+        <button type="submit"
+                class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<h2>Form text</h2>
+<p>Block-level or inline-level form text can be created using <code>.form-text</code>.</p>
+<div class="bstg-callout bstg-callout-warning">
+    <h5>Associating form text with form controls</h5>
+    <p>Form text should be explicitly associated with the form control it relates to using the <code>aria-describedby</code> attribute. This will ensure that assistive technologies—such as screen readers—will announce this form text when the user focuses or enters the control.
+</div>
+<p>Form text below inputs can be styled with <code>.form-text</code>. If a block-level element will be used, a top margin is added for easy spacing from the inputs above.</p>
+<div class="bstg-example">
+    <label for="inputPassword5"
+           class="form-label">Password</label>
+    <input type="password"
+           id="inputPassword5"
+           class="form-control"
+           aria-describedby="passwordHelpBlock">
+    <div id="passwordHelpBlock"
+         class="form-text">
+        Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+    </div>
+</div>
+<p>Inline text can use any typical inline HTML element (be it a <code>&lt;span&gt;</code>, <code>&lt;small&gt;</code>, or something else) with nothing more than the <code>.form-text</code> class.</p>
+<div class="bstg-example">
+    <div class="row g-3 align-items-center">
+        <div class="col-auto">
+            <label for="inputPassword6"
+                   class="col-form-label">Password</label>
+        </div>
+        <div class="col-auto">
+            <input type="password"
+                   id="inputPassword6"
+                   class="form-control"
+                   aria-describedby="passwordHelpInline">
+        </div>
+        <div class="col-auto">
+            <span id="passwordHelpInline"
+                  class="form-text">
+                Must be 8-20 characters long.
+            </span>
+        </div>
+    </div>
+</div>
+<h2>Disabled forms</h2>
+<p>Add the <code>disabled</code> boolean attribute on an input to prevent user interactions and make it appear lighter.</p>
+<p>Add the <code>disabled</code> attribute to a <code>&lt;fieldset&gt;</code> to disable all the controls within. Browsers treat all native form controls (<code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>, and <code>&lt;button&gt;</code> elements) inside a <code>&lt;fieldset disabled&gt;</code> as disabled, preventing both keyboard and mouse interactions on them.</p>
+<p>However, if your form also includes custom button-like elements such as <code>&lt;a class=&quot;btn btn-*&quot;&gt;...&lt;/a&gt;</code>, these will only be given a style of <code>pointer-events: none</code>, meaning they are still focusable and operable using the keyboard. In this case, you must manually modify these controls by adding <code>tabindex=&quot;-1&quot;</code> to prevent them from receiving focus and <code>aria-disabled=&quot;disabled&quot;</code> to signal their state to assistive technologies.</p>
+<div class="bstg-example">
+    <form>
+        <fieldset disabled>
+            <legend>Disabled fieldset example</legend>
+            <div class="mb-3">
+                <label for="disabledTextInput"
+                       class="form-label">Disabled input</label>
+                <input type="text"
+                       id="disabledTextInput"
+                       class="form-control"
+                       placeholder="Disabled input">
+            </div>
+            <div class="mb-3">
+                <label for="disabledSelect"
+                       class="form-label">Disabled select menu</label>
+                <select id="disabledSelect"
+                        class="form-select">
+                    <option>Disabled select</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           id="disabledFieldsetCheck"
+                           disabled>
+                    <label class="form-check-label"
+                           for="disabledFieldsetCheck">
+                        Can't check this
+                    </label>
+                </div>
+            </div>
+            <button type="submit"
+                    class="btn btn-primary">Submit</button>
+        </fieldset>
+    </form>
+</div>
+<h2>Accessibility</h2>
+<p>Ensure that all form controls have an appropriate accessible name so that their purpose can be conveyed to users of assistive technologies. The simplest way to achieve this is to use a <code>&lt;label&gt;</code> element, or—in the case of buttons—to include sufficiently descriptive text as part of the <code>&lt;button&gt;...&lt;/button&gt;</code> content.</p>
+<p>For situations where it&rsquo;s not possible to include a visible <code>&lt;label&gt;</code> or appropriate text content, there are alternative ways of still providing an accessible name, such as:</p>
+<ul>
+    <li><code>&lt;label&gt;</code> elements hidden using the <code>.visually-hidden</code> class</li>
+    <li>Pointing to an existing element that can act as a label using <code>aria-labelledby</code></li>
+    <li>Providing a <code>title</code> attribute</li>
+    <li>Explicitly setting the accessible name on an element using <code>aria-label</code></li>
+</ul>
+<p>If none of these are present, assistive technologies may resort to using the <code>placeholder</code> attribute as a fallback for the accessible name on <code>&lt;input&gt;</code> and <code>&lt;textarea&gt;</code> elements. The examples in this section provide a few suggested, case-specific approaches.</p>
+<p>While using visually hidden content (<code>.visually-hidden</code>, <code>aria-label</code>, and even <code>placeholder</code> content, which disappears once a form field has content) will benefit assistive technology users, a lack of visible label text may still be problematic for certain users. Some form of visible label is generally the best approach, both for accessibility and usability.</p>

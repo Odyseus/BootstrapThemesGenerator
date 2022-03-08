@@ -1,18 +1,18 @@
 <h1>Typography</h1>
 <p>Documentation and examples for Bootstrap typography, including global settings, headings, body text, lists, and more.</p>
 <h2>Global settings</h2>
-<p>Bootstrap sets basic global display, typography, and link styles. When more control is needed, check out the <a href="https://getbootstrap.com">textual utility classes</a>.</p>
+<p>Bootstrap sets basic global display, typography, and link styles. When more control is needed, check out the <a href="https://getbootstrap.com/docs/5.1/utilities/text/">textual utility classes</a>.</p>
 <ul>
-    <li>Use a <a href="https://getbootstrap.com">native font stack</a> that selects the best <code>font-family</code> for each OS and device.</li>
-    <li>For a more inclusive and accessible type scale, we assume the browser default root <code>font-size</code> (typically 16px) so visitors can customize their browser defaults as needed.</li>
+    <li>Use a <a href="https://getbootstrap.com/docs/5.1/content/reboot/#native-font-stack">native font stack</a> that selects the best <code>font-family</code> for each OS and device.</li>
+    <li>For a more inclusive and accessible type scale, we use the browser&rsquo;s default root <code>font-size</code> (typically 16px) so visitors can customize their browser defaults as needed.</li>
     <li>Use the <code>$font-family-base</code>, <code>$font-size-base</code>, and <code>$line-height-base</code> attributes as our typographic base applied to the <code>&lt;body&gt;</code>.</li>
-    <li>Set the global link color via <code>$link-color</code> and apply link underlines only on <code>:hover</code>.</li>
+    <li>Set the global link color via <code>$link-color</code>.</li>
     <li>Use <code>$body-bg</code> to set a <code>background-color</code> on the <code>&lt;body&gt;</code> (<code>#fff</code> by default).</li>
 </ul>
 <p>These styles can be found within <code>_reboot.scss</code>, and the global variables are defined in <code>_variables.scss</code>. Make sure to set <code>$font-size-base</code> in <code>rem</code>.</p>
 <h2>Headings</h2>
 <p>All HTML headings, <code>&lt;h1&gt;</code> through <code>&lt;h6&gt;</code>, are available.</p>
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Heading</th>
@@ -22,37 +22,37 @@
     <tbody>
         <tr>
             <td>
-                <p><code>&lt;h1&gt;&lt;/h1&gt;</code></p>
+                <code>&lt;h1&gt;&lt;/h1&gt;</code>
             </td>
             <td><span class="h1">h1. Bootstrap heading</span></td>
         </tr>
         <tr>
             <td>
-                <p><code>&lt;h2&gt;&lt;/h2&gt;</code></p>
+                <code>&lt;h2&gt;&lt;/h2&gt;</code>
             </td>
             <td><span class="h2">h2. Bootstrap heading</span></td>
         </tr>
         <tr>
             <td>
-                <p><code>&lt;h3&gt;&lt;/h3&gt;</code></p>
+                <code>&lt;h3&gt;&lt;/h3&gt;</code>
             </td>
             <td><span class="h3">h3. Bootstrap heading</span></td>
         </tr>
         <tr>
             <td>
-                <p><code>&lt;h4&gt;&lt;/h4&gt;</code></p>
+                <code>&lt;h4&gt;&lt;/h4&gt;</code>
             </td>
             <td><span class="h4">h4. Bootstrap heading</span></td>
         </tr>
         <tr>
             <td>
-                <p><code>&lt;h5&gt;&lt;/h5&gt;</code></p>
+                <code>&lt;h5&gt;&lt;/h5&gt;</code>
             </td>
             <td><span class="h5">h5. Bootstrap heading</span></td>
         </tr>
         <tr>
             <td>
-                <p><code>&lt;h6&gt;&lt;/h6&gt;</code></p>
+                <code>&lt;h6&gt;&lt;/h6&gt;</code>
             </td>
             <td><span class="h6">h6. Bootstrap heading</span></td>
         </tr>
@@ -76,30 +76,21 @@
     </h3>
 </div>
 <h2>Display headings</h2>
-<p>Traditional heading elements are designed to work best in the meat of your page content. When you need a heading to stand out, consider using a <strong>display heading</strong>—a larger, slightly more opinionated heading style. Keep in mind these headings are not responsive by default, but it’s possible to enable <a href="#responsive-font-sizes">responsive font sizes</a>.</p>
-<div class="bstg-example bstg-example-type">
-    <table class="table">
-        <tbody>
-            <tr>
-                <td><span class="display-1">Display 1</span></td>
-            </tr>
-            <tr>
-                <td><span class="display-2">Display 2</span></td>
-            </tr>
-            <tr>
-                <td><span class="display-3">Display 3</span></td>
-            </tr>
-            <tr>
-                <td><span class="display-4">Display 4</span></td>
-            </tr>
-        </tbody>
-    </table>
+<p>Traditional heading elements are designed to work best in the meat of your page content. When you need a heading to stand out, consider using a <strong>display heading</strong>—a larger, slightly more opinionated heading style.</p>
+<div class="bstg-example">
+    <div class="display-1 pb-3 mb-3 border-bottom">Display 1</div>
+    <div class="display-2 pb-3 mb-3 border-bottom">Display 2</div>
+    <div class="display-3 pb-3 mb-3 border-bottom">Display 3</div>
+    <div class="display-4 pb-3 mb-3 border-bottom">Display 4</div>
+    <div class="display-5 pb-3 mb-3 border-bottom">Display 5</div>
+    <div class="display-6">Display 6</div>
 </div>
+<p>Display headings are configured via the <code>$display-font-sizes</code> Sass map and two variables, <code>$display-font-weight</code> and <code>$display-line-height</code>.</p>
 <h2>Lead</h2>
 <p>Make a paragraph stand out by adding <code>.lead</code>.</p>
 <div class="bstg-example">
     <p class="lead">
-        Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Duis mollis, est non commodo luctus.
+        This is a lead paragraph. It stands out from regular paragraphs.
     </p>
 </div>
 <h2>Inline text elements</h2>
@@ -109,106 +100,128 @@
     <p><del>This line of text is meant to be treated as deleted text.</del></p>
     <p><s>This line of text is meant to be treated as no longer accurate.</s></p>
     <p><ins>This line of text is meant to be treated as an addition to the document.</ins></p>
-    <p><u>This line of text will render as underlined</u></p>
+    <p><u>This line of text will render as underlined.</u></p>
     <p><small>This line of text is meant to be treated as fine print.</small></p>
     <p><strong>This line rendered as bold text.</strong></p>
     <p><em>This line rendered as italicized text.</em></p>
 </div>
-<p><code>.mark</code> and <code>.small</code> classes are also available to apply the same styles as <code>&lt;mark&gt;</code> and <code>&lt;small&gt;</code> while avoiding any unwanted semantic implications that the tags would bring.</p>
-<p>While not shown above, feel free to use <code>&lt;b&gt;</code> and <code>&lt;i&gt;</code> in HTML5. <code>&lt;b&gt;</code> is meant to highlight words or phrases without conveying additional importance while <code>&lt;i&gt;</code> is mostly for voice, technical terms, etc.</p>
+<p>Beware that those tags should be used for semantic purpose:</p>
+<ul>
+    <li><code>&lt;mark&gt;</code> represents text which is marked or highlighted for reference or notation purposes.</li>
+    <li><code>&lt;small&gt;</code> represents side-comments and small print, like copyright and legal text.</li>
+    <li><code>&lt;s&gt;</code> represents element that are no longer relevant or no longer accurate.</li>
+    <li><code>&lt;u&gt;</code> represents a span of inline text which should be rendered in a way that indicates that it has a non-textual annotation.</li>
+</ul>
+<p>If you want to style your text, you should use the following classes instead:</p>
+<ul>
+    <li><code>.mark</code> will apply the same styles as <code>&lt;mark&gt;</code>.</li>
+    <li><code>.small</code> will apply the same styles as <code>&lt;small&gt;</code>.</li>
+    <li><code>.text-decoration-underline</code> will apply the same styles as <code>&lt;u&gt;</code>.</li>
+    <li><code>.text-decoration-line-through</code> will apply the same styles as <code>&lt;s&gt;</code>.</li>
+</ul>
+<p>While not shown above, feel free to use <code>&lt;b&gt;</code> and <code>&lt;i&gt;</code> in HTML5. <code>&lt;b&gt;</code> is meant to highlight words or phrases without conveying additional importance, while <code>&lt;i&gt;</code> is mostly for voice, technical terms, etc.</p>
 <h2>Text utilities</h2>
-<p>Change text alignment, transform, style, weight, and color with our <a href="https://getbootstrap.com">text utilities</a> and <a href="https://getbootstrap.com">color utilities</a>.</p>
+<p>Change text alignment, transform, style, weight, line-height, decoration and color with our <a href="https://getbootstrap.com/docs/5.1/utilities/text/">text utilities</a> and <a href="https://getbootstrap.com/docs/5.1/utilities/colors/">color utilities</a>.</p>
 <h2>Abbreviations</h2>
-<p>Stylized implementation of HTML’s <code>&lt;abbr&gt;</code> element for abbreviations and acronyms to show the expanded version on hover. Abbreviations have a default underline and gain a help cursor to provide additional context on hover and to users of assistive technologies.</p>
+<p>Stylized implementation of HTML&rsquo;s <code>&lt;abbr&gt;</code> element for abbreviations and acronyms to show the expanded version on hover. Abbreviations have a default underline and gain a help cursor to provide additional context on hover and to users of assistive technologies.</p>
 <p>Add <code>.initialism</code> to an abbreviation for a slightly smaller font-size.</p>
 <div class="bstg-example">
     <p><abbr title="attribute">attr</abbr></p>
-    <p><abbr title="HyperText Markup Language" class="initialism">HTML</abbr></p>
+    <p><abbr title="HyperText Markup Language"
+              class="initialism">HTML</abbr></p>
 </div>
 <h2>Blockquotes</h2>
-<p>For quoting blocks of content from another source within your document. Wrap <code>&lt;blockquote class="blockquote"&gt;</code> around any <abbr title="HyperText Markup Language">HTML</abbr> as the quote.</p>
+<p>For quoting blocks of content from another source within your document. Wrap <code>&lt;blockquote class=&quot;blockquote&quot;&gt;</code> around any <abbr title="HyperText Markup Language">HTML</abbr> as the quote.</p>
 <div class="bstg-example">
     <blockquote class="blockquote">
-        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+        <p>A well-known quote, contained in a blockquote element.</p>
     </blockquote>
 </div>
 <h3>Naming a source</h3>
-<p>Add a <code>&lt;footer class="blockquote-footer"&gt;</code> for identifying the source. Wrap the name of the source work in <code>&lt;cite&gt;</code>.</p>
+<p>The HTML spec requires that blockquote attribution be placed outside the <code>&lt;blockquote&gt;</code>. When providing attribution, wrap your <code>&lt;blockquote&gt;</code> in a <code>&lt;figure&gt;</code> and use a <code>&lt;figcaption&gt;</code> or a block level element (e.g., <code>&lt;p&gt;</code>) with the <code>.blockquote-footer</code> class. Be sure to wrap the name of the source work in <code>&lt;cite&gt;</code> as well.</p>
 <div class="bstg-example">
-    <blockquote class="blockquote">
-        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-        <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-    </blockquote>
+    <figure>
+        <blockquote class="blockquote">
+            <p>A well-known quote, contained in a blockquote element.</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            Someone famous in <cite title="Source Title">Source Title</cite>
+        </figcaption>
+    </figure>
 </div>
 <h3>Alignment</h3>
 <p>Use text utilities as needed to change the alignment of your blockquote.</p>
 <div class="bstg-example">
-    <blockquote class="blockquote text-center">
-        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-        <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-    </blockquote>
+    <figure class="text-center">
+        <blockquote class="blockquote">
+            <p>A well-known quote, contained in a blockquote element.</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            Someone famous in <cite title="Source Title">Source Title</cite>
+        </figcaption>
+    </figure>
 </div>
 <div class="bstg-example">
-    <blockquote class="blockquote text-right">
-        <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-        <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source Title</cite></footer>
-    </blockquote>
+    <figure class="text-end">
+        <blockquote class="blockquote">
+            <p>A well-known quote, contained in a blockquote element.</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+            Someone famous in <cite title="Source Title">Source Title</cite>
+        </figcaption>
+    </figure>
 </div>
 <h2>Lists</h2>
 <h3>Unstyled</h3>
 <p>Remove the default <code>list-style</code> and left margin on list items (immediate children only). <strong>This only applies to immediate children list items</strong>, meaning you will need to add the class for any nested lists as well.</p>
 <div class="bstg-example">
     <ul class="list-unstyled">
-        <li>Lorem ipsum dolor sit amet</li>
-        <li>Consectetur adipiscing elit</li>
-        <li>Integer molestie lorem at massa</li>
-        <li>Facilisis in pretium nisl aliquet</li>
-        <li>Nulla volutpat aliquam velit
+        <li>This is a list.</li>
+        <li>It appears completely unstyled.</li>
+        <li>Structurally, it's still a list.</li>
+        <li>However, this style only applies to immediate child elements.</li>
+        <li>Nested lists:
             <ul>
-                <li>Phasellus iaculis neque</li>
-                <li>Purus sodales ultricies</li>
-                <li>Vestibulum laoreet porttitor sem</li>
-                <li>Ac tristique libero volutpat at</li>
+                <li>are unaffected by this style</li>
+                <li>will still show a bullet</li>
+                <li>and have appropriate left margin</li>
             </ul>
         </li>
-        <li>Faucibus porta lacus fringilla vel</li>
-        <li>Aenean sit amet erat nunc</li>
-        <li>Eget porttitor lorem</li>
+        <li>This may still come in handy in some situations.</li>
     </ul>
 </div>
 <h3>Inline</h3>
-<p>Remove a list’s bullets and apply some light <code>margin</code> with a combination of two classes, <code>.list-inline</code> and <code>.list-inline-item</code>.</p>
+<p>Remove a list&rsquo;s bullets and apply some light <code>margin</code> with a combination of two classes, <code>.list-inline</code> and <code>.list-inline-item</code>.</p>
 <div class="bstg-example">
     <ul class="list-inline">
-        <li class="list-inline-item">Lorem ipsum</li>
-        <li class="list-inline-item">Phasellus iaculis</li>
-        <li class="list-inline-item">Nulla volutpat</li>
+        <li class="list-inline-item">This is a list item.</li>
+        <li class="list-inline-item">And another one.</li>
+        <li class="list-inline-item">But they're displayed inline.</li>
     </ul>
 </div>
 <h3>Description list alignment</h3>
-<p>Align terms and descriptions horizontally by using our grid system’s predefined classes (or semantic mixins). For longer terms, you can optionally add a <code>.text-truncate</code> class to truncate the text with an ellipsis.</p>
+<p>Align terms and descriptions horizontally by using our grid system&rsquo;s predefined classes (or semantic mixins). For longer terms, you can optionally add a <code>.text-truncate</code> class to truncate the text with an ellipsis.</p>
 <div class="bstg-example">
     <dl class="row">
         <dt class="col-sm-3">Description lists</dt>
         <dd class="col-sm-9">A description list is perfect for defining terms.</dd>
-        <dt class="col-sm-3">Euismod</dt>
+        <dt class="col-sm-3">Term</dt>
         <dd class="col-sm-9">
-            <p>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</p>
-            <p>Donec id elit non mi porta gravida at eget metus.</p>
+            <p>Definition for the term.</p>
+            <p>And some more placeholder definition text.</p>
         </dd>
-        <dt class="col-sm-3">Malesuada porta</dt>
-        <dd class="col-sm-9">Etiam porta sem malesuada magna mollis euismod.</dd>
+        <dt class="col-sm-3">Another term</dt>
+        <dd class="col-sm-9">This definition is short, so no extra paragraphs or anything.</dd>
         <dt class="col-sm-3 text-truncate">Truncated term is truncated</dt>
-        <dd class="col-sm-9">Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</dd>
+        <dd class="col-sm-9">This can be useful when space is tight. Adds an ellipsis at the end.</dd>
         <dt class="col-sm-3">Nesting</dt>
         <dd class="col-sm-9">
             <dl class="row">
                 <dt class="col-sm-4">Nested definition list</dt>
-                <dd class="col-sm-8">Aenean posuere, tortor sed cursus feugiat, nunc augue blandit nunc.</dd>
+                <dd class="col-sm-8">I heard you like definition lists. Let me put a definition list inside your definition list.</dd>
             </dl>
         </dd>
     </dl>
 </div>
 <h2>Responsive font sizes</h2>
-<p>Bootstrap v4.3 ships with the option to enable responsive font sizes, allowing text to scale more naturally across device and viewport sizes. <abbr title="Responsive font sizes">RFS</abbr> can be enabled by changing the <code>$enable-responsive-font-sizes</code> Sass variable to <code>true</code> and recompiling Bootstrap.</p>
-<p>To support <abbr title="Responsive font sizes">RFS</abbr>, we use a Sass mixin to replace our normal <code>font-size</code> properties. Responsive font sizes will be compiled into <code>calc()</code> functions with a mix of <code>rem</code> and viewport units to enable the responsive scaling behavior. More about <abbr title="Responsive font sizes">RFS</abbr> and its configuration can be found on its <a href="https://github.com/twbs/rfs/tree/v8.0.4">GitHub repository</a>.</p>
+<p>In Bootstrap 5, we&rsquo;ve enabled responsive font sizes by default, allowing text to scale more naturally across device and viewport sizes. Have a look at the <a href="https://getbootstrap.com/docs/5.1/getting-started/rfs/">RFS page</a> to find out how this works.</p>

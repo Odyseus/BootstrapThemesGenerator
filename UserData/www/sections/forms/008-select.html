@@ -1,0 +1,65 @@
+<h1>Select</h1>
+<p>Customize the native <code>&lt;select&gt;</code>s with custom CSS that changes the element&rsquo;s initial appearance.</p>
+<h2>Default</h2>
+<p>Custom <code>&lt;select&gt;</code> menus need only a custom class, <code>.form-select</code> to trigger the custom styles. Custom styles are limited to the <code>&lt;select&gt;</code>&rsquo;s initial appearance and cannot modify the <code>&lt;option&gt;</code>s due to browser limitations.</p>
+<div class="bstg-example">
+    <select class="form-select"
+            aria-label="Default select example">
+        <option selected>Open this select menu</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+    </select>
+</div>
+<h2>Sizing</h2>
+<p>You may also choose from small and large custom selects to match our similarly sized text inputs.</p>
+<div class="bstg-example">
+    <select class="form-select form-select-lg mb-3"
+            aria-label=".form-select-lg example">
+        <option selected>Open this select menu</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+    </select>
+    <select class="form-select form-select-sm"
+            aria-label=".form-select-sm example">
+        <option selected>Open this select menu</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+    </select>
+</div>
+<p>The <code>multiple</code> attribute is also supported:</p>
+<div class="bstg-example">
+    <select class="form-select"
+            multiple
+            aria-label="multiple select example">
+        <option selected>Open this select menu</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+    </select>
+</div>
+<p>As is the <code>size</code> attribute:</p>
+<div class="bstg-example">
+    <select class="form-select"
+            size="3"
+            aria-label="size 3 select example">
+        <option selected>Open this select menu</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+    </select>
+</div>
+<h2>Disabled</h2>
+<p>Add the <code>disabled</code> boolean attribute on a select to give it a grayed out appearance and remove pointer events.</p>
+<div class="bstg-example">
+    <select class="form-select"
+            aria-label="Disabled select example"
+            disabled>
+        <option selected>Open this select menu</option>
+        <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+    </select>
+</div>

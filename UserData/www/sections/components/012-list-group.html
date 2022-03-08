@@ -1,0 +1,446 @@
+<h1>List group</h1>
+<p>List groups are a flexible and powerful component for displaying a series of content. Modify and extend them to support just about any content within.</p>
+<h2>Basic example</h2>
+<p>The most basic list group is an unordered list with list items and the proper classes. Build upon it with the options that follow, or with your own CSS as needed.</p>
+<div class="bstg-example">
+    <ul class="list-group">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+        <li class="list-group-item">A fourth item</li>
+        <li class="list-group-item">And a fifth one</li>
+    </ul>
+</div>
+<h2>Active items</h2>
+<p>Add <code>.active</code> to a <code>.list-group-item</code> to indicate the current active selection.</p>
+<div class="bstg-example">
+    <ul class="list-group">
+        <li class="list-group-item active"
+            aria-current="true">An active item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+        <li class="list-group-item">A fourth item</li>
+        <li class="list-group-item">And a fifth one</li>
+    </ul>
+</div>
+<h2>Disabled items</h2>
+<p>Add <code>.disabled</code> to a <code>.list-group-item</code> to make it <em>appear</em> disabled. Note that some elements with <code>.disabled</code> will also require custom JavaScript to fully disable their click events (e.g., links).</p>
+<div class="bstg-example">
+    <ul class="list-group">
+        <li class="list-group-item disabled"
+            aria-disabled="true">A disabled item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+        <li class="list-group-item">A fourth item</li>
+        <li class="list-group-item">And a fifth one</li>
+    </ul>
+</div>
+<h2>Links and buttons</h2>
+<p>Use <code>&lt;a&gt;</code>s or <code>&lt;button&gt;</code>s to create <em>actionable</em> list group items with hover, disabled, and active states by adding <code>.list-group-item-action</code>. We separate these pseudo-classes to ensure list groups made of non-interactive elements (like <code>&lt;li&gt;</code>s or <code>&lt;div&gt;</code>s) don&rsquo;t provide a click or tap affordance.</p>
+<p>Be sure to <strong>not use the standard <code>.btn</code> classes here</strong>.</p>
+<div class="bstg-example">
+    <div class="list-group">
+        <a href="#"
+            class="list-group-item list-group-item-action active"
+            aria-current="true">
+            The current link item
+        </a>
+        <a href="#"
+            class="list-group-item list-group-item-action">A second link item</a>
+        <a href="#"
+            class="list-group-item list-group-item-action">A third link item</a>
+        <a href="#"
+            class="list-group-item list-group-item-action">A fourth link item</a>
+        <a class="list-group-item list-group-item-action disabled">A disabled link item</a>
+    </div>
+</div>
+<p>With <code>&lt;button&gt;</code>s, you can also make use of the <code>disabled</code> attribute instead of the <code>.disabled</code> class. Sadly, <code>&lt;a&gt;</code>s don&rsquo;t support the disabled attribute.</p>
+<div class="bstg-example">
+    <div class="list-group">
+        <button type="button"
+            class="list-group-item list-group-item-action active"
+            aria-current="true">
+            The current button
+        </button>
+        <button type="button"
+            class="list-group-item list-group-item-action">A second item</button>
+        <button type="button"
+            class="list-group-item list-group-item-action">A third button item</button>
+        <button type="button"
+            class="list-group-item list-group-item-action">A fourth button item</button>
+        <button type="button"
+            class="list-group-item list-group-item-action"
+            disabled>A disabled button item</button>
+    </div>
+</div>
+<h2>Flush</h2>
+<p>Add <code>.list-group-flush</code> to remove some borders and rounded corners to render list group items edge-to-edge in a parent container (e.g., cards).</p>
+<div class="bstg-example">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+        <li class="list-group-item">A fourth item</li>
+        <li class="list-group-item">And a fifth one</li>
+    </ul>
+</div>
+<h2>Numbered</h2>
+<p>Add the <code>.list-group-numbered</code> modifier class (and optionally use an <code>&lt;ol&gt;</code> element) to opt into numbered list group items. Numbers are generated via CSS (as opposed to a <code>&lt;ol&gt;</code>s default browser styling) for better placement inside list group items and to allow for better customization.</p>
+<p>Numbers are generated by <code>counter-reset</code> on the <code>&lt;ol&gt;</code>, and then styled and placed with a <code>::before</code> pseudo-element on the <code>&lt;li&gt;</code> with <code>counter-increment</code> and <code>content</code>.</p>
+<div class="bstg-example">
+    <ol class="list-group list-group-numbered">
+        <li class="list-group-item">A list item</li>
+        <li class="list-group-item">A list item</li>
+        <li class="list-group-item">A list item</li>
+    </ol>
+</div>
+<p>These work great with custom content as well.</p>
+<div class="bstg-example">
+    <ol class="list-group list-group-numbered">
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">Subheading</div>
+                Content for list item
+            </div>
+            <span class="badge bg-primary rounded-pill">14</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">Subheading</div>
+                Content for list item
+            </div>
+            <span class="badge bg-primary rounded-pill">14</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">Subheading</div>
+                Content for list item
+            </div>
+            <span class="badge bg-primary rounded-pill">14</span>
+        </li>
+    </ol>
+</div>
+<h2>Horizontal</h2>
+<p>Add <code>.list-group-horizontal</code> to change the layout of list group items from vertical to horizontal across all breakpoints. Alternatively, choose a responsive variant <code>.list-group-horizontal-{sm|md|lg|xl|xxl}</code> to make a list group horizontal starting at that breakpoint&rsquo;s <code>min-width</code>. Currently <strong>horizontal list groups cannot be combined with flush list groups.</strong></p>
+<p><strong>ProTip:</strong> Want equal-width list group items when horizontal? Add <code>.flex-fill</code> to each list group item.</p>
+<div class="bstg-example">
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+    </ul>
+    <ul class="list-group list-group-horizontal-sm">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+    </ul>
+    <ul class="list-group list-group-horizontal-md">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+    </ul>
+    <ul class="list-group list-group-horizontal-lg">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+    </ul>
+    <ul class="list-group list-group-horizontal-xl">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+    </ul>
+    <ul class="list-group list-group-horizontal-xxl">
+        <li class="list-group-item">An item</li>
+        <li class="list-group-item">A second item</li>
+        <li class="list-group-item">A third item</li>
+    </ul>
+</div>
+<h2>Contextual classes</h2>
+<p>Use contextual classes to style list items with a stateful background and color.</p>
+<div class="bstg-example">
+    <ul class="list-group">
+        <li class="list-group-item">A simple default list group item</li>
+        <li class="list-group-item list-group-item-primary">A simple primary list group item</li>
+        <li class="list-group-item list-group-item-secondary">A simple secondary list group item</li>
+        <li class="list-group-item list-group-item-success">A simple success list group item</li>
+        <li class="list-group-item list-group-item-danger">A simple danger list group item</li>
+        <li class="list-group-item list-group-item-warning">A simple warning list group item</li>
+        <li class="list-group-item list-group-item-info">A simple info list group item</li>
+        <li class="list-group-item list-group-item-light">A simple light list group item</li>
+        <li class="list-group-item list-group-item-dark">A simple dark list group item</li>
+    </ul>
+</div>
+<p>Contextual classes also work with <code>.list-group-item-action</code>. Note the addition of the hover styles here not present in the previous example. Also supported is the <code>.active</code> state; apply it to indicate an active selection on a contextual list group item.</p>
+<div class="bstg-example">
+    <div class="list-group">
+        <a href="#"
+            class="list-group-item list-group-item-action">A simple default list group item</a>
+        <a href="#"
+            class="list-group-item list-group-item-action list-group-item-primary">A simple primary list group item</a>
+        <a href="#"
+            class="list-group-item list-group-item-action list-group-item-secondary">A simple secondary list group item</a>
+        <a href="#"
+            class="list-group-item list-group-item-action list-group-item-success">A simple success list group item</a>
+        <a href="#"
+            class="list-group-item list-group-item-action list-group-item-danger">A simple danger list group item</a>
+        <a href="#"
+            class="list-group-item list-group-item-action list-group-item-warning">A simple warning list group item</a>
+        <a href="#"
+            class="list-group-item list-group-item-action list-group-item-info">A simple info list group item</a>
+        <a href="#"
+            class="list-group-item list-group-item-action list-group-item-light">A simple light list group item</a>
+        <a href="#"
+            class="list-group-item list-group-item-action list-group-item-dark">A simple dark list group item</a>
+    </div>
+</div>
+<div class="bstg-callout bstg-callout-info">
+    <h5>Conveying meaning to assistive technologies</h5>
+    <p>Using color to add meaning only provides a visual indication, which will not be conveyed to users of assistive technologies – such as screen readers. Ensure that information denoted by the color is either obvious from the content itself (e.g. the visible text), or is included through alternative means, such as additional text hidden with the <code>.visually-hidden</code> class.
+</div>
+<h2>With badges</h2>
+<p>Add badges to any list group item to show unread counts, activity, and more with the help of some <a href="https://getbootstrap.com/docs/5.1/utilities/flex/">utilities</a>.</p>
+<div class="bstg-example">
+    <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            A list item
+            <span class="badge bg-primary rounded-pill">14</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            A second list item
+            <span class="badge bg-primary rounded-pill">2</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            A third list item
+            <span class="badge bg-primary rounded-pill">1</span>
+        </li>
+    </ul>
+</div>
+<h2>Custom content</h2>
+<p>Add nearly any HTML within, even for linked list groups like the one below, with the help of <a href="https://getbootstrap.com/docs/5.1/utilities/flex/">flexbox utilities</a>.</p>
+<div class="bstg-example">
+    <div class="list-group">
+        <a href="#"
+            class="list-group-item list-group-item-action active"
+            aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">List group item heading</h5>
+                <small>3 days ago</small>
+            </div>
+            <p class="mb-1">Some placeholder content in a paragraph.</p>
+            <small>And some small print.</small>
+        </a>
+        <a href="#"
+            class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">List group item heading</h5>
+                <small class="text-muted">3 days ago</small>
+            </div>
+            <p class="mb-1">Some placeholder content in a paragraph.</p>
+            <small class="text-muted">And some muted small print.</small>
+        </a>
+        <a href="#"
+            class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">List group item heading</h5>
+                <small class="text-muted">3 days ago</small>
+            </div>
+            <p class="mb-1">Some placeholder content in a paragraph.</p>
+            <small class="text-muted">And some muted small print.</small>
+        </a>
+    </div>
+</div>
+<h2>Checkboxes and radios</h2>
+<p>Place Bootstrap&rsquo;s checkboxes and radios within list group items and customize as needed. You can use them without <code>&lt;label&gt;</code>s, but please remember to include an <code>aria-label</code> attribute and value for accessibility.</p>
+<div class="bstg-example">
+    <ul class="list-group">
+        <li class="list-group-item">
+            <input class="form-check-input me-1"
+                type="checkbox"
+                value=""
+                aria-label="...">
+            First checkbox
+        </li>
+        <li class="list-group-item">
+            <input class="form-check-input me-1"
+                type="checkbox"
+                value=""
+                aria-label="...">
+            Second checkbox
+        </li>
+        <li class="list-group-item">
+            <input class="form-check-input me-1"
+                type="checkbox"
+                value=""
+                aria-label="...">
+            Third checkbox
+        </li>
+        <li class="list-group-item">
+            <input class="form-check-input me-1"
+                type="checkbox"
+                value=""
+                aria-label="...">
+            Fourth checkbox
+        </li>
+        <li class="list-group-item">
+            <input class="form-check-input me-1"
+                type="checkbox"
+                value=""
+                aria-label="...">
+            Fifth checkbox
+        </li>
+    </ul>
+</div>
+<p>And if you want <code>&lt;label&gt;</code>s as the <code>.list-group-item</code> for large hit areas, you can do that, too.</p>
+<div class="bstg-example">
+    <div class="list-group">
+        <label class="list-group-item">
+            <input class="form-check-input me-1"
+                type="checkbox"
+                value="">
+            First checkbox
+        </label>
+        <label class="list-group-item">
+            <input class="form-check-input me-1"
+                type="checkbox"
+                value="">
+            Second checkbox
+        </label>
+        <label class="list-group-item">
+            <input class="form-check-input me-1"
+                type="checkbox"
+                value="">
+            Third checkbox
+        </label>
+        <label class="list-group-item">
+            <input class="form-check-input me-1"
+                type="checkbox"
+                value="">
+            Fourth checkbox
+        </label>
+        <label class="list-group-item">
+            <input class="form-check-input me-1"
+                type="checkbox"
+                value="">
+            Fifth checkbox
+        </label>
+    </div>
+</div>
+<h2>JavaScript behavior</h2>
+<p>Use the tab JavaScript plugin—include it individually or through the compiled <code>bootstrap.js</code> file—to extend our list group to create tabbable panes of local content.</p>
+<div class="bstg-example"
+    role="tabpanel">
+    <div class="row">
+        <div class="col-4">
+            <div class="list-group"
+                id="list-tab"
+                role="tablist">
+                <a class="list-group-item list-group-item-action active"
+                    id="list-home-list"
+                    data-bs-toggle="tab"
+                    href="#list-home"
+                    role="tab"
+                    aria-controls="list-home">Home</a>
+                <a class="list-group-item list-group-item-action"
+                    id="list-profile-list"
+                    data-bs-toggle="tab"
+                    href="#list-profile"
+                    role="tab"
+                    aria-controls="list-profile">Profile</a>
+                <a class="list-group-item list-group-item-action"
+                    id="list-messages-list"
+                    data-bs-toggle="tab"
+                    href="#list-messages"
+                    role="tab"
+                    aria-controls="list-messages">Messages</a>
+                <a class="list-group-item list-group-item-action"
+                    id="list-settings-list"
+                    data-bs-toggle="tab"
+                    href="#list-settings"
+                    role="tab"
+                    aria-controls="list-settings">Settings</a>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="tab-content"
+                id="nav-tabContent">
+                <div class="tab-pane fade show active"
+                    id="list-home"
+                    role="tabpanel"
+                    aria-labelledby="list-home-list">
+                    <p>Some placeholder content in a paragraph relating to "Home". And some more content, used here just to pad out and fill this tab panel. In production, you would obviously have more real content here. And not just text. It could be anything, really. Text, images, forms.</p>
+                </div>
+                <div class="tab-pane fade"
+                    id="list-profile"
+                    role="tabpanel"
+                    aria-labelledby="list-profile-list">
+                    <p>Some placeholder content in a paragraph relating to "Profile". And some more content, used here just to pad out and fill this tab panel. In production, you would obviously have more real content here. And not just text. It could be anything, really. Text, images, forms.</p>
+                </div>
+                <div class="tab-pane fade"
+                    id="list-messages"
+                    role="tabpanel"
+                    aria-labelledby="list-messages-list">
+                    <p>Some placeholder content in a paragraph relating to "Messages". And some more content, used here just to pad out and fill this tab panel. In production, you would obviously have more real content here. And not just text. It could be anything, really. Text, images, forms.</p>
+                </div>
+                <div class="tab-pane fade"
+                    id="list-settings"
+                    role="tabpanel"
+                    aria-labelledby="list-settings-list">
+                    <p>Some placeholder content in a paragraph relating to "Settings". And some more content, used here just to pad out and fill this tab panel. In production, you would obviously have more real content here. And not just text. It could be anything, really. Text, images, forms.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h3>Using data attributes</h3>
+<p>You can activate a list group navigation without writing any JavaScript by simply specifying <code>data-bs-toggle=&quot;list&quot;</code> or on an element. Use these data attributes on <code>.list-group-item</code>.</p>
+<h3>Via JavaScript</h3>
+<p>Enable tabbable list item via JavaScript (each list item needs to be activated individually):</p>
+<p>You can activate individual list item in several ways:</p>
+<h3>Fade effect</h3>
+<p>To make tabs panel fade in, add <code>.fade</code> to each <code>.tab-pane</code>. The first tab pane must also have <code>.show</code> to make the initial content visible.</p>
+<h3>Methods</h3>
+<h4>constructor</h4>
+<p>Activates a list item element and content container. Tab should have either a <code>data-bs-target</code> or an <code>href</code> targeting a container node in the DOM.</p>
+<h4>show</h4>
+<p>Selects the given list item and shows its associated pane. Any other list item that was previously selected becomes unselected and its associated pane is hidden. <strong>Returns to the caller before the tab pane has actually been shown</strong> (for example, before the <code>shown.bs.tab</code> event occurs).</p>
+<h4>dispose</h4>
+<p>Destroys an element&rsquo;s tab.</p>
+<h4>getInstance</h4>
+<p><em>Static</em> method which allows you to get the tab instance associated with a DOM element</p>
+<h4>getOrCreateInstance</h4>
+<p><em>Static</em> method which allows you to get the tab instance associated with a DOM element, or create a new one in case it wasn&rsquo;t initialized</p>
+<h3>Events</h3>
+<p>When showing a new tab, the events fire in the following order:</p>
+<ol>
+    <li><code>hide.bs.tab</code> (on the current active tab)</li>
+    <li><code>show.bs.tab</code> (on the to-be-shown tab)</li>
+    <li><code>hidden.bs.tab</code> (on the previous active tab, the same one as for the <code>hide.bs.tab</code> event)</li>
+    <li><code>shown.bs.tab</code> (on the newly-active just-shown tab, the same one as for the <code>show.bs.tab</code> event)</li>
+</ol>
+<p>If no tab was already active, the <code>hide.bs.tab</code> and <code>hidden.bs.tab</code> events will not be fired.</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th style="width: 150px;">Event type</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>show.bs.tab</code></td>
+            <td>This event fires on tab show, but before the new tab has been shown. Use <code>event.target</code> and <code>event.relatedTarget</code> to target the active tab and the previous active tab (if available) respectively.</td>
+        </tr>
+        <tr>
+            <td><code>shown.bs.tab</code></td>
+            <td>This event fires on tab show after a tab has been shown. Use <code>event.target</code> and <code>event.relatedTarget</code> to target the active tab and the previous active tab (if available) respectively.</td>
+        </tr>
+        <tr>
+            <td><code>hide.bs.tab</code></td>
+            <td>This event fires when a new tab is to be shown (and thus the previous active tab is to be hidden). Use <code>event.target</code> and <code>event.relatedTarget</code> to target the current active tab and the new soon-to-be-active tab, respectively.</td>
+        </tr>
+        <tr>
+            <td><code>hidden.bs.tab</code></td>
+            <td>This event fires after a new tab is shown (and thus the previous active tab is hidden). Use <code>event.target</code> and <code>event.relatedTarget</code> to target the previous active tab and the new active tab, respectively.</td>
+        </tr>
+    </tbody>
+</table>
