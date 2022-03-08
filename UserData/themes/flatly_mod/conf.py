@@ -5,8 +5,6 @@ _colors = [
     "cyan",
     "danger",
     "dark",
-    "gray",
-    "gray-dark",
     "green",
     "indigo",
     "info",
@@ -20,69 +18,112 @@ _colors = [
     "success",
     "teal",
     "warning",
-    "white",
     "yellow"
 ]
 
-_bg_classes = [
-    ("bg-gradient-blue", "dark", "secondary"),
-    ("bg-gradient-cyan", "light", "primary"),
-    ("bg-gradient-danger", "dark", "primary"),
-    ("bg-gradient-dark", "dark", "primary"),
-    ("bg-gradient-gray", "dark", "primary"),
-    ("bg-gradient-gray-dark", "dark", "primary"),
-    ("bg-gradient-green", "light", "primary"),
-    ("bg-gradient-indigo", "dark", "secondary"),
-    ("bg-gradient-info", "light", "primary"),
-    ("bg-gradient-light", "light", "primary"),
-    ("bg-gradient-orange", "light", "primary"),
-    ("bg-gradient-pink", "dark", "purple"),
-    ("bg-gradient-primary", "dark", "secondary"),
-    ("bg-gradient-purple", "dark", "primary"),
-    ("bg-gradient-red", "dark", "primary"),
-    ("bg-gradient-secondary", "light", "primary"),
-    ("bg-gradient-success", "light", "primary"),
-    ("bg-gradient-teal", "light", "primary"),
-    ("bg-gradient-warning", "light", "primary"),
-    ("bg-gradient-white", "light", "primary"),
-    ("bg-gradient-yellow", "light", "primary")
+navbar_colors_combinations = [
+    (
+        "blue",         # Navbar background color class. bg-<color>
+        "dark",         # Navbar foreground color class. navbar-<color>
+        "secondary"     # Button color class. btn-<color>
+    ),
+    ("cyan", "light", "primary"),
+    ("danger", "dark", "primary"),
+    ("dark", "dark", "primary"),
+    ("green", "light", "primary"),
+    ("indigo", "dark", "secondary"),
+    ("info", "light", "primary"),
+    ("light", "light", "primary"),
+    ("orange", "light", "primary"),
+    ("pink", "dark", "purple"),
+    ("primary", "dark", "secondary"),
+    ("purple", "dark", "primary"),
+    ("red", "dark", "primary"),
+    ("secondary", "light", "primary"),
+    ("success", "light", "primary"),
+    ("teal", "light", "primary"),
+    ("warning", "light", "primary"),
+    ("yellow", "light", "primary")
 ]
 
-_badge_template = '<span class="text-font-size-large badge badge-{color}">{color_name}</span>'
-_badge_pill_template = '<span class="text-font-size-large badge badge-pill badge-{color}">{color_name}</span>'
-_button_template = '<button type="button" class="btn btn-{color}">{color_name}</button>'
-_button_disabled_template = '<button type="button" class="btn btn-{color}" disabled>{color_name}</button>'
-_button_outline_template = '<button type="button" class="btn btn-outline-{color}">{color_name}</button>'
-_text_color_template = '<p class="text-{color}">{color_name} id dolor id nibh ultricies vehicula ut id elit.</p>'
+badge_colors_combinations = [
+    (
+        "blue",  # Badge background color class. bg-<color>
+        "light"  # Badge text color class. text-<color>
+    ),
+    ("cyan", "light"),
+    ("danger", "light"),
+    ("dark", "light"),
+    ("green", "light"),
+    ("indigo", "light"),
+    ("info", "light"),
+    ("light", "dark"),
+    ("orange", "light"),
+    ("pink", "light"),
+    ("primary", "light"),
+    ("purple", "light"),
+    ("red", "light"),
+    ("secondary", "light"),
+    ("success", "light"),
+    ("teal", "light"),
+    ("warning", "light"),
+    ("yellow", "light"),
+]
+
+
+_badge_template = """
+<span class="text-font-size-large badge bg-{bg_color} text-{text_color} {pill_class}">
+{color_name}
+</span>
+"""
+_button_template = """
+<button type="button" class="btn btn-{outline}{color} {disabled}">
+{color_name}
+</button>"""
+_text_color_template = """
+<p class="text-{color}">{color_name} id dolor id nibh ultricies vehicula ut id elit.</p>
+"""
 
 _navbar_template = """
 <div class="bstg-example">
-    <nav class="navbar navbar-expand-lg navbar-{navbar_color} {bg_color}">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#{navbar_id}" aria-controls="{navbar_id}" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-{fg_color} bg-{bg_color}">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">{brand}</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#{navbar_id}" aria-controls="{navbar_id}" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="{navbar_id}">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="{navbar_id}-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="{navbar_id}-dropdown">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                 </li>
             </ul>
-            <form class="form-inline">
-                <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="search">
-                <button class="btn btn-{btn_color} my-2 my-sm-0" type="submit">Search</button>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-{btn_color}" type="submit">Search</button>
             </form>
         </div>
-    </nav>
+    </div>
+</nav>
 </div>
 """
 
@@ -98,15 +139,19 @@ def get_badges():
         '<div class="bstg-example">'
     ]
 
-    for c in _colors:
-        c_name = " ".join(c.split("-")).capitalize()
+    for bg_color, text_color in badge_colors_combinations:
+        color_name = " ".join(bg_color.split("-")).capitalize()
         badges.append(_badge_template.format(
-            color=c,
-            color_name=c_name
+            bg_color=bg_color,
+            text_color=text_color,
+            color_name=color_name,
+            pill_class=""
         ))
-        pills.append(_badge_pill_template.format(
-            color=c,
-            color_name=c_name
+        pills.append(_badge_template.format(
+            bg_color=bg_color,
+            text_color=text_color,
+            color_name=color_name,
+            pill_class="rounded-pill"
         ))
 
     badges.append("</div>")
@@ -133,18 +178,24 @@ def get_buttons():
     ]
 
     for c in _colors:
-        c_name = " ".join(c.split("-")).capitalize()
+        color_name = " ".join(c.split("-")).capitalize()
         btns.append(_button_template.format(
             color=c,
-            color_name=c_name
+            color_name=color_name,
+            outline="",
+            disabled=""
         ))
-        btns_dis.append(_button_disabled_template.format(
+        btns_dis.append(_button_template.format(
             color=c,
-            color_name=c_name
+            color_name=color_name,
+            outline="",
+            disabled="disabled"
         ))
-        btns_out.append(_button_outline_template.format(
+        btns_out.append(_button_template.format(
             color=c,
-            color_name=c_name
+            color_name=color_name,
+            outline="outline-",
+            disabled=""
         ))
 
     btns.append("</div>")
@@ -177,11 +228,12 @@ def get_text():
 def get_navbars():
     navbars = ["<h2>Navbars all gradient colors</h2>"]
 
-    for bg_color, navbar_color, btn_color in _bg_classes:
+    for bg_color, fg_color, btn_color in navbar_colors_combinations:
         navbars.append(_navbar_template.format(
+            brand=bg_color.capitalize(),
             bg_color=bg_color,
+            fg_color=fg_color,
             navbar_id=bg_color + "-example-navbar",
-            navbar_color=navbar_color,
             btn_color=btn_color
         ))
 
@@ -198,42 +250,39 @@ def get_html():
 
 
 settings = {
-    "theme_name": "Flatly (new colors)",
+    "theme_name": "Flatly mod (new colors)",
     "theme_description": """
-#### Differences with the original theme
+This is basically Bootswatch's Flatly theme but instead of inheriting from Flatly I replicate its style by inheriting only from Bootstrap. I did this because some of Flatly's overrides aren't needed/wanted and Sass variable overrides is a f*cking mess. This way, I only have to deal with one nightmare scenario instead of two.
 
-##### Overrides
+## Differences with the original Flatly theme
 
-- Overridden gigantic headings.
-- Annihilated web font imports.
+### Overrides
+
 - Reduced inputs/buttons/badges focus border width.
 - Changed pagination styles to a less *flashy* style.
 - Overridden sans serif fonts (the default is now **Open Sans**) and monospace fonts (the default is now **DejaVu Sans Mono**).
 
-##### Added styles
+### Added styles
 
 - Enabled gradients and shadows.
-- Text styling classes:
-    - **text-bold**
-    - **text-bolder**
-    - **text-italic**
-    - **text-oblique**
-    - **text-overline**
-    - **text-line-through**
-    - **text-underline**
-    - **text-font-size-small**
-    - **text-font-size-medium**
-    - **text-font-size-large**
-    - **text-font-size-x-large**
-    - **text-font-size-xx-large**
+- Added text styling classes using Bootstrap utilities API:
+    - **fs-small**
+    - **fs-medium**
+    - **fs-large**
+    - **fs-x-large**
+    - **fs-xx-large**
 - Miscellaneous tweaks/classes:
     - **div.boxed**: A class to "frame" an element with a border with radius and a shadow.
     - Added a bottom border to `<h1>` and `<h2>` tags and to `h1` and `h2` classes inside `.container.boxed`.
     - Tweaked `<pre>` to allow word wrapping. Also changed the background color and added a border with radius to add contrast against the page background.
-    - Expanded element classes generation (`btn-<color>`, `btn-outline-<color>`, `badge-<color>`, `bg-<color>`, `bg-gradient-<color>` and `border-<color>`) to include extra colors (`blue`, `indigo`, `purple`, `pink`, `red`, `orange`, `yellow`, `green`, `teal` and `cyan`).
 
+### Removed styles
+
+- Murdered web fonts.
+- Removed pagination styles.
+- Removed most of the padding added to elements. Flatly added too much paddings to navbars and nav-tabs and unnecessary padding to breadcrumbs.
     """,
-    "extra_examples_html": get_html(),
+    "extra_examples_html": get_html()
 }
 
 if __name__ == "__main__":

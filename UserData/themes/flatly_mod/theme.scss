@@ -1,27 +1,348 @@
+/*!
+ * Bootstrap v5.1.3 (https://getbootstrap.com/)
+ * Copyright 2011-2021 The Bootstrap Authors
+ * Copyright 2011-2021 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+ *
+ * Bootswatch v5.1.3
+ * Homepage: https://bootswatch.com
+ * Copyright 2012-2021 Thomas Park
+ * Licensed under MIT
+ * Based on Bootstrap
+*/
 // #########
 // Imports #
 // #########
-@import "bootswatch/dist/flatly/_variables";
-@import "global_variable_overrides";
-@import "bootstrap/scss/bootstrap";
-@import "bootswatch/dist/flatly/_bootswatch";
-@import "global_new_rules";
-@import "global_new_colors";
+
+// NOTE: Someone somewhere should add some f*cking sense to this nonsense.
+// Sass variable overrides is an aberration and Bootstrap documentation about Sass is a mess.
+// So, IGNORE Bootstrap docs. and NEVER use variables inside variables overrides.
+
+// Configuration
+@import "bootstrap/scss/functions";
+
+// Color system
+
+// Flatly grays
+
+$white: #f8f8f8;
+$gray-100: #f8f9fa;
+$gray-200: #ecf0f1;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #b4bcc2;
+$gray-600: #95a5a6;
+$gray-700: #7b8a8b;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black: #000;
+
+// Flatly
+// $blue: #2c3e50;
+// $indigo: #6610f2;
+// $purple: #6f42c1;
+// $pink: #e83e8c;
+// $red: #e74c3c;
+// $orange: #fd7e14;
+// $yellow: #f39c12;
+// $green: #18bc9c;
+// $teal: #20c997;
+// $cyan: #3498db;
+
+// Bootstrap
+// $blue:    #0d6efd;
+// $indigo:  #6610f2;
+// $purple:  #6f42c1;
+// $pink:    #d63384;
+// $red:     #dc3545;
+// $orange:  #fd7e14;
+// $yellow:  #ffc107;
+// $green:   #198754;
+// $teal:    #20c997;
+// $cyan:    #0dcaf0;
+
+// NOTE: I changed almost all colors for various reasons:
+// - $primary was $blue on Flatly, but $blue was more black than blue.
+// - Flatly's $success and $green were identical, which were also similar to $teal.
+// - Flatly's $warning and $yellow were identical, which were also similar to $orange.
+// So, I use some of Bootstrap's named colors and use Flatly's context colors.
+$blue: #398ee7;
+$indigo: #6610f2;
+$purple: #6f42c1;
+$pink: #e83e8c;
+$red: #dc3545;
+$orange: #fd7e14;
+$yellow: #ffc107;
+$green: #198754;
+$teal: #20c997;
+$cyan: #0dcaf0;
+
+$primary: $gray-800;
+$secondary: $gray-600;
+$success: #18bc9c;
+$info: #3498db;
+$warning: #f39c12;
+$danger: #e74c3c;
+$light: $gray-200;
+$dark: $gray-700;
+
+// NOTE: Bootstrap's value makes almost all text black.
+// Bootstrap: 4.5
+$min-contrast-ratio: 2.05;
+
+// Links
+
+// Bootstrap: $primary
+$link-color: $success;
+
+// Toasts
+
+// NOTE: Murder the f*cking opacity!!! Keep the header opacity.
+// Bootstrap: rgba($white, .85)
+$toast-background-color: $white;
+
+// Fonts
+
+// Override fonts.
+// Bootstrap: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
+// "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
+$font-family-sans-serif: "Open Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+// Bootstrap: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+$font-family-monospace: "DejaVu Sans Mono", SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+
+// Disabled in Bootstrap and Bootswatch.
+$enable-gradients: true;
+$enable-shadows: true;
+$enable-deprecation-messages: true;
+
+// Alerts
+
+// NOTE: Murder pastel colors.
+// Bootstrap: -80%
+$alert-bg-scale: 0;
+// Bootstrap: -70%
+$alert-border-scale: 0;
+// Bootstrap: 40%
+$alert-color-scale: 0;
+
+// Tables
+
+// NOTE: Murder pastel colors.
+// Bootstrap: -80%
+$table-bg-scale: 0;
+
+// Dropdowns
+
+// NOTE: A little darker for a better contrast.
+// Bootstrap: $gray-200
+$dropdown-link-hover-bg: $gray-300;
+
+// Navs
+
+// NOTE: A little darker for a better contrast.
+// Bootstrap: $gray-700
+$nav-tabs-link-active-color: $gray-800;
+
+// Navbar
+
+// NOTE: Remove some of the opacity for better contrast.
+// Bootstrap: rgba($white, 0.55)
+$navbar-dark-color: rgba($white, 0.8);
+// Bootstrap: rgba($white, 0.75)
+$navbar-dark-hover-color: $white;
+// NOTE: Disabled colors have too little contrast.
+// Bootstrap: rgba($white, 0.25)
+$navbar-dark-disabled-color: rgba($white, 0.5);
+// Bootstrap: rgba($black, 0.3)
+$navbar-light-disabled-color: rgba($black, 0.4);
+
+// List group
+
+// NOTE: Since I darkened $white, $gray-100 is too close to $white. So, darken a little
+// $list-group-hover-bg to make it noticeable.
+// Bootstrap: $gray-100
+$list-group-hover-bg: $gray-200;
+// NOTE: Murder pastel colors.
+// Bootstrap: -80%
+$list-group-item-bg-scale: 0;
+// Bootstrap: 40%
+$list-group-item-color-scale: 0;
+
+// NOTE: Override immense focus effects from inputs/buttons/badges.
+// Bootstrap: 0.2rem
+$input-btn-focus-width: 0.1rem;
+
+// Add more colors to $theme-colors.
+// NOTE: $white would be useful only on dark themes and this is a light theme.
+// $gray is identical to $secondary.
+// $gray-dark is almost identical to $dark.
+// So, remove these colors to not create styles unnecessarily.
+// Furthermore, extending $theme-colors creates duplicated variables in :root
+// (and who knows where else), because Sass is THAT dumb.
+$theme-colors: (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+    "blue": $blue,
+    "indigo": $indigo,
+    "purple": $purple,
+    "pink": $pink,
+    "red": $red,
+    "orange": $orange,
+    "yellow": $yellow,
+    "green": $green,
+    "teal": $teal,
+    "cyan": $cyan
+);
+
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/utilities";
+
+// NOTE: Add more font size utilities.
+$utilities: map-merge(
+    $utilities,
+    (
+        "font-size": (
+            rfs: true,
+            property: font-size,
+            class: fs,
+            values:
+                map-merge(
+                    $font-sizes,
+                    (
+                        "small": 80%,
+                        "medium": 90%,
+                        "large": 110%,
+                        "x-large": 120%,
+                        "xx-large": 130%
+                    )
+                )
+        )
+    )
+);
+
+// Layout & components
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
+@import "bootstrap/scss/type";
+@import "bootstrap/scss/images";
+@import "bootstrap/scss/containers";
+@import "bootstrap/scss/grid";
+@import "bootstrap/scss/tables";
+@import "bootstrap/scss/forms";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/dropdown";
+@import "bootstrap/scss/button-group";
+@import "bootstrap/scss/nav";
+
+.nav-pills {
+    .nav-link.active,
+    .show > .nav-link {
+        text-shadow: 0 0 0 $nav-pills-link-active-color;
+    }
+}
+
+@import "bootstrap/scss/navbar";
+
+// NOTE: Since I can't set active navbar items bold and setting different opacities between
+// active and inactive isn't enough to differentiate them, I add some shadow to the text.
+.navbar-dark {
+    .navbar-nav {
+        .show > .nav-link,
+        .nav-link.active {
+            text-shadow: 0 0 0 $navbar-dark-active-color;
+        }
+    }
+
+    .navbar-text {
+        a,
+        a:hover,
+        a:focus {
+            text-shadow: 0 0 0 $navbar-dark-active-color;
+        }
+    }
+}
+
+.navbar-light {
+    .navbar-nav {
+        .show > .nav-link,
+        .nav-link.active {
+            text-shadow: 0 0 0 $navbar-light-active-color;
+        }
+    }
+
+    .navbar-text {
+        a,
+        a:hover,
+        a:focus {
+            text-shadow: 0 0 0 $navbar-light-active-color;
+        }
+    }
+}
+
+@import "bootstrap/scss/card";
+@import "bootstrap/scss/accordion";
+@import "bootstrap/scss/breadcrumb";
+@import "bootstrap/scss/pagination";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/alert";
+
+// NOTE: I have to replicate this just to set the color of links inside alerts because the color
+// set by Bootstrap is too shaded and Bootswatch's is white which is too contrasting.
+@each $state, $value in $theme-colors {
+    $alert-background: shift-color($value, $alert-bg-scale);
+    $alert-color: shift-color($value, $alert-color-scale);
+
+    @if (contrast-ratio($alert-background, $alert-color) < $min-contrast-ratio) {
+        $alert-color: mix($value, color-contrast($alert-background), abs($alert-color-scale));
+    }
+
+    .alert-#{$state} {
+        a,
+        .alert-link {
+            color: shade-color($alert-color, 5%);
+        }
+    }
+}
+
+@import "bootstrap/scss/progress";
+@import "bootstrap/scss/list-group";
+@import "bootstrap/scss/close";
+@import "bootstrap/scss/toasts";
+@import "bootstrap/scss/modal";
+@import "bootstrap/scss/tooltip";
+@import "bootstrap/scss/popover";
+@import "bootstrap/scss/carousel";
+
+// NOTE: And the f*cking mania of differentiating active from inactive with ONLY opacity continues. FFS!!!
+.carousel-indicators {
+    .active {
+        background-color: $success !important;
+    }
+}
+
+@import "bootstrap/scss/spinners";
+@import "bootstrap/scss/offcanvas";
+@import "bootstrap/scss/placeholders";
+
+// Helpers
+@import "bootstrap/scss/helpers";
+
+// Utilities
+@import "bootstrap/scss/utilities/api";
 
 // ###############
 // Custom styles #
 // ###############
-
-// The parent theme (Flatly) uses white close buttons.
-// Toasts have white background headers.
-.toast .close {
-    color: #000;
-
-    &:not(:disabled):not(.disabled):hover,
-    &:not(:disabled):not(.disabled):focus {
-        color: #000;
-    }
-}
 
 // Various tweaks.
 div.boxed {
@@ -31,6 +352,7 @@ div.boxed {
 }
 
 // Add underline to only the headings directly inside a boxed section, not anywhere else.
+// NOTE: I don't know why this thing generates duplicated selectors. ¬¬
 .container.boxed > h1,
 .container.boxed > .h1,
 .container.boxed > h2,
@@ -44,6 +366,4 @@ div.boxed {
     background-color: #f8f8f8 !important;
     border-radius: 4px !important;
     border: 1px solid #ccc !important;
-    padding-left: 15px !important;
-    padding-right: 15px !important;
 }
