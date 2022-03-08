@@ -1,79 +1,181 @@
-<div id="bstg-source-modal" class="modal fade" tabindex="-1">
+<div class="position-fixed bottom-0 end-0 p-3"
+     style="z-index: 11">
+    <div id="missing-theme-toast"
+         class="toast"
+         role="alert"
+         aria-live="assertive"
+         aria-atomic="true">
+        <div class="toast-header">
+            <svg class="bstg-placeholder-img rounded me-2"
+                 width="20"
+                 height="20"
+                 xmlns="http://www.w3.org/2000/svg"
+                 aria-hidden="true"
+                 preserveAspectRatio="xMidYMid slice"
+                 focusable="false">
+                <rect width="100%"
+                      height="100%"
+                      fill="#f39c12" />
+            </svg>
+            <strong class="me-auto">Missing theme</strong>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Falling back to default theme.
+        </div>
+    </div>
+</div>
+
+<div id="bstg-source-modal"
+     class="modal fade"
+     tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">Source Code</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        aria-hidden="true"></button>
             </div>
             <div class="modal-body">
-                <pre contenteditable><code></code></pre>
+                <pre>
+                    <code id="bstg-source-modal-code-block" contenteditable="true"></code>
+                </pre>
             </div>
         </div>
     </div>
 </div>
-<div id="bstg-about-modal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Bootstrap themes preview</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body text-center">
-                <h4>Page settings&nbsp;
-                    <button type="button" data-dismiss="modal" data-toggle="modal" data-target="#bstg-pref-reset-settings-modal" class="btn btn-sm btn-outline-warning mx-auto" title="Reset page settings">
-                        <i class="nf nf-fa-refresh"></i>
-                    </button>
-                </h4>
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-6 mx-auto my-auto">
-                            <form class="form-inline mx-auto my-auto">
-                                <div class="form-group text-left">
-                                    <div class="form-check my-2">
-                                        <input id="ody-debugger-enabled" class="form-check-input" type="checkbox">
-                                        <label class="form-check-label" for="ody-debugger-enabled">Debugger enabled</label>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-6 mx-auto my-auto">
-                            <form class="form-inline mx-auto my-auto">
-                                <div class="form-group text-left">
-                                    <label for="ody-debugger-logging-level">Logging level&nbsp;&nbsp;</label>
-                                    <select id="ody-debugger-logging-level" class="custom-select custom-select-sm">
-                                        <option value="0">Normal</option>
-                                        <option value="1">Verbose</option>
-                                        <option value="2">Very verbose</option>
-                                    </select>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+
+<div id="bstg-page-settings-offcanvas"
+     class="offcanvas offcanvas-end"
+     tabindex="-1"
+     aria-hidden="true">
+    <div class="offcanvas-header">
+        <h4 class="offcanvas-title">Bootstrap theme generator</h4>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="offcanvas"
+                data-bs-target="#bstg-about-offcanvas"
+                aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <h5>Page settings</h5>
+        <div class="container-fluid d-grid gap-2">
+            <div class="row">
+                <label for="navbar-background-color"
+                       class="col-sm-6 col-form-label col-form-label-sm">Navbar background color</label>
+                <div class="col-sm-6">
+                    <select id="navbar-background-color"
+                            data-pref="navbar_background_color"
+                            class="bstg-pref-handler form-select form-select-sm">
+                        <option value="bg-dark">bg-dark</option>
+                        <option value="bg-light">bg-light</option>
+                        <option value="bg-primary">bg-primary</option>
+                        <option value="bg-secondary">bg-secondary</option>
+                        <option value="bg-danger">bg-danger</option>
+                        <option value="bg-info">bg-info</option>
+                        <option value="bg-success">bg-success</option>
+                        <option value="bg-warning">bg-warning</option>
+                    </select>
                 </div>
-                <hr>
-                <h4>About</h4>
-                <p>Inspired by <a href="https://bootswatch.com" rel="nofollow">Bootswatch</a>, a work made by <a href="https://thomaspark.co" rel="nofollow">Thomas Park</a>.</p>
-                <p>Icons from <a href="https://nerdfonts.com" rel="nofollow">Nerd Fonts</a>, iconic font aggregator, collection, and patcher.</p>
-                <p>Based on <a href="https://getbootstrap.com" rel="nofollow">Bootstrap</a>, HTML, CSS, and JS library.</p>
+            </div>
+            <div class="row">
+                <label for="navbar-foreground-color"
+                       class="col-sm-6 col-form-label col-form-label-sm">Navbar foreground color</label>
+                <div class="col-sm-6">
+                    <select id="navbar-foreground-color"
+                            data-pref="navbar_foreground_color"
+                            class="bstg-pref-handler form-select form-select-sm">
+                        <option value="navbar-dark">navbar-dark</option>
+                        <option value="navbar-light">navbar-light</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <label for="sidebar-background-color"
+                       class="col-sm-6 col-form-label col-form-label-sm">Sidebar background color</label>
+                <div class="col-sm-6">
+                    <select id="sidebar-background-color"
+                            data-pref="sidebar_background_color"
+                            class="bstg-pref-handler form-select form-select-sm">
+                        <option value="none">None</option>
+                        <option value="bg-dark">bg-dark</option>
+                        <option value="bg-light">bg-light</option>
+                        <option value="bg-primary">bg-primary</option>
+                        <option value="bg-secondary">bg-secondary</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <label for="ody-debugger-logging-level"
+                       class="col-sm-6 col-form-label col-form-label-sm">Logging level</label>
+                <div class="col-sm-6">
+                    <select id="ody-debugger-logging-level"
+                            class="form-select form-select-sm col-sm-6">
+                        <option value="0">Normal</option>
+                        <option value="1">Verbose</option>
+                        <option value="2">Very verbose</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <label for="ody-debugger-enabled"
+                       class="col-sm-6 col-form-label col-form-label-sm">Debugger enabled</label>
+                <div class="col-sm-6 form-check form-switch align-self-center">
+                    <input id="ody-debugger-enabled"
+                           class="form-check-input float-end"
+                           type="checkbox"
+                           role="switch">
+                </div>
             </div>
         </div>
+        <hr>
+        <h5>About</h5>
+        <ul class="list-unstyled fs-small">
+            <li>
+                <p>Inspired by <a href="https://bootswatch.com" rel="nofollow">Bootswatch</a>, a work made by <a href="https://thomaspark.co" rel="nofollow">Thomas Park</a>.</p>
+            </li>
+            <li>
+                <p>Icons from <a href="https://nerdfonts.com" rel="nofollow">Nerd Fonts</a>, iconic font aggregator, collection, and patcher.</p>
+            </li>
+            <li>
+                <p>Based on <a href="https://getbootstrap.com" rel="nofollow">Bootstrap</a>, HTML, CSS, and JS library.</p>
+            </li>
+        </ul>
     </div>
 </div>
-<div class="modal fade" id="bstg-pref-reset-settings-modal" tabindex="-1" role="dialog" aria-labelledby="bstg-pref-reset-settings-title" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+
+<div class="modal fade"
+     id="bstg-pref-reset-settings-modal"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="bstg-pref-reset-settings-title"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"
+         role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="bstg-pref-reset-settings-title">Reset page settings</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
             </div>
             <div class="modal-body">Do you wish to reset the page settings?</div>
             <div class="modal-footer">
-                <button id="bstg-pref-reset-settings-button" type="button" data-dismiss="modal" class="btn btn-warning">Reset page settings</button>
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <button id="bstg-pref-reset-settings-button"
+                        type="button"
+                        data-bs-dismiss="modal"
+                        class="btn btn-warning">Reset page settings</button>
+                <button type="button"
+                        class="btn btn-primary"
+                        data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

@@ -3,12 +3,87 @@
     --bstg-highlight-background: rgba(128, 128, 128, 0.25);
 }
 
+@media (min-width: 768px) {
+    :root {
+        scroll-padding-top: 4rem;
+    }
+}
+
 body {
     padding-top: 1rem;
     /* To separate content from the bottom edge. */
     margin-bottom: 3rem;
     /* Keep scrollbars visible because I hate all the elements in the page dancing around. */
-    overflow-y: scroll;
+    /* NOTE: When using Bootstrap 5.x.x, forcing the y scrollbar will display an extra
+    scrollbar that who in the f*ck knows where does it comes from. FFS!!! */
+    /*overflow-y: scroll;*/
+}
+
+/* NOTE: Without !important the show/hide mechanism will not work. */
+body.show {
+    opacity: 1 !important;
+    -webkit-transition: opacity 400ms !important;
+    -o-transition: opacity 400ms !important;
+    transition: opacity 400ms !important;
+}
+
+body.hide {
+    opacity: 0 !important;
+}
+
+.bstg-content > h2:not(:first-child) {
+    margin-top: 3rem;
+}
+
+.bstg-content > h3 {
+    margin-top: 2rem;
+}
+
+.bstg-content > ul li,
+.bstg-content > ol li {
+    margin-bottom: 0.25rem;
+}
+
+.bstg-content > ul li > p ~ ul,
+.bstg-content > ol li > p ~ ul {
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+}
+
+.bstg-content > .table {
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+}
+
+@media (max-width: 991.98px) {
+    .bstg-content > .table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .bstg-content > .table.table-bordered {
+        border: 0;
+    }
+}
+
+.bstg-content > .table th:first-child,
+.bstg-content > .table td:first-child {
+    padding-left: 0;
+}
+
+.bstg-content > .table th:not(:last-child),
+.bstg-content > .table td:not(:last-child) {
+    padding-right: 1.5rem;
+}
+
+.bstg-content > .table td:first-child > code {
+    white-space: nowrap;
+}
+
+.bstg-content {
+    grid-area: content;
+    min-width: 1px;
 }
 
 /* Nerd icons size. */
@@ -30,10 +105,12 @@ body {
 
 /* Sidebars. */
 .bstg-sidebar {
-    padding-top: 0.5rem;
+    padding: 0.5rem 0;
+    margin-bottom: 0.5rem;
     position: fixed;
     left: 0;
     top: 0;
+    bottom: 0;
     right: auto;
     white-space: nowrap;
     overflow-y: auto;
@@ -47,6 +124,7 @@ body {
 /* Remove border radius and reduce padding of nav items. */
 .bstg-sidebar .nav-link {
     border-radius: 0;
+    font-size: 0.9em;
     padding: 0.25rem 1rem;
 }
 
@@ -72,6 +150,10 @@ body {
 }
 
 /* Add underline to only the headings directly inside the section, not anywhere else. */
+.bstg-content > h1,
+.bstg-content > .h1,
+.bstg-content > h2,
+.bstg-content > .h2,
 .bstg-section > h1,
 .bstg-section > .h1,
 .bstg-section > h2,
@@ -91,9 +173,59 @@ body {
     border: 1px solid var(--bstg-example-border);
 }
 
-/* Localization example for custom file input found in forms.html. */
-.bstg-example .custom-file-input:lang(es) ~ .custom-file-label::after {
-    content: "Elegir";
+.btn-bstg-primary {
+    font-weight: 600;
+    color: #fff;
+    background-color: #7952b3;
+    border-color: #7952b3;
+}
+
+.btn-bstg-primary:hover,
+.btn-bstg-primary:active {
+    color: #fff;
+    background-color: #61428f;
+    border-color: #61428f;
+}
+
+.btn-bstg-primary:focus {
+    -webkit-box-shadow: 0 0 0 3px rgba(121, 82, 179, 0.25);
+            box-shadow: 0 0 0 3px rgba(121, 82, 179, 0.25);
+}
+
+.btn-bstg-download {
+    font-weight: 600;
+    color: #ffe484;
+    border-color: #ffe484;
+}
+
+.btn-bstg-download:hover,
+.btn-bstg-download:active {
+    color: #2a2730;
+    background-color: #ffe484;
+    border-color: #ffe484;
+}
+
+.btn-bstg-download:focus {
+    -webkit-box-shadow: 0 0 0 3px rgba(255, 228, 132, 0.25);
+            box-shadow: 0 0 0 3px rgba(255, 228, 132, 0.25);
+}
+
+.btn-bstg-light {
+    color: #6c757d;
+    border-color: #dee2e6;
+}
+
+.show > .btn-bstg-light,
+.btn-bstg-light:hover,
+.btn-bstg-light:active {
+    color: #7952b3;
+    background-color: #fff;
+    border-color: #7952b3;
+}
+
+.btn-bstg-light:focus {
+    -webkit-box-shadow: 0 0 0 3px rgba(121, 82, 179, 0.25);
+            box-shadow: 0 0 0 3px rgba(121, 82, 179, 0.25);
 }
 
 /* This is to make possible to render a dropdown menu directly in the body
@@ -114,6 +246,55 @@ body {
     resize: vertical;
 }
 
+.example-row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    margin-top: calc(var(--bs-gutter-y) * -1);
+    margin-right: calc(var(--bs-gutter-x) * -0.5);
+    margin-left: calc(var(--bs-gutter-x) * -0.5);
+}
+
+.bstg-example + .bstg-example,
+.bstg-example + h1,
+.bstg-example + h2,
+.bstg-example + h3,
+.bstg-example + h4,
+.bstg-example + h5,
+.bstg-example + p {
+    margin-top: 2rem;
+}
+
+.bstg-example > .form-control + .form-control {
+    margin-top: 0.5rem;
+}
+
+.bstg-example > .nav + .nav,
+.bstg-example > .alert + .alert,
+.bstg-example > .navbar + .navbar,
+.bstg-example > .progress + .progress {
+    margin-top: 1rem;
+}
+
+.bstg-example > :last-child {
+    margin-bottom: 0;
+}
+
+.bstg-example > svg + svg,
+.bstg-example > img + img {
+    margin-left: 0.5rem;
+}
+
+.bstg-example > .btn-toolbar + .btn-toolbar {
+    margin-top: 0.5rem;
+}
+
 /* Limit the width of list-group class.*/
 .bstg-example > .list-group {
     max-width: 400px;
@@ -122,6 +303,10 @@ body {
 /* Limit the width of list-group-horizontal class.*/
 .bstg-example > [class*="list-group-horizontal"] {
     max-width: 100%;
+}
+
+.tooltip-demo a {
+    white-space: nowrap;
 }
 
 /* Scrollspy examples in scrollspy.html. */
@@ -145,6 +330,7 @@ body {
  */
 .bstg-callout {
     padding: 1.25rem;
+    margin-top: 1.25rem;
     margin-bottom: 1.25rem;
     border: 1px solid var(--bstg-example-border);
     border-left-width: 0.25rem;
@@ -199,6 +385,67 @@ body {
     position: static;
 }
 
+.bstg-example > [class*="list-group-horizontal"] {
+    max-width: 100%;
+}
+
+.bstg-example .fixed-top,
+.bstg-example .sticky-top {
+    margin: -1rem -1rem 1rem;
+}
+
+.bstg-example .fixed-bottom {
+    margin: 1rem -1rem -1rem;
+}
+
+@media (min-width: 576px) {
+    .bstg-example .fixed-top,
+    .bstg-example .sticky-top {
+        margin: -1.5rem -1.5rem 1rem;
+    }
+    .bstg-example .fixed-bottom {
+        margin: 1rem -1.5rem -1.5rem;
+    }
+}
+
+.bstg-example .pagination {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.bstg-example-ratios .ratio {
+    display: inline-block;
+    width: 10rem;
+    color: #6c757d;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+
+.bstg-example-ratios .ratio > div {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+}
+
+.bstg-example-ratios-breakpoint .ratio-4x3 {
+    width: 16rem;
+}
+
+@media (min-width: 768px) {
+    .bstg-example-ratios-breakpoint .ratio-4x3 {
+        --bs-aspect-ratio: 50%;
+    }
+}
+
 /* Border examples in borders.html */
 /* NOTE: I couldn't find a way to make the borders visible in dark and light themes.
  * So, I gave up. LOL
@@ -208,12 +455,49 @@ body {
     display: inline-block;
     width: 5rem;
     height: 5rem;
-    margin-right: 0.5rem;
+    margin-right: 0.25rem;
     background-color: #f5f5f5;
 }
 
 .bstg-example-border-utils-0 [class^="border"] {
     border: 2px solid var(--bstg-example-border);
+}
+
+.bstg-example-rounded-utils [class*="rounded"] {
+    margin: 0.25rem;
+}
+
+.bstg-example-position-utils {
+    position: relative;
+    padding: 3em;
+}
+
+.bstg-example-position-utils .position-relative {
+    height: 200px;
+    background-color: #f5f5f5;
+}
+
+.bstg-example-position-utils .position-absolute {
+    width: 2em;
+    height: 2em;
+    background-color: #212529;
+    border-radius: 0.25rem;
+}
+
+.bstg-example-position-examples::after {
+    content: none;
+}
+
+.bstg-example-placeholder-cards::after {
+    display: none;
+}
+
+.bstg-example-placeholder-cards .card {
+    width: 18rem;
+}
+
+.bstg-example-toasts {
+    min-height: 240px;
 }
 
 /* Multiple columns for the theme selector menus. */
@@ -228,6 +512,7 @@ body {
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
 }
+
 /* stylelint-enable declaration-block-no-duplicate-properties */
 
 /* Three menu items per row. */
@@ -272,18 +557,24 @@ body {
     border: 1px solid rgba(86, 61, 124, 0.2);
 }
 
+.bstg-example-row .row + .row {
+    margin-top: 1rem;
+}
+
+.bstg-example-row-flex-cols .row {
+    min-height: 10rem;
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
 /* View source button. */
 .bstg-view-source-button {
+    font-size: 1.2em;
     display: none;
     position: absolute;
     top: 0;
     right: 0;
     z-index: 100;
     font-weight: bold;
-}
-
-.bstg-view-source-button:hover {
-    cursor: pointer;
 }
 
 .bstg-example:hover .bstg-view-source-button {
@@ -302,13 +593,28 @@ pre {
 
 /* Allow the modal example to be displayed inline. */
 .bstg-example-modal {
-    position: relative;
-    top: auto;
-    right: auto;
-    left: auto;
-    bottom: auto;
-    z-index: 100;
+    background-color: #fafafa;
+}
+
+.bstg-example-modal .modal {
+    position: static;
     display: block;
+}
+
+.bstg-example-offcanvas {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.bstg-example-offcanvas .offcanvas {
+    position: static;
+    display: block;
+    height: 200px;
+    visibility: visible;
+    -webkit-transform: translate(0);
+        -ms-transform: translate(0);
+         -o-transform: translate(0);
+            transform: translate(0);
 }
 
 /* For Back To Top Button */
@@ -323,13 +629,15 @@ pre {
     right: 1rem;
     text-decoration: none;
     z-index: 999999;
+    opacity: 0.5 !important;
 }
 
 #to-top-of-page:hover {
-    opacity: 0.5 !important;
+    opacity: 1 !important;
 }
 
 /* Keep sidebar toggler always visible. */
 #bstg-sidebar-toggler.navbar-toggler {
     display: block !important;
+    border: none;
 }
