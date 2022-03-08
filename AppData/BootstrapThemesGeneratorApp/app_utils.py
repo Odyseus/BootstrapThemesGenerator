@@ -17,6 +17,8 @@ from .python_utils import cmd_utils
 from .python_utils import file_utils
 from .python_utils import shell_utils
 
+from . import app_data
+
 root_folder = os.path.realpath(os.path.abspath(os.path.join(
     os.path.normpath(os.getcwd()))))
 
@@ -25,8 +27,7 @@ _paths_map = {
     "themes_globals": os.path.join(root_folder, "UserData", "themes", "_0_globals"),
     "themes_dist": os.path.join(root_folder, "UserData", "themes", "dist"),
     "preview_assets": os.path.join(root_folder, "UserData", "www", "_assets"),
-    "node_sass": os.path.join(root_folder, "UserData", "www", "node_modules", "node-sass", "bin", "node-sass"),
-    "postcss": os.path.join(root_folder, "UserData", "www", "node_modules", "postcss-cli", "bin", "postcss"),
+    "postcss": os.path.join(root_folder, "UserData", "www", "node_modules", ".bin", "postcss"),
     "node_modules": os.path.join(root_folder, "UserData", "www", "node_modules"),
     "index_template": os.path.join(root_folder, "AppData", "data", "templates", "index", "index.html"),
     "modals": os.path.join(root_folder, "AppData", "data", "templates", "index", "modals.html"),
@@ -34,20 +35,10 @@ _paths_map = {
     "index_root": os.path.join(root_folder, "UserData", "www", "index.html")
 }
 
-_node_sass_includes = [
-    "--include-path", _paths_map["node_modules"],
-    "--include-path", _paths_map["themes_globals"]
+_dart_sass_includes = [
+    "--load-path=" + _paths_map["node_modules"],
+    "--load-path=" + _paths_map["themes_globals"]
 ]
-
-_bootstrap_content = [
-    "content",
-    "components",
-    "utilities"
-]
-
-_tab = """<a class="nav-link {tab_active}" id="{tab_id}" data-toggle="pill" href="#{tabpanel_id}" role="tab" aria-controls="{tabpanel_id}" aria-selected="false">{tab_label}</a>"""
-_tabpanel = """<div class="tab-pane fade {tabpanel_active}" id="{tabpanel_id}" role="tabpanel" aria-labelledby="{tab_id}">
-</div>"""
 
 
 def build_index_file(logger):
@@ -59,29 +50,23 @@ def build_index_file(logger):
         The logger.
     """
     ids = []
-    tabs = {
-        "content": [],
-        "components": [],
-        "utilities": []
-    }
-    tabpanels = {
-        "content": [],
-        "components": [],
-        "utilities": []
-    }
+    sections_tabs = []
+    sections_tabpanels = []
+    subsections_tabs = {}
+    subsections_tabpanels = {}
     index_template = ""
     modals_data = ""
 
-    for cnt in _bootstrap_content:
-        section_files = [entry.path for entry in os.scandir(
-            os.path.join(_paths_map["index_sections"], cnt))
+    for section in app_data.SECTIONS:
+        subsection_files = [entry.path for entry in os.scandir(
+            os.path.join(_paths_map["index_sections"], section))
             if entry.is_file(follow_symlinks=False) and entry.name[-5:] == ".html"]
 
-        for index, section_path in enumerate(sorted(section_files)):
-            base_id = os.path.basename(section_path)[:-5]
-            tab_label = " ".join(base_id[4:].split("-")).capitalize()
-            tab_id = "bstg-%s-%s-tab" % (cnt, base_id)
-            tabpanel_id = "bstg-%s-%s-tabpanel" % (cnt, base_id)
+        for index, subsection_path in enumerate(sorted(subsection_files)):
+            subsection_base_id = os.path.basename(subsection_path)[:-5]
+            subsection_tab_label = " ".join(subsection_base_id[4:].split("-")).capitalize()
+            tab_id = "bstg-%s-%s-tab" % (section, subsection_base_id)
+            tabpanel_id = "bstg-%s-%s-tabpanel" % (section, subsection_base_id)
 
             if tab_id in ids or tabpanel_id in ids:
                 print(tab_id)
@@ -90,19 +75,37 @@ def build_index_file(logger):
             ids.append(tab_id)
             ids.append(tabpanel_id)
 
-            tabs[cnt].append(_tab.format(
+            if section not in subsections_tabs:
+                subsections_tabs[section] = []
+
+            if section not in subsections_tabpanels:
+                subsections_tabpanels[section] = []
+
+            subsections_tabs[section].append(app_data.SUBSECTION_TAB.format(
                 tab_active="active" if index == 0 else "",
                 tabpanel_id=tabpanel_id,
                 tab_id=tab_id,
-                tab_label=tab_label
+                tab_label=subsection_tab_label
             ))
 
-            tabpanels[cnt].append(_tabpanel.format(
-                tabpanel_active="show active" if index == 0 else "",
+            subsections_tabpanels[section].append(app_data.SUBSECTION_TABPANEL.format(
+                tabpanel_active=" show active" if index == 0 else "",
                 tabpanel_id=tabpanel_id,
                 tab_id=tab_id,
                 tabpanel_content=""
             ))
+
+        sections_tabs.append(app_data.SECTION_TAB.format(
+            section_name=section,
+            section_name_capital=section.capitalize()
+        ))
+        section_tabpanel = app_data.SECTION_TABPANEL.format(
+            section_name=section,
+            section_name_capital=section.capitalize()
+        )
+        sections_tabpanels.append(section_tabpanel.replace(
+            "<!-- {{%s-tabpanels}} -->" % section, "\n".join(subsections_tabpanels[section])).replace(
+            "<!-- {{%s-tabs}} -->" % section, "\n".join(subsections_tabs[section])))
 
     with open(_paths_map["index_template"], "r") as index_template_file:
         index_template = index_template_file.read()
@@ -110,35 +113,50 @@ def build_index_file(logger):
     with open(_paths_map["modals"], "r") as modals_file:
         modals_data = modals_file.read()
 
+    print()
+
     with open(_paths_map["index_root"], "w") as index_root_file:
         index_root_file.write(
             index_template.replace(
-                "<!-- {{utilities-tabpanels}} -->", "\n".join(tabpanels["utilities"])).replace(
-                "<!-- {{components-tabpanels}} -->", "\n".join(tabpanels["components"])).replace(
-                "<!-- {{content-tabpanels}} -->", "\n".join(tabpanels["content"])).replace(
-                "<!-- {{utilities-tabs}} -->", "\n".join(tabs["utilities"])).replace(
-                "<!-- {{components-tabs}} -->", "\n".join(tabs["components"])).replace(
-                "<!-- {{content-tabs}} -->", "\n".join(tabs["content"])).replace(
+                "<!-- {{sections-tabs}} -->", "\n".join(sections_tabs)).replace(
+                "<!-- {{sections-tabpanels}} -->", "\n".join(sections_tabpanels)).replace(
                 "<!-- {{modals}} -->", modals_data)
         )
 
 
-def build_themes(themes=[], node_sass_args="", postcss_args="", logger=None):
+def build_themes(themes=[], sass_parser=None, dart_sass_args="", postcss_args="", logger=None):
     """Build themes.
 
     Parameters
     ----------
     themes : list, optional
         Themes specified in CLI.
-    node_sass_args : str, optional
-        Extra arguments to pass to ``node-sass``.
+    dart_sass_args : str, optional
+        Extra arguments to pass to ``sass``.
     postcss_args : str, optional
         Extra arguments to pass to ``postcss-cli``.
     logger : None, optional
         See :any:`LogSystem`.
     """
+    cmd_str = cmd_utils.which(sass_parser) if sass_parser else cmd_utils.which("sass")
+
+    if not cmd_str:
+        logger.error("Invalid or not found Sass parser.")
+
+        if sass_parser:
+            logger.error("Parser passed: %s" % cmd_str)
+        else:
+            logger.error("Parser detected: %s" % cmd_str)
+
+        logger.error("Read documentation for requirements.")
+
+        raise SystemExit(1)
+
+    logger.info("**Parser used: %s**" % cmd_str)
+
     for theme in (themes or get_themes_list()):
         theme_src_path = os.path.join(_paths_map["themes_src"], theme, "theme.scss")
+        theme_src_dir = os.path.dirname(theme_src_path)
         theme_dist_dir = os.path.join(os.path.dirname(theme_src_path), "dist")
         theme_dist_path = os.path.join(theme_dist_dir, "bootstrap.css")
         theme_dist_min_path = os.path.join(theme_dist_dir, "bootstrap.min.css")
@@ -146,32 +164,34 @@ def build_themes(themes=[], node_sass_args="", postcss_args="", logger=None):
 
         if file_utils.is_real_file(theme_src_path):
             logger.info(shell_utils.get_cli_separator("-"), date=False)
-            base_cmd = [_paths_map["node_sass"], theme_src_path]
-            cmd_1 = base_cmd + [theme_dist_path, "--output-style", "expanded"]
-            cmd_2 = base_cmd + [theme_dist_min_path, "--output-style", "compressed"]
-            cmd_1.extend(_node_sass_includes)
-            cmd_2.extend(_node_sass_includes)
+            base_cmd = [cmd_str]
+            cmd_1 = base_cmd + ["%s:%s" % (theme_src_path, theme_dist_path),
+                                "--style", "expanded"]
+            cmd_2 = base_cmd + ["%s:%s" % (theme_src_path, theme_dist_min_path),
+                                "--style", "compressed"]
+            cmd_1.extend(_dart_sass_includes)
+            cmd_2.extend(_dart_sass_includes)
             cmd_3 = [_paths_map["postcss"], "--use", "autoprefixer",
                      "--replace", theme_dist_dir + "/*.css"]
 
-            cmd_1.extend(shlex.split(node_sass_args) if node_sass_args else [])
-            cmd_2.extend(shlex.split(node_sass_args) if node_sass_args else [])
+            cmd_1.extend(shlex.split(dart_sass_args) if dart_sass_args else [])
+            cmd_2.extend(shlex.split(dart_sass_args) if dart_sass_args else [])
             cmd_3.extend(shlex.split(postcss_args) if postcss_args else [])
 
             os.makedirs(theme_dist_dir, exist_ok=True)
 
             logger.info("Building expanded stylesheet for **%s**" % theme)
-            cmd_utils.run_cmd(cmd_1, stdout=None, stderr=None, cwd=os.path.dirname(theme_src_path))
+            cmd_utils.run_cmd(cmd_1, stdout=None, stderr=None, cwd=theme_src_dir)
             logger.info("Building compressed stylesheet for **%s**" % theme)
-            cmd_utils.run_cmd(cmd_2, stdout=None, stderr=None, cwd=os.path.dirname(theme_src_path))
+            cmd_utils.run_cmd(cmd_2, stdout=None, stderr=None, cwd=theme_src_dir)
             logger.info("Auto-prefixing generated CSS files")
-            cmd_utils.run_cmd(cmd_3, stdout=None, stderr=None, cwd=os.path.dirname(theme_src_path))
+            cmd_utils.run_cmd(cmd_3, stdout=None, stderr=None, cwd=theme_src_dir)
 
             logger.info("Copying files to live preview's assets folder")
             file_utils.custom_copytree(theme_dist_dir, theme_preview_css, symlinks=False,
                                        logger=logger, log_copied_file=True, overwrite=True)
         else:
-            logger.warning("Theme '%s' isn't a valid theme.")
+            logger.warning("Theme '%s' isn't a valid theme." % theme)
 
 
 def manage_node_modules(action, cwd="", logger=None):

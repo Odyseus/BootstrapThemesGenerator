@@ -30,7 +30,8 @@ docopt_doc = """{appname} {version} ({status})
 Usage:
     app.py (-h | --help | --manual | --version)
     app.py build [-t <id>... | --theme=<id>...]
-                 [-s <args> | --node-sass-args=<args>]
+                 [-s <exec> | --sass-parser=<exec>]
+                 [-d <args> | --dart-sass-args=<args>]
                  [-p <args> | --postcss-args=<args>]
     app.py build_index_file
     app.py node_modules (install | update)
@@ -60,16 +61,20 @@ Options:
 --port=<port>
     Port number. [Default: 8899]
 
+-d <args>, --dart-sass-args=<args>
+    Extra arguments to pass to **sass** CLI.
+
+-p <args>, --postcss-args=<args>
+    Extra arguments to pass to **postcss** CLI. [Default: --no-map]
+
+-s <exec>, --sass-parser=<exec>
+    Name or absolute path to Dart Sass executable. This may be needed only if
+    Dart Sass isn't available in a system's PATH.
+
 -t <id>, --theme=<id>
     The ID of the theme that one wants to build. If no specified, all themes
     found inside the **UserData/themes** folder will be built. The ID of a
     theme is just the name of its folder.
-
--s <args>, --node-sass-args=<args>
-    Extra arguments to pass to **node-sass** CLI.
-
--p <args>, --postcss-args=<args>
-    Extra arguments to pass to **postcss** CLI. [Default: --no-map]
 
 -y, --dry-run
     Do not perform file system changes. Only display messages informing of the
@@ -234,7 +239,8 @@ class CommandLineInterface(cli_utils.CommandLineInterfaceSuper):
         """See :any:`app_utils.build_themes`.
         """
         app_utils.build_themes(themes=sorted(list(set(self.a["--theme"]))),
-                               node_sass_args=self.a["--node-sass-args"],
+                               sass_parser=self.a["--sass-parser"],
+                               dart_sass_args=self.a["--dart-sass-args"],
                                postcss_args=self.a["--postcss-args"],
                                logger=self.logger)
 

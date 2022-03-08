@@ -7,6 +7,7 @@ Attributes
 www_root : str
     The path to the folder that will be served by the web server.
 """
+import json
 import os
 import sys
 
@@ -36,12 +37,12 @@ www_root = os.path.realpath(os.path.abspath(os.path.join(
 
 _app_folder = os.path.dirname(os.path.dirname(www_root))
 _themes_path = os.path.join(www_root, "_assets", "css", "themes")
+_bootswatch_json_api = os.path.join(www_root, "_assets", "data", "bootswatch-5.json")
 _node_modules_folder = os.path.join(www_root, "node_modules")
-_jquery_folder = os.path.join(_node_modules_folder, "jquery", "dist")
 _bootstrap_folder = os.path.join(_node_modules_folder, "bootstrap", "dist")
 _bootswatch_folder = os.path.join(_node_modules_folder, "bootswatch", "dist")
-
-_menu_item_template = '<a class="dropdown-item" data-description="{theme_description}" href="_assets/css/themes/{theme_id}/bootstrap.min.css">{theme_name}</a>'
+_bootswatch_menu_item_template = '<a class="dropdown-item" href="_static_bootswatch/{theme_id}/bootstrap.min.css" data-description="{theme_description}">{theme_name}</a>'
+_menu_item_template = '<a class="dropdown-item" href="/_assets/css/themes/{theme_id}/bootstrap.min.css" data-description="{theme_description}">{theme_name}</a>'
 _section_template = """<div class="bstg-section">
 {tabpanel_content}
 </div>"""
@@ -62,17 +63,6 @@ class BootstrapThemesGeneratorWebapp(WebApp):
             Keyword arguments.
         """
         super().__init__(*args, **kwargs)
-
-    @bottle_app.route("/_static_jquery")
-    def server_static_node_files():
-        """Serve jQuery's static files.
-
-        Returns
-        -------
-        object
-            An instance of `bottle.HTTPResponse`.
-        """
-        return bottle.static_file("jquery.min.js", root=_jquery_folder)
 
     @bottle_app.route("/_static_bootstrap/<filename:path>")
     def server_static_bootstrap(filename):
@@ -139,8 +129,8 @@ class BootstrapThemesGeneratorWebapp(WebApp):
         else:
             return "Something went horribly wrong!!!"
 
-    @bottle_app.post("/build_custom_theme_selectors")
-    def build_custom_theme_selectors():
+    @bottle_app.post("/build_theme_selector")
+    def build_theme_selector():
         """Build the custom themes selector menu items.
 
         Returns
@@ -150,16 +140,39 @@ class BootstrapThemesGeneratorWebapp(WebApp):
         """
         theme_menu_items = []
 
+        with open(_bootswatch_json_api, "r", encoding="UTF-8") as bootswatch_json_file:
+            theme_menu_items.append('<h6 class="dropdown-header">Bootswatch themes</h6>')
+            bootswatch_json = json.load(bootswatch_json_file)["themes"]
+            bootswatch_menu_items = []
+
+            for theme in bootswatch_json:
+                bootswatch_menu_items.append(_bootswatch_menu_item_template.format(
+                    theme_id=theme["name"].lower(),
+                    theme_name=theme["name"],
+                    theme_description=theme["description"]
+                ))
+
+            bootswatch_menu_items.sort()
+            theme_menu_items.extend(bootswatch_menu_items)
+
+        theme_menu_items.append('<h6 class="dropdown-header">Custom themes</h6>')
+        custom_themes_menu_items = []
+
         for theme in get_themes_list():
-            theme_menu_items.append(_menu_item_template.format(
+            custom_themes_menu_items.append(_menu_item_template.format(
                 theme_id=theme["id"],
                 theme_name=theme["name"],
                 theme_description=theme["description"]
             ))
 
-        theme_menu_items.sort()
+        custom_themes_menu_items.sort()
+        theme_menu_items.extend(custom_themes_menu_items)
 
         return "\n".join(theme_menu_items)
+
+    @bottle_app.post("/check_theme")
+    def check_theme():
+        return "1" if os.path.exists(os.path.join(www_root, bottle.request.POST["stylesheet"][1:])) else "0"
 
     @bottle_app.post("/extra_examples")
     def extra_examples():
