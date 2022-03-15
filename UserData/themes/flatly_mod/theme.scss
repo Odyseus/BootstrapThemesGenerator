@@ -344,6 +344,16 @@ $utilities: map-merge(
 // Custom styles #
 // ###############
 
+.img-centered-container {
+    text-align: center;
+}
+
+.img-centered-container img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 // Various tweaks.
 div.boxed {
     border: #ecece7 solid 1px;
