@@ -172,6 +172,14 @@ class BootstrapThemesGeneratorWebapp(WebApp):
 
     @bottle_app.post("/check_theme")
     def check_theme():
+        """Check theme.
+
+        Returns
+        -------
+        str
+            One (1) if the currently stored stylesheet at Ody_Prefs.main_stylesheet is a path to an
+            existent stylesheet. Zero (0) otherwise.
+        """
         return "1" if os.path.exists(os.path.join(www_root, bottle.request.POST["stylesheet"][1:])) else "0"
 
     @bottle_app.post("/extra_examples")
